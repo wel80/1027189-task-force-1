@@ -1,0 +1,18 @@
+{
+    "name": "wel80/1027189-task-force-1",
+    "description": "training project for the course PHP2",
+    "type": "project",
+    "authors": [
+        {
+            "name": "wel80",
+            "email": "wel80@list.ru"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "classes\\": "src/"
+        }
+    }
+}
