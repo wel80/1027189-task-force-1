@@ -30,13 +30,13 @@ class WorkOrder
     ];
 
 
-    public static function getActions() 
+    public static function getActions() : array
     {
         return [self::ACTION_CANCEL, self::ACTION_WORK, self::ACTION_ACCEPT, self::ACTION_REFUSE];
     }
 
 
-    public static function getStatuses() 
+    public static function getStatuses() : array
     {
         return [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
     }
