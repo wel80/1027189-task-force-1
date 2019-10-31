@@ -1,6 +1,6 @@
 <?php
 
-namespace classes;
+namespace TaskForce;
 
 class WorkOrder 
 {
@@ -14,30 +14,44 @@ class WorkOrder
     const STATUS_ACCEPT = 'done';
     const STATUS_REFUSE = 'failed';
 
-    public $actions = [self::ACTION_CANCEL, self::ACTION_WORK, self::ACTION_ACCEPT, self::ACTION_REFUSE];
-    public $statuses = [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
+    protected static $actionsToStatuses = [
+        self::ACTION_CANCEL => self::STATUS_CANCEL,
+        self::ACTION_WORK => self::STATUS_WORK,
+        self::ACTION_ACCEPT => self::STATUS_ACCEPT,
+        self::ACTION_REFUSE => self::STATUS_REFUSE
+    ];
+
+    protected static $statusesToActions = [
+        self::STATUS_CANCEL => [],
+        self::STATUS_WORK => [self::ACTION_ACCEPT, self::ACTION_REFUSE],
+        self::STATUS_ACCEPT => [],
+        self::STATUS_REFUSE => [], 
+        self::STATUS_NEW => [self::ACTION_CANCEL, self::ACTION_WORK]
+    ];
 
 
-    public function getFollowingStatus($action)
+    public static function getActions() 
     {
-        if (in_array($action, $this->actions))
-        {
-            return $this->statuses[array_search($action, $this->actions)];
-        }
-        return '';
+        return [self::ACTION_CANCEL, self::ACTION_WORK, self::ACTION_ACCEPT, self::ACTION_REFUSE];
+    }
+
+
+    public static function getStatuses() 
+    {
+        return [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
+    }
+
+
+    public static function getFollowingStatus(string $action) : string
+    {
+        assert(in_array($action, self::$actionsToStatuses));
+        return self::$actionsToStatuses[$action];
     }
     
 
-    public function getActionOptions($status)
+    public static function getActionOptions(string $status) : array
     {
-        if ($status === self::STATUS_NEW)
-        {
-            return [self::ACTION_CANCEL, self::ACTION_WORK];
-        }
-        elseif ($status === self::STATUS_WORK)
-        {
-            return [self::ACTION_ACCEPT, self::ACTION_REFUSE];
-        }
-        return [];
+        assert(in_array($status, self::$statusesToActions));
+        return self::$statusesToActions[$status];
     }
 }

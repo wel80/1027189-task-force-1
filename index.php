@@ -1,20 +1,18 @@
 <?php
 
-require_once('vendor/autoload.php');
-use classes\WorkOrder;
+require_once __DIR__ . '/vendor/autoload.php';
+use TaskForce\WorkOrder;
 
 $orderWork = new WorkOrder();
 
-foreach($orderWork->actions as $val)
-{
-    print('При выборе действия "' . $val . '" задание перейдёт в статус "' . $orderWork->getFollowingStatus($val) . '".<br>');
+foreach (WorkOrder::getActions() as $action) {
+    print 'При выборе действия "' . $action . '" задание перейдёт в статус "' . WorkOrder::getFollowingStatus($action) . '".<br>';
 }
 
-print('<br>');
+print '<br>';
 
-foreach($orderWork->statuses as $val)
-{
-    print('При статусе задания "' . $val . '" доступны слудующие действия: "');
-    print_r($orderWork->getActionOptions($val));
-    print('"<br>');
+foreach (WorkOrder::getStatuses() as $status) {
+    print 'При статусе задания "' . $status . '" доступны слудующие действия: "';
+    print_r (WorkOrder::getActionOptions($status));
+    print '"<br>';
 }
