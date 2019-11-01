@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
 * Студент: [Валерий Калабин](https://up.htmlacademy.ru/yii/1/user/1027189).
-* Наставник: `Кексобот`.
+* Наставник: [Никита Колосов](https://htmlacademy.ru/profile/id1186205).
 
 ---
 
