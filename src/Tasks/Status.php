@@ -49,7 +49,7 @@ class Status
     }
     
 
-    public static function getActionOptions(string $status) : array
+    public static function getAvailableActions(string $status) : array
     {
         assert(array_key_exists($status, self::$statusesToActions));
         return self::$statusesToActions[$status];
