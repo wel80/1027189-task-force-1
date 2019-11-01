@@ -1,8 +1,8 @@
 <?php
 
-namespace TaskForce;
+namespace TaskForce\Tasks;
 
-class WorkOrder 
+class Status 
 {
     const ACTION_CANCEL = 'cancel';
     const ACTION_WORK = 'respond';
@@ -44,14 +44,14 @@ class WorkOrder
 
     public static function getFollowingStatus(string $action) : string
     {
-        assert(in_array($action, self::$actionsToStatuses));
+        assert(array_key_exists($action, self::$actionsToStatuses));
         return self::$actionsToStatuses[$action];
     }
     
 
-    public static function getActionOptions(string $status) : array
+    public static function getAvailableActions(string $status) : array
     {
-        assert(in_array($status, self::$statusesToActions));
+        assert(array_key_exists($status, self::$statusesToActions));
         return self::$statusesToActions[$status];
     }
 }
