@@ -14,7 +14,7 @@ CREATE TABLE users (
     description_user TEXT, -- Дополнительная информация о пользователе
     avatar CHAR(100), -- Ссылка на аватар пользователя
     contacts_status TINYINT DEFAULT 0, -- Кому показывать контакты пользователя (Всем - 0, Только заказчику - 1)
-    view_count INT, -- Счетчик просмотров
+    view_count INT, -- Счетчик просмотров аккаунта
     task_count INT, -- Счетчик полученных заданий
     fail_count INT -- Счетчик невыполненных заданий
 );
@@ -47,7 +47,8 @@ CREATE TABLE categories (
 
 CREATE TABLE communications (
     id_com INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    name_com CHAR(100) NOT NULL UNIQUE -- Название способа коммуникации
+    name_com CHAR(100) NOT NULL UNIQUE, -- Название способа коммуникации
+    alias_com CHAR(15) NOT NULL UNIQUE -- Алиас способа коммуникации
 );
 
 CREATE TABLE users_communications (
@@ -70,7 +71,7 @@ CREATE TABLE users_specializations (
 
 CREATE TABLE file_list (
     id_file INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    url_file CHAR(100) NOT NULL, -- адрес файла
+    url_file CHAR(100) NOT NULL, -- Адрес файла
     task_file_id INT NOT NULL -- Первичный ключ задания
 );
 
@@ -87,5 +88,6 @@ CREATE TABLE chatroom (
     id_chat INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
     date_chat DATETIME DEFAULT NOW(), -- Дата и время сообщения
     message_chat TEXT NOT NULL, -- Содержание сообщения
-    autor_chat_id INT NOT NULL -- Первичный ключ пользователя - автора сообщения
+    autor_chat_id INT NOT NULL, -- Первичный ключ пользователя - автора сообщения
+    recipient_chat_id INT NOT NULL -- Первичный ключ пользователя - получателя сообщения
 );
