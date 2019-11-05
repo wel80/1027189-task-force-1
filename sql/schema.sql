@@ -4,90 +4,102 @@ DEFAULT COLLATE utf8_general_ci;
 USE task_forse_wel80;
 
 CREATE TABLE users (
-    id_user INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    date_registration DATETIME DEFAULT NOW(), -- Дата и время регистрации пользователя
-    e_mail CHAR(100) NOT NULL UNIQUE, -- Адрес электронной почты пользователя
-    name_user CHAR(100) NOT NULL, -- Имя пользователя
-    city_user_id INT NOT NULL, -- Первичный ключ названия города пользователя
-    hash_user CHAR(64) NOT NULL, -- Хэш пароля пользователя
-    birthday_user DATETIME, -- Дата рождения пользователя
-    description_user TEXT, -- Дополнительная информация о пользователе
-    avatar CHAR(100), -- Ссылка на аватар пользователя
-    contacts_status TINYINT DEFAULT 0, -- Кому показывать контакты пользователя (Всем - 0, Только заказчику - 1)
-    view_count INT, -- Счетчик просмотров аккаунта
-    task_count INT, -- Счетчик полученных заданий
-    fail_count INT -- Счетчик невыполненных заданий
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    date_registration DATETIME NOT NULL DEFAULT NOW(),
+    email CHAR(100) NOT NULL UNIQUE,
+    hash CHAR(64) NOT NULL,
+    name CHAR(100) NOT NULL,
+    avatar CHAR(100),
+    birthday DATETIME,
+    description TEXT,
+    city_id INT NOT NULL,
+    district CHAR(100),
+    phone CHAR(30),
+    skype CHAR(100),
+    messenger CHAR(100),
+    contacts_status TINYINT NOT NULL DEFAULT 0, -- Кому показывать контакты пользователя (Всем - 0, Только заказчику - 1)
+    notification_new_message TINYINT NOT NULL DEFAULT 1, -- Уведомлять - 1, Не уведомлять - 0
+    notification_new_event_task TINYINT NOT NULL DEFAULT 1, -- Уведомлять - 1, Не уведомлять - 0
+    notification_new_review TINYINT NOT NULL DEFAULT 1 -- Уведомлять - 1, Не уведомлять - 0
 );
 
 CREATE TABLE tasks (
-    id_task INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    date_create DATETIME DEFAULT NOW(), -- Дата и время формирования задачи
-    name_task CHAR(100) NOT NULL, -- Краткое описание задания
-    description_task TEXT NOT NULL, -- Подробное описание задания
-    cat_id INT NOT NULL, -- Первичный ключ категории задания
-    location_task CHAR(15), -- Место проведения работ
-    city_task_id INT, -- Первичный ключ названия города, где требуется услуга
-    budget DECIMAL, -- Планируемые затраты
-    term_execution DATETIME, -- Срок исполнения
-    author_task_id INT NOT NULL, -- Первичный ключ пользователя - заказчика устлуги
-    status_task CHAR(15) NOT NULL, -- Текущий статус задания
-    executor_id INT -- Первичный ключ пользователя - исполнителя
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    created_at DATETIME NOT NULL DEFAULT NOW(),
+    updated_at DATETIME,
+    name CHAR(100) NOT NULL, -- Краткое описание задания
+    description TEXT NOT NULL,
+    category_id INT NOT NULL,
+    location CHAR(15), -- Место проведения работ
+    city_id INT,
+    budget INT,
+    term_execution DATETIME,
+    author_id INT NOT NULL,
+    status CHAR(15) NOT NULL,
+    executor_id INT
 );
 
 CREATE TABLE cities (
-    id_city INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    name_city CHAR(100) NOT NULL UNIQUE -- Название города
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name CHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE categories (
-    id_cat INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    name_cat CHAR(15) NOT NULL UNIQUE, -- Наименование категории задания
-    alias_cat CHAR(15) NOT NULL UNIQUE -- Алиас категории задания
-);
-
-CREATE TABLE communications (
-    id_com INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    name_com CHAR(100) NOT NULL UNIQUE, -- Название способа коммуникации
-    alias_com CHAR(15) NOT NULL UNIQUE -- Алиас способа коммуникации
-);
-
-CREATE TABLE users_communications (
-    id_user_com INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    name_user_com CHAR(100) NOT NULL, -- Контактные данные
-    user_com_id INT NOT NULL, -- Первичный ключ пользователя
-    com_id INT NOT NULL -- Первичный ключ способа коммуникации
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name CHAR(15) NOT NULL UNIQUE,
+    alias CHAR(15) NOT NULL UNIQUE
 );
 
 CREATE TABLE specializations (
-    id_spec INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    name_spec CHAR(15) NOT NULL UNIQUE, -- Наименование специализации
-    alias_spec CHAR(15) NOT NULL UNIQUE -- Алиас специализации
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name CHAR(15) NOT NULL UNIQUE,
+    alias CHAR(15) NOT NULL UNIQUE
 );
 
 CREATE TABLE users_specializations (
-    user_spec_id INT NOT NULL, -- Первичный ключ пользователя
+    user_id INT NOT NULL,
     spec_id INT NOT NULL -- Первичный ключ специализации
 );
 
 CREATE TABLE file_list (
-    id_file INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    url_file CHAR(100) NOT NULL, -- Адрес файла
-    task_file_id INT NOT NULL -- Первичный ключ задания
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    path CHAR(100) NOT NULL,
+    task_id INT NOT NULL
 );
 
 CREATE TABLE reactions (
-    id_react INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    date_react DATETIME DEFAULT NOW(), -- Дата и время откклика
-    message_react TEXT NOT NULL, -- Содержание отклика
-    servise_cost DECIMAL NOT NULL, -- Стоимость услуги
-    author_react_id INT NOT NULL, -- Первичный ключ пользователя - претендента на исполнения заказа
-    task_react_id INT NOT NULL -- Первичный ключ задания
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    created_at DATETIME NOT NULL DEFAULT NOW(),
+    message TEXT,
+    servise_cost INT,
+    author_id INT NOT NULL,
+    task_id INT NOT NULL
 );
 
-CREATE TABLE chatroom (
-    id_chat INT AUTO_INCREMENT PRIMARY KEY, -- Первичный ключ
-    date_chat DATETIME DEFAULT NOW(), -- Дата и время сообщения
-    message_chat TEXT NOT NULL, -- Содержание сообщения
-    autor_chat_id INT NOT NULL, -- Первичный ключ пользователя - автора сообщения
-    recipient_chat_id INT NOT NULL -- Первичный ключ пользователя - получателя сообщения
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    created_at DATETIME NOT NULL DEFAULT NOW(),
+    message TEXT NOT NULL,
+    author_id INT NOT NULL,
+    recipient_id INT NOT NULL
+);
+
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    created_at DATETIME NOT NULL DEFAULT NOW(),
+    task_is_done TINYINT NOT NULL, -- Cтатус выполненности задания (да - 1 или нет - 0)
+    message TEXT,
+    evaluation TINYINT,
+    author_id INT NOT NULL,
+    executor_id INT NOT NULL,
+    task_id INT NOT NULL
+);
+
+CREATE TABLE events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    created_at DATETIME NOT NULL DEFAULT NOW(),
+    event CHAR(15) NOT NULL,
+    author_id INT NOT NULL,
+    recipient_id INT NOT NULL,
+    task_id INT NOT NULL
 );
