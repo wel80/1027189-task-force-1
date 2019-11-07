@@ -11,8 +11,10 @@ foreach (Status::getActions() as $action) {
 
 print '<br>';
 
-$actionOptions = 'При статусе задания "%1s" доступны слудующие действия: "%2s"';
-foreach (Status::getStatuses() as $status) {
-    printf($actionOptions, $status, implode(', ', Status::getAvailableActions($status)));
-    print '<br>';
-}
+$user = [
+    'status' => 'new',
+    'id' => 1,
+    'role' => 'customer'
+];
+
+print(implode(', ', Status::getAvailableActions($user)));

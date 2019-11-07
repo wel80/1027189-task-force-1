@@ -1,11 +1,15 @@
 <?php
 
 namespace TaskForce\Tasks;
+use TaskForce\Tasks\Actions\CancelAction;
+use TaskForce\Tasks\Actions\WorkAction;
+use TaskForce\Tasks\Actions\AcceptAction;
+use TaskForce\Tasks\Actions\RefuseAction;
 
 class Status 
 {
     const ACTION_CANCEL = 'cancel';
-    const ACTION_WORK = 'respond';
+    const ACTION_WORK = 'start';
     const ACTION_ACCEPT = 'accept';
     const ACTION_REFUSE = 'refuse';
     const STATUS_NEW = 'new';
@@ -13,26 +17,34 @@ class Status
     const STATUS_WORK = 'work';
     const STATUS_ACCEPT = 'done';
     const STATUS_REFUSE = 'failed';
+    const ROLE_CUSTOMER = 'customer';
+    const ROLE_EXECUTOR = 'executor';
+
+    public $customerId = 1;
+    public $executorId = 2;
+    public $termExecution = '2020-01-31';
+    public $currentStatus = 'new';
+
 
     protected static $actionsToStatuses = [
-        self::ACTION_CANCEL => self::STATUS_CANCEL,
-        self::ACTION_WORK => self::STATUS_WORK,
-        self::ACTION_ACCEPT => self::STATUS_ACCEPT,
-        self::ACTION_REFUSE => self::STATUS_REFUSE
+        CancelAction::class => self::STATUS_CANCEL,
+        WorkAction::class => self::STATUS_WORK,
+        AcceptAction::class => self::STATUS_ACCEPT,
+        RefuseAction::class => self::STATUS_REFUSE
     ];
 
     protected static $statusesToActions = [
         self::STATUS_CANCEL => [],
-        self::STATUS_WORK => [self::ACTION_ACCEPT, self::ACTION_REFUSE],
+        self::STATUS_WORK => [AcceptAction::class, RefuseAction::class],
         self::STATUS_ACCEPT => [],
         self::STATUS_REFUSE => [], 
-        self::STATUS_NEW => [self::ACTION_CANCEL, self::ACTION_WORK]
+        self::STATUS_NEW => [CancelAction::class, WorkAction::class]
     ];
 
 
     public static function getActions() : array
     {
-        return [self::ACTION_CANCEL, self::ACTION_WORK, self::ACTION_ACCEPT, self::ACTION_REFUSE];
+        return [CancelAction::class, WorkAction::class, AcceptAction::class, RefuseAction::class];
     }
 
 
@@ -49,9 +61,11 @@ class Status
     }
     
 
-    public static function getAvailableActions(string $status) : array
+    public static function getAvailableActions(array $user) : array
     {
-        assert(array_key_exists($status, self::$statusesToActions));
-        return self::$statusesToActions[$status];
+        $action = array_search($user['status'], self::$actionsToStatuses);
+        assert(array_key_exists($user['status'], self::$statusesToActions));
+        assert($action::isAvailable($user['id'], $user['role']));
+        return self::$statusesToActions[$user['status']];
     }
 }
