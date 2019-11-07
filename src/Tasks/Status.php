@@ -20,10 +20,10 @@ class Status
     const ROLE_CUSTOMER = 'customer';
     const ROLE_EXECUTOR = 'executor';
 
-    public $customerId = 1;
-    public $executorId = 2;
-    public $termExecution = '2020-01-31';
-    public $currentStatus = 'new';
+    public static $customerId = 1;
+    public static $executorId = 2;
+    public static $termExecution = '2020-01-31';
+    public static $currentStatus = '';
 
 
     protected static $actionsToStatuses = [
@@ -63,9 +63,12 @@ class Status
 
     public static function getAvailableActions(array $user) : array
     {
-        $action = array_search($user['status'], self::$actionsToStatuses);
-        assert(array_key_exists($user['status'], self::$statusesToActions));
-        assert($action::isAvailable($user['id'], $user['role']));
-        return self::$statusesToActions[$user['status']];
+        $actions = [];
+        foreach (self::$statusesToActions[self::$currentStatus] as $action) {
+            if ($action::isAvailable($user['id'], $user['role'])) {
+                $actions[] = $action::getTitle();
+            }
+        }
+        return $actions;
     }
 }
