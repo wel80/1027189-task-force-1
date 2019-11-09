@@ -15,11 +15,13 @@ class CancelAction extends AbstractAction
         return Status::ACTION_CANCEL;
     }
 
-    public static function isAvailable(int $userId, string $userRole): bool
+    public function isAvailable(int $userId, string $userRole, object $instance): bool
     {
-        if ($userId === Status::$customerId && $userRole === Status::ROLE_CUSTOMER) {
-            return TRUE;
+        if ($userId === $instance->customerId 
+        && $userRole === $instance::ROLE_CUSTOMER 
+        && $instance->currentStatus === $instance::STATUS_NEW) {
+            return true;
         }
-        return FALSE;
+        return false;
     }
 }

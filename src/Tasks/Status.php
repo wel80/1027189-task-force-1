@@ -20,10 +20,10 @@ class Status
     const ROLE_CUSTOMER = 'customer';
     const ROLE_EXECUTOR = 'executor';
 
-    public static $customerId = 1;
-    public static $executorId = 2;
-    public static $termExecution = '2020-01-31';
-    public static $currentStatus = '';
+    public $customerId = 0;
+    public $executorId = 0;
+    public $termExecution = '';
+    public $currentStatus = '';
 
 
     protected static $actionsToStatuses = [
@@ -33,14 +33,13 @@ class Status
         RefuseAction::class => self::STATUS_REFUSE
     ];
 
-    protected static $statusesToActions = [
-        self::STATUS_CANCEL => [],
-        self::STATUS_WORK => [AcceptAction::class, RefuseAction::class],
-        self::STATUS_ACCEPT => [],
-        self::STATUS_REFUSE => [], 
-        self::STATUS_NEW => [CancelAction::class, WorkAction::class]
-    ];
-
+    public function __construct($customerId, $executorId, $termExecution, $currentStatus)
+    {
+        $this->customerId = $customerId;
+        $this->executorId = $executorId;
+        $this->termExecution = $termExecution;
+        $this->currentStatus = $currentStatus;
+    }
 
     public static function getActions() : array
     {
@@ -61,11 +60,12 @@ class Status
     }
     
 
-    public static function getAvailableActions(array $user) : array
+    public function getAvailableActions(int $userId, string $userRole, object $instance) : array
     {
         $actions = [];
-        foreach (self::$statusesToActions[self::$currentStatus] as $action) {
-            if ($action::isAvailable($user['id'], $user['role'])) {
+        foreach (self::getActions() as $class) {
+            $action = new $class();
+            if ($action->isAvailable($userId, $userRole, $instance)) {
                 $actions[] = $action::getTitle();
             }
         }
