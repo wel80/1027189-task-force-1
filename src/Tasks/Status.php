@@ -60,12 +60,11 @@ class Status
     }
     
 
-    public function getAvailableActions(int $userId, string $userRole, object $instance) : array
+    public function getAvailableActions(int $userId, string $userRole, Status $instance) : array
     {
         $actions = [];
         foreach (self::getActions() as $class) {
-            $action = new $class();
-            if ($action->isAvailable($userId, $userRole, $instance)) {
+            if ($action::isAvailable($userId, $userRole, $this)) {
                 $actions[] = $action::getTitle();
             }
         }

@@ -15,7 +15,7 @@ class AcceptAction extends AbstractAction
         return Status::ACTION_ACCEPT;
     }
 
-    public function isAvailable(int $userId, string $userRole, object $instance): bool
+    public static function isAvailable(int $userId, string $userRole, Status $instance): bool
     {
         if ($userId === $instance->customerId
         && $userRole === $instance::ROLE_CUSTOMER
