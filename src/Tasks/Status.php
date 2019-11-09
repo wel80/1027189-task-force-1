@@ -33,7 +33,7 @@ class Status
         RefuseAction::class => self::STATUS_REFUSE
     ];
 
-    public function __construct($customerId, $executorId, $termExecution, $currentStatus)
+    public function __construct(int $customerId, int $executorId, string $termExecution, string $currentStatus)
     {
         $this->customerId = $customerId;
         $this->executorId = $executorId;
@@ -60,12 +60,12 @@ class Status
     }
     
 
-    public function getAvailableActions(int $userId, string $userRole, Status $instance) : array
+    public function getAvailableActions(int $userId, string $userRole) : array
     {
         $actions = [];
-        foreach (self::getActions() as $class) {
-            if ($action::isAvailable($userId, $userRole, $this)) {
-                $actions[] = $action::getTitle();
+        foreach (self::getActions() as $action) {
+            if ($action::isAvailable($this, $userId, $userRole)) {
+                $actions[] = $action::getName();
             }
         }
         return $actions;

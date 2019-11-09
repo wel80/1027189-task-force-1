@@ -15,11 +15,11 @@ class AcceptAction extends AbstractAction
         return Status::ACTION_ACCEPT;
     }
 
-    public static function isAvailable(int $userId, string $userRole, Status $instance): bool
+    public static function isAvailable($status, int $userId, string $userRole): bool
     {
-        if ($userId === $instance->customerId
-        && $userRole === $instance::ROLE_CUSTOMER
-        && $instance->currentStatus === $instance::STATUS_WORK) {
+        if ($userId === $status->customerId
+        && $userRole === $status::ROLE_CUSTOMER
+        && $status->currentStatus === $status::STATUS_WORK) {
             return true;
         }
         return false;

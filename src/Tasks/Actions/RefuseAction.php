@@ -15,11 +15,11 @@ class RefuseAction extends AbstractAction
         return Status::ACTION_REFUSE;
     }
 
-    public static function isAvailable(int $userId, string $userRole, Status $instance): bool
+    public static function isAvailable($status, int $userId, string $userRole): bool
     {
-        if ($userId === $instance->executorId 
-        && $userRole === $instance::ROLE_EXECUTOR 
-        && $instance->currentStatus === $instance::STATUS_WORK) {
+        if ($userId === $status->executorId 
+        && $userRole === $status::ROLE_EXECUTOR 
+        && $status->currentStatus === $status::STATUS_WORK) {
             return true;
         }
         return false;
