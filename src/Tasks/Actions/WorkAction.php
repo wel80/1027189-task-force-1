@@ -15,11 +15,11 @@ class WorkAction extends AbstractAction
         return Status::ACTION_WORK;
     }
 
-    public static function isAvailable($status, int $userId, string $userRole): bool
+    public static function isAvailable(Status $status, int $userId, string $userRole): bool
     {
-        if ($userId === $status->customerId 
-        && $userRole === $status::ROLE_CUSTOMER 
-        && $status->currentStatus === $status::STATUS_NEW) {
+        if ($userId === $status->getCustomerId() 
+        && $userRole === Status::ROLE_CUSTOMER 
+        && $status->getCurrentStatus() === Status::STATUS_NEW) {
             return true;
         }
         return false;

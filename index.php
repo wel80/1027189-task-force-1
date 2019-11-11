@@ -5,7 +5,7 @@ use TaskForce\Tasks\Status;
 
 $followingStatus = 'При выборе действия "%1s" задание перейдёт в статус "%2s"';
 foreach (Status::getActions() as $action) {
-    assert(Status::getFollowingStatus($action) === Status::$actionsToStatuses[$action]);
+    assert(in_array(Status::getFollowingStatus($action), Status::getStatuses()));
     printf($followingStatus, $action::getTitle(), Status::getFollowingStatus($action));
     print '<br>';
 }
@@ -63,3 +63,8 @@ $statusFive = new Status($customerId, $executorId, $termExecution, $currentStatu
 assert(in_array(Status::ACTION_REFUSE, $statusFive->getAvailableActions($userId, $userRole)));
 print 'Статус задания - На исполнении, Пользователь - исполнитель, Статус пользователя - Исполнитель, <br> 
 Доступные действия: ' . implode(', ', $statusFive->getAvailableActions($userId, $userRole));
+
+print '<br><br>';
+$date = new DateTime();
+$date->setDate(2001, 1, 31);
+print $date->format('d-m-Y');

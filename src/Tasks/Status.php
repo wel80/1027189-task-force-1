@@ -2,6 +2,7 @@
 
 namespace TaskForce\Tasks;
 use TaskForce\Tasks\Actions\CancelAction;
+use TaskForce\Tasks\Actions\OfferAction;
 use TaskForce\Tasks\Actions\WorkAction;
 use TaskForce\Tasks\Actions\AcceptAction;
 use TaskForce\Tasks\Actions\RefuseAction;
@@ -9,6 +10,7 @@ use TaskForce\Tasks\Actions\RefuseAction;
 class Status 
 {
     const ACTION_CANCEL = 'cancel';
+    const ACTION_OFFER = 'offer';
     const ACTION_WORK = 'start';
     const ACTION_ACCEPT = 'accept';
     const ACTION_REFUSE = 'refuse';
@@ -20,14 +22,15 @@ class Status
     const ROLE_CUSTOMER = 'customer';
     const ROLE_EXECUTOR = 'executor';
 
-    public $customerId = 0;
-    public $executorId = 0;
-    public $termExecution = '';
-    public $currentStatus = '';
+    private $customerId;
+    private $executorId;
+    private $termExecution;
+    private $currentStatus;
 
 
     protected static $actionsToStatuses = [
         CancelAction::class => self::STATUS_CANCEL,
+        OfferAction::class => self::STATUS_NEW,
         WorkAction::class => self::STATUS_WORK,
         AcceptAction::class => self::STATUS_ACCEPT,
         RefuseAction::class => self::STATUS_REFUSE
@@ -40,16 +43,32 @@ class Status
         $this->termExecution = $termExecution;
         $this->currentStatus = $currentStatus;
     }
+    
 
     public static function getActions() : array
     {
-        return [CancelAction::class, WorkAction::class, AcceptAction::class, RefuseAction::class];
+        return [CancelAction::class, OfferAction::class, WorkAction::class, AcceptAction::class, RefuseAction::class];
     }
-
 
     public static function getStatuses() : array
     {
         return [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
+    }
+
+
+    public function getCustomerId() : int
+    {
+        return $this->customerId;
+    }
+
+    public function getExecutorId() : int
+    {
+        return $this->executorId;
+    }
+
+    public function getCurrentStatus() : string
+    {
+        return $this->currentStatus;
     }
 
 
