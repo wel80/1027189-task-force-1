@@ -6,7 +6,7 @@ use TaskForce\Tasks\Status;
 $followingStatus = 'При выборе действия "%1s" задание перейдёт в статус "%2s"';
 foreach (Status::getActions() as $action) {
     assert(in_array(Status::getFollowingStatus($action), Status::getStatuses()));
-    printf($followingStatus, $action::getTitle(), Status::getFollowingStatus($action));
+    printf($followingStatus, $action::getName(), Status::getFollowingStatus($action));
     print '<br>';
 }
 
@@ -26,12 +26,12 @@ print 'Статус задания - Новое, Пользователь - ав
 
 print '<br><br>';
 
-$userId = 1;
-$userRole = 'executor';
+$userId = 3;
+$userRole = 'customer';
 $currentStatus = 'new';
 $statusTwo = new Status($customerId, $executorId, $termExecution, $currentStatus);
 assert(empty($statusTwo->getAvailableActions($userId, $userRole)));
-print 'Статус задания - Новое, Пользователь - автор задания, Статус пользователя - Исполнитель, <br> 
+print 'Статус задания - Новое, Пользователь - не автор задания, Статус пользователя - Заказчик, <br> 
 Доступные действия: ' . implode(', ', $statusTwo->getAvailableActions($userId, $userRole));
 
 print '<br><br>';
@@ -40,7 +40,7 @@ $userId = 2;
 $userRole = 'executor';
 $currentStatus = 'new';
 $statusThree = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(empty($statusThree->getAvailableActions($userId, $userRole)));
+assert(in_array(Status::ACTION_OFFER, $statusFour->getAvailableActions($userId, $userRole)));
 print 'Статус задания - Новое, Пользователь - не автор задания, Статус пользователя - Исполнитель, <br> 
 Доступные действия: ' . implode(', ', $statusThree->getAvailableActions($userId, $userRole));
 
@@ -63,8 +63,3 @@ $statusFive = new Status($customerId, $executorId, $termExecution, $currentStatu
 assert(in_array(Status::ACTION_REFUSE, $statusFive->getAvailableActions($userId, $userRole)));
 print 'Статус задания - На исполнении, Пользователь - исполнитель, Статус пользователя - Исполнитель, <br> 
 Доступные действия: ' . implode(', ', $statusFive->getAvailableActions($userId, $userRole));
-
-print '<br><br>';
-$date = new DateTime();
-$date->setDate(2001, 1, 31);
-print $date->format('d-m-Y');

@@ -3,7 +3,7 @@
 namespace TaskForce\Tasks\Actions;
 use TaskForce\Tasks\Status;
 
-class RefuseAction extends AbstractAction
+class OfferAction extends AbstractAction
 {
     public static function getTitle(): string
     {
