@@ -1,11 +1,17 @@
 <?php
 
 namespace TaskForce\Tasks;
+use TaskForce\Tasks\Actions\CancelAction;
+use TaskForce\Tasks\Actions\OfferAction;
+use TaskForce\Tasks\Actions\WorkAction;
+use TaskForce\Tasks\Actions\AcceptAction;
+use TaskForce\Tasks\Actions\RefuseAction;
 
 class Status 
 {
     const ACTION_CANCEL = 'cancel';
-    const ACTION_WORK = 'respond';
+    const ACTION_OFFER = 'offer';
+    const ACTION_WORK = 'start';
     const ACTION_ACCEPT = 'accept';
     const ACTION_REFUSE = 'refuse';
     const STATUS_NEW = 'new';
@@ -13,32 +19,56 @@ class Status
     const STATUS_WORK = 'work';
     const STATUS_ACCEPT = 'done';
     const STATUS_REFUSE = 'failed';
+    const ROLE_CUSTOMER = 'customer';
+    const ROLE_EXECUTOR = 'executor';
+
+    private $customerId;
+    private $executorId;
+    private $termExecution;
+    private $currentStatus;
+
 
     protected static $actionsToStatuses = [
-        self::ACTION_CANCEL => self::STATUS_CANCEL,
-        self::ACTION_WORK => self::STATUS_WORK,
-        self::ACTION_ACCEPT => self::STATUS_ACCEPT,
-        self::ACTION_REFUSE => self::STATUS_REFUSE
+        CancelAction::class => self::STATUS_CANCEL,
+        OfferAction::class => self::STATUS_NEW,
+        WorkAction::class => self::STATUS_WORK,
+        AcceptAction::class => self::STATUS_ACCEPT,
+        RefuseAction::class => self::STATUS_REFUSE
     ];
 
-    protected static $statusesToActions = [
-        self::STATUS_CANCEL => [],
-        self::STATUS_WORK => [self::ACTION_ACCEPT, self::ACTION_REFUSE],
-        self::STATUS_ACCEPT => [],
-        self::STATUS_REFUSE => [], 
-        self::STATUS_NEW => [self::ACTION_CANCEL, self::ACTION_WORK]
-    ];
-
+    public function __construct(int $customerId, int $executorId, string $termExecution, string $currentStatus)
+    {
+        $this->customerId = $customerId;
+        $this->executorId = $executorId;
+        $this->termExecution = $termExecution;
+        $this->currentStatus = $currentStatus;
+    }
+    
 
     public static function getActions() : array
     {
-        return [self::ACTION_CANCEL, self::ACTION_WORK, self::ACTION_ACCEPT, self::ACTION_REFUSE];
+        return [CancelAction::class, OfferAction::class, WorkAction::class, AcceptAction::class, RefuseAction::class];
     }
-
 
     public static function getStatuses() : array
     {
         return [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
+    }
+
+
+    public function getCustomerId() : int
+    {
+        return $this->customerId;
+    }
+
+    public function getExecutorId() : int
+    {
+        return $this->executorId;
+    }
+
+    public function getCurrentStatus() : string
+    {
+        return $this->currentStatus;
     }
 
 
@@ -49,9 +79,14 @@ class Status
     }
     
 
-    public static function getAvailableActions(string $status) : array
+    public function getAvailableActions(int $userId, string $userRole) : array
     {
-        assert(array_key_exists($status, self::$statusesToActions));
-        return self::$statusesToActions[$status];
+        $actions = [];
+        foreach (self::getActions() as $action) {
+            if ($action::isAvailable($this, $userId, $userRole)) {
+                $actions[] = $action::getName();
+            }
+        }
+        return $actions;
     }
 }
