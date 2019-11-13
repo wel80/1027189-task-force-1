@@ -6,6 +6,7 @@ use TaskForce\Tasks\Actions\OfferAction;
 use TaskForce\Tasks\Actions\WorkAction;
 use TaskForce\Tasks\Actions\AcceptAction;
 use TaskForce\Tasks\Actions\RefuseAction;
+use TaskForce\Tasks\Exceptions\ActionException;
 
 class Status 
 {
@@ -41,6 +42,9 @@ class Status
         $this->customerId = $customerId;
         $this->executorId = $executorId;
         $this->termExecution = $termExecution;
+        if (!in_array($currentStatus, self::getStatuses())) {
+            throw new ActionException('"Текущий статус задания."');
+        }
         $this->currentStatus = $currentStatus;
     }
     
@@ -53,6 +57,11 @@ class Status
     public static function getStatuses() : array
     {
         return [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
+    }
+
+    private function getRoles() : array
+    {
+        return [self::ROLE_CUSTOMER, self::ROLE_EXECUTOR];
     }
 
 
@@ -81,6 +90,9 @@ class Status
 
     public function getAvailableActions(int $userId, string $userRole) : array
     {
+        if (!in_array($userRole, $this->getRoles())) {
+            throw new ActionException('"Роль пользователя."');
+        }
         $actions = [];
         foreach (self::getActions() as $action) {
             if ($action::isAvailable($this, $userId, $userRole)) {
