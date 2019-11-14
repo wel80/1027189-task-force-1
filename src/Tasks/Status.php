@@ -6,7 +6,9 @@ use TaskForce\Tasks\Actions\OfferAction;
 use TaskForce\Tasks\Actions\WorkAction;
 use TaskForce\Tasks\Actions\AcceptAction;
 use TaskForce\Tasks\Actions\RefuseAction;
-use TaskForce\Tasks\Exceptions\ActionException;
+use TaskForce\Tasks\Exceptions\InvalidStatusException;
+use TaskForce\Tasks\Exceptions\InvalidActionException;
+use TaskForce\Tasks\Exceptions\InvalidRoleException;
 
 class Status 
 {
@@ -43,7 +45,7 @@ class Status
         $this->executorId = $executorId;
         $this->termExecution = $termExecution;
         if (!in_array($currentStatus, self::getStatuses())) {
-            throw new ActionException('"Текущий статус задания."');
+            throw new InvalidStatusException($currentStatus);
         }
         $this->currentStatus = $currentStatus;
     }
@@ -59,7 +61,7 @@ class Status
         return [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
     }
 
-    private function getRoles() : array
+    public function getRoles() : array
     {
         return [self::ROLE_CUSTOMER, self::ROLE_EXECUTOR];
     }
@@ -83,7 +85,9 @@ class Status
 
     public static function getFollowingStatus(string $action) : string
     {
-        assert(array_key_exists($action, self::$actionsToStatuses));
+        if (!in_array($action, self::getActions())) {
+            throw new InvalidActionException($action);
+        }
         return self::$actionsToStatuses[$action];
     }
     
@@ -91,7 +95,7 @@ class Status
     public function getAvailableActions(int $userId, string $userRole) : array
     {
         if (!in_array($userRole, $this->getRoles())) {
-            throw new ActionException('"Роль пользователя."');
+            throw new InvalidRoleException($userRole);
         }
         $actions = [];
         foreach (self::getActions() as $action) {
