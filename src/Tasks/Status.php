@@ -6,6 +6,9 @@ use TaskForce\Tasks\Actions\OfferAction;
 use TaskForce\Tasks\Actions\WorkAction;
 use TaskForce\Tasks\Actions\AcceptAction;
 use TaskForce\Tasks\Actions\RefuseAction;
+use TaskForce\Tasks\Exceptions\InvalidStatusException;
+use TaskForce\Tasks\Exceptions\InvalidActionException;
+use TaskForce\Tasks\Exceptions\InvalidRoleException;
 
 class Status 
 {
@@ -41,6 +44,9 @@ class Status
         $this->customerId = $customerId;
         $this->executorId = $executorId;
         $this->termExecution = $termExecution;
+        if (!in_array($currentStatus, self::getStatuses())) {
+            throw new InvalidStatusException('Status "' . $currentStatus . '" not exists');
+        }
         $this->currentStatus = $currentStatus;
     }
     
@@ -53,6 +59,11 @@ class Status
     public static function getStatuses() : array
     {
         return [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
+    }
+
+    public static function getAvailableRoles() : array
+    {
+        return [self::ROLE_CUSTOMER, self::ROLE_EXECUTOR];
     }
 
 
@@ -74,13 +85,18 @@ class Status
 
     public static function getFollowingStatus(string $action) : string
     {
-        assert(array_key_exists($action, self::$actionsToStatuses));
+        if (!in_array($action, self::getActions())) {
+            throw new InvalidActionException('Action "' . $action . '" not exists');
+        }
         return self::$actionsToStatuses[$action];
     }
     
 
     public function getAvailableActions(int $userId, string $userRole) : array
     {
+        if (!in_array($userRole, self::getAvailableRoles())) {
+            throw new InvalidRoleException('Role "' . $userRole . '" not exists');
+        }
         $actions = [];
         foreach (self::getActions() as $action) {
             if ($action::isAvailable($this, $userId, $userRole)) {
