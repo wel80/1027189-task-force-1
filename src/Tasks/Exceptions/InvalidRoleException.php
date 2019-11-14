@@ -2,10 +2,7 @@
 
 namespace TaskForce\Tasks\Exceptions;
 
-class InvalidRoleException extends Exception
+class InvalidRoleException extends InvalidArgumentException 
 {
-    public function getError() : string
-    {
-        return 'Роль пользователя с именем "' . $this->getMessage() . '" не существует.';
-    }
+    
 }

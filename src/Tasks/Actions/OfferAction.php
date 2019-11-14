@@ -17,8 +17,8 @@ class OfferAction extends AbstractAction
 
     public static function isAvailable(Status $status, int $userId, string $userRole): bool
     {
-        if (!in_array($userRole, $status->getRoles())) {
-            throw new InvalidRoleException($userRole);
+        if (!in_array($userRole, Status::getAvailableRoles())) {
+            throw new InvalidRoleException('Role "' . $userRole . '" not exists');
         }
         if ($userId !== $status->getCustomerId() 
         && $userRole === Status::ROLE_EXECUTOR 

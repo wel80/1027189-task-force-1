@@ -45,7 +45,7 @@ class Status
         $this->executorId = $executorId;
         $this->termExecution = $termExecution;
         if (!in_array($currentStatus, self::getStatuses())) {
-            throw new InvalidStatusException($currentStatus);
+            throw new InvalidStatusException('Status "' . $currentStatus . '" not exists');
         }
         $this->currentStatus = $currentStatus;
     }
@@ -61,7 +61,7 @@ class Status
         return [self::STATUS_CANCEL, self::STATUS_WORK, self::STATUS_ACCEPT, self::STATUS_REFUSE, self::STATUS_NEW];
     }
 
-    public function getRoles() : array
+    public static function getAvailableRoles() : array
     {
         return [self::ROLE_CUSTOMER, self::ROLE_EXECUTOR];
     }
@@ -86,7 +86,7 @@ class Status
     public static function getFollowingStatus(string $action) : string
     {
         if (!in_array($action, self::getActions())) {
-            throw new InvalidActionException($action);
+            throw new InvalidActionException('Action "' . $action . '" not exists');
         }
         return self::$actionsToStatuses[$action];
     }
@@ -94,8 +94,8 @@ class Status
 
     public function getAvailableActions(int $userId, string $userRole) : array
     {
-        if (!in_array($userRole, $this->getRoles())) {
-            throw new InvalidRoleException($userRole);
+        if (!in_array($userRole, self::getAvailableRoles())) {
+            throw new InvalidRoleException('Role "' . $userRole . '" not exists');
         }
         $actions = [];
         foreach (self::getActions() as $action) {
