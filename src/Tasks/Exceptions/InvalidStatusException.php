@@ -2,7 +2,7 @@
 
 namespace TaskForce\Tasks\Exceptions;
 
-class InvalidStatusException extends InvalidArgumentException 
+class InvalidStatusException extends \InvalidArgumentException 
 {
     
 }

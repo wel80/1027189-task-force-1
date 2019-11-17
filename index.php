@@ -1,65 +1,46 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
-use TaskForce\Tasks\Status;
+use TaskForce\Utils\TransmissionData;
+use TaskForce\Tasks\Exceptions\FileFormatException;
+use TaskForce\Tasks\Exceptions\SourceFileException;
 
-$followingStatus = 'При выборе действия "%1s" задание перейдёт в статус "%2s"';
-foreach (Status::getActions() as $action) {
-    assert(in_array(Status::getFollowingStatus($action), Status::getStatuses()));
-    printf($followingStatus, $action::getName(), Status::getFollowingStatus($action));
-    print '<br>';
+$transmissionCategories = new TransmissionData(__DIR__ . '\data\categories.csv', __DIR__ . '\sql\categories.sql', 'categories', ['name', 'icon']);
+try {
+    $transmissionCategories->transmission();
+    print 'Файл "categories.sql" записан.';
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
 }
 
-print '<br>';
-$customerId = 1;
-$executorId = 2;
-$termExecution = '2020-01-31';
+print '<br><br>';
 
-$userId = 1;
-$userRole = 'customer';
-$currentStatus = 'new';
-$statusOne = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(in_array(Status::ACTION_CANCEL, $statusOne->getAvailableActions($userId, $userRole)));
-assert(in_array(Status::ACTION_WORK, $statusOne->getAvailableActions($userId, $userRole)));
-print 'Статус задания - Новое, Пользователь - автор задания, Статус пользователя - Заказчик, <br> 
-Доступные действия: ' . implode(', ', $statusOne->getAvailableActions($userId, $userRole));
+$transmissionCities = new TransmissionData(__DIR__ . '\data\cities.csv', __DIR__ . '\sql\cities.sql', 'cities', ['city', 'lat', 'long']);
+try {
+    $transmissionCities->transmission();
+    print 'Файл "cities.sql" записан.';
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
 
 print '<br><br>';
 
-$userId = 3;
-$userRole = 'customer';
-$currentStatus = 'new';
-$statusTwo = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(empty($statusTwo->getAvailableActions($userId, $userRole)));
-print 'Статус задания - Новое, Пользователь - не автор задания, Статус пользователя - Заказчик, <br> 
-Доступные действия: ' . implode(', ', $statusTwo->getAvailableActions($userId, $userRole));
-
-print '<br><br>';
-
-$userId = 2;
-$userRole = 'executor';
-$currentStatus = 'new';
-$statusThree = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(in_array(Status::ACTION_OFFER, $statusFour->getAvailableActions($userId, $userRole)));
-print 'Статус задания - Новое, Пользователь - не автор задания, Статус пользователя - Исполнитель, <br> 
-Доступные действия: ' . implode(', ', $statusThree->getAvailableActions($userId, $userRole));
-
-print '<br><br>';
-
-$userId = 1;
-$userRole = 'customer';
-$currentStatus = 'work';
-$statusFour = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(in_array(Status::ACTION_ACCEPT, $statusFour->getAvailableActions($userId, $userRole)));
-print 'Статус задания - На исполнении, Пользователь - автор задания, Статус пользователя - Заказчик, <br> 
-Доступные действия: ' . implode(', ', $statusFour->getAvailableActions($userId, $userRole));
-
-print '<br><br>';
-
-$userId = 2;
-$userRole = 'executor';
-$currentStatus = 'work';
-$statusFive = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(in_array(Status::ACTION_REFUSE, $statusFive->getAvailableActions($userId, $userRole)));
-print 'Статус задания - На исполнении, Пользователь - исполнитель, Статус пользователя - Исполнитель, <br> 
-Доступные действия: ' . implode(', ', $statusFive->getAvailableActions($userId, $userRole));
+$transmissionOpinions = new TransmissionData(__DIR__ . '\data\opinions.csv', __DIR__ . '\sql\opinions.sql', 'opinions', ['dt_add', 'rate', 'description']);
+try {
+    $transmissionOpinions->transmission();
+    print 'Файл "opinions.sql" записан.';
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}

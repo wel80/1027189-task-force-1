@@ -2,7 +2,7 @@
 
 namespace TaskForce\Tasks\Exceptions;
 
-class InvalidRoleException extends InvalidArgumentException 
+class InvalidRoleException extends \InvalidArgumentException 
 {
     
 }

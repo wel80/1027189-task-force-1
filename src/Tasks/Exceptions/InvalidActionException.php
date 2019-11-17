@@ -2,7 +2,7 @@
 
 namespace TaskForce\Tasks\Exceptions;
 
-class InvalidActionException extends InvalidArgumentException
+class InvalidActionException extends \InvalidArgumentException
 {
     
 }
