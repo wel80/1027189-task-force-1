@@ -5,7 +5,8 @@ use TaskForce\Utils\TransmissionData;
 use TaskForce\Tasks\Exceptions\FileFormatException;
 use TaskForce\Tasks\Exceptions\SourceFileException;
 
-$transmissionCategories = new TransmissionData(__DIR__ . '/data/categories.csv', __DIR__ . '/sql/categories.sql', 'categories', ['name', 'icon']);
+$transmissionCategories = new TransmissionData(__DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'categories.csv', 
+__DIR__.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'categories.sql', 'categories', ['name', 'icon']);
 try {
     $transmissionCategories->transmission();
     print 'Файл "categories.sql" записан.';
@@ -19,7 +20,8 @@ catch (FileFormatException $e) {
 
 print '<br>';
 
-$transmissionCities = new TransmissionData(__DIR__ . '/data/cities.csv', __DIR__ . '/sql/cities.sql', 'cities', ['city', 'lat', 'long']);
+$transmissionCities = new TransmissionData(__DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'cities.csv', 
+__DIR__.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'cities.sql', 'cities', ['city', 'lat', 'long']);
 try {
     $transmissionCities->transmission();
     print 'Файл "cities.sql" записан.';
@@ -33,7 +35,8 @@ catch (FileFormatException $e) {
 
 print '<br>';
 
-$transmissionOpinions = new TransmissionData(__DIR__ . '/data/opinions.csv', __DIR__ . '/sql/opinions.sql', 'opinions', ['dt_add', 'rate', 'description']);
+$transmissionOpinions = new TransmissionData(__DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'opinions.csv', 
+__DIR__.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'opinions.sql', 'opinions', ['dt_add', 'rate', 'description']);
 try {
     $transmissionOpinions->transmission();
     print 'Файл "opinions.sql" записан.';
