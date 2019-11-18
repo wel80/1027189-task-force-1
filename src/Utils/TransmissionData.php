@@ -28,62 +28,42 @@ class TransmissionData
         if (!file_exists($this->fileRead)) {
             throw new SourceFileException("Файл для чтения '" . $this->fileRead . "' не существует");
         }
-
-        if (!file_exists($this->fileWrite)) {
-            throw new SourceFileException("Файл для записи '" . $this->fileWrite . "' не существует");
-        }
         
         if (!$this->validateColumns($this->columns)) {
             throw new FileFormatException("Для таблицы '" . $this->tableName . "' заданы неверные заголовки столбцов");
         }
         
-        $objectRead = new SplFileReadObject($this->fileRead, 'r');
-        $objectWrite = new SplFileWriteObject($this->fileWrite, 'w');
-
-        $objectRead->rewind();
-        $objectWrite->rewind();
+        $objectRead = new \SplFileObject($this->fileRead, 'r');
+        $objectWrite = new \SplFileObject($this->fileWrite, 'w');
         
         $header_data = $objectRead->fgetcsv();
-
-        // Поиск ошибки
-        print 'Требуемые названия столбцов:  ';
-        var_dump($this->columns);
-        print '<br>';
-        print 'Названия столбцов в CSV-файле:  ';
-        var_dump($header_data);
-        print '<br>';
 
         if ($header_data !== $this->columns) {
             throw new FileFormatException("Файл для чтения '" . $this->fileRead . "' не содержит необходимых столбцов");
         }
-        $objectWrite->fwrite("USE task_forse_wel80;\r\nINSERT INTO " . $this->tableName . " (" . implode(', ', $header_data) . ")\r\nVALUES ");
+        $objectWrite->fwrite("INSERT INTO " . $this->tableName . " (" . implode(', ', $header_data) . ")" . PHP_EOL . "VALUES ");
         
-        if (!$objectRead->eof()) {
-            $next_data = $objectRead->fgetcsv();
-            $objectWrite->fwrite("(" . implode(', ', $next_data) . ")");
+        while ($next_data = $objectRead->fgetcsv()) {
+            if (!$objectRead->eof()) {
+                $objectWrite->fwrite("(" . implode(', ', $next_data) . "),". PHP_EOL);
+            } else {
+                $objectWrite->fwrite("(" . implode(', ', $next_data) . ");");
+            }
         }
-
-        while (!$objectRead->eof()) {
-            $next_data = $objectRead->fgetcsv();
-            $objectWrite->fwrite(", \r\n(" . implode(', ', $next_data) . ")");
-        }
-        $objectWrite->fwrite(";");
     }
 
 
     private function validateColumns(array $columns) : bool
     {
-        $result = true;
-        if (count($columns)) {
-            foreach ($columns as $column) {
-                if (!is_string($column)) {
-                    $result = false;
-                }
+        if (!count($columns)) {
+            return false;
+        }
+
+        foreach ($columns as $column) {
+            if (!is_string($column)) {
+                return false;
             }
         }
-        else {
-            $result = false;
-        }
-        return $result;
+        return true;
     }
 }
