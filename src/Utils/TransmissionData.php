@@ -2,6 +2,8 @@
 
 namespace TaskForce\Utils;
 
+use TaskForce\Utils\Processings\FileRead;
+use TaskForce\Utils\Processings\FileWrite;
 use TaskForce\Tasks\Exceptions\FileFormatException;
 use TaskForce\Tasks\Exceptions\SourceFileException;
 
@@ -12,7 +14,7 @@ class TransmissionData
     private $tableName;
     private $columns;
 
-    public function __construct(string $fileRead, string $fileWrite, string $tableName, array $columns)
+    public function __construct(FileRead $fileRead, FileWrite $fileWrite, string $tableName, array $columns)
     {
         $this->fileRead = $fileRead;
         $this->fileWrite = $fileWrite;
@@ -22,31 +24,22 @@ class TransmissionData
 
 
     public function transmission()
-    {
-        if (!file_exists($this->fileRead)) {
-            throw new SourceFileException("Файл для чтения '" . $this->fileRead . "' не существует");
-        }
-        
+    {        
         if (!$this->validateColumns($this->columns)) {
-            throw new FileFormatException("Для таблицы '" . $this->tableName . "' заданы неверные заголовки столбцов");
+            throw new FileFormatException("Для таблицы " . $this->tableName . " заданы неверные заголовки столбцов");
         }
         
-        $objectRead = new \SplFileObject($this->fileRead, 'r');
-        $objectWrite = new \SplFileObject($this->fileWrite, 'w');
-        
-        $header_data = $objectRead->fgetcsv();
+        $headerData = $this->fileRead->fgetcsv();
+        $headerData = array_map(function($item) { return htmlspecialchars($item); }, $headerData);
+        if ($headerData !== $this->columns) {
+            throw new FileFormatException("Файл для чтения " . $this->tableName . ".csv не содержит необходимых столбцов");
+        }
 
-        if ($header_data !== $this->columns) {
-            throw new FileFormatException("Файл для чтения '" . $this->fileRead . "' не содержит необходимых столбцов");
-        }
-        $objectWrite->fwrite("INSERT INTO " . $this->tableName . " (" . implode(', ', $header_data) . ")" . PHP_EOL . "VALUES ");
-        
-        while ($next_data = $objectRead->fgetcsv()) {
-            if (!$objectRead->eof()) {
-                $objectWrite->fwrite("(" . implode(', ', $next_data) . "),". PHP_EOL);
-            } else {
-                $objectWrite->fwrite("(" . implode(', ', $next_data) . ");");
-            }
+        $template = 'INSERT INTO %s (%s) VALUES (%s);%s';
+        while (!$this->fileRead->eof()) {
+            $nextData = $this->fileRead->fgetcsv();
+            $nextData = array_map(function($item) { return htmlspecialchars($item); }, $nextData);
+            $this->fileWrite->fwrite(sprintf($template, $this->tableName, implode(', ', $headerData), implode(', ', $nextData), PHP_EOL));
         }
     }
 

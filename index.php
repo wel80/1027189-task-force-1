@@ -2,14 +2,24 @@
 
 require_once __DIR__.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
 use TaskForce\Utils\TransmissionData;
+use TaskForce\Utils\Processings\FileRead;
+use TaskForce\Utils\Processings\FileWrite;
 use TaskForce\Tasks\Exceptions\FileFormatException;
 use TaskForce\Tasks\Exceptions\SourceFileException;
 
-$transmissionCategories = new TransmissionData(__DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'categories.csv', 
-__DIR__.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'categories.sql', 'categories', ['name', 'icon']);
+
+
+
+$outputFilePath = sprintf('%s%sdata%scategories.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$inputFilePath = sprintf('%s%ssql%scategories.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileWrite = new FileWrite($inputFilePath);
+$table = 'category';
+$columns = ['name', 'icon'];
+$transmissionCategories = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionCategories->transmission();
-    print 'Файл "categories.sql" записан.';
+    print sprintf('Файл "%s" записан', $inputFilePath); 
 }
 catch (SourceFileException $e) {
     print $e->getMessage();
@@ -18,13 +28,21 @@ catch (FileFormatException $e) {
     print $e->getMessage();
 }
 
+
+
+
 print '<br>';
 
-$transmissionCities = new TransmissionData(__DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'cities.csv', 
-__DIR__.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'cities.sql', 'cities', ['city', 'lat', 'long']);
+$outputFilePath = sprintf('%s%sdata%scities.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$inputFilePath = sprintf('%s%ssql%scities.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileWrite = new FileWrite($inputFilePath);
+$table = 'city';
+$columns = ['city', 'lat', 'long'];
+$transmissionCities = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionCities->transmission();
-    print 'Файл "cities.sql" записан.';
+    print sprintf('Файл "%s" записан', $inputFilePath);
 }
 catch (SourceFileException $e) {
     print $e->getMessage();
@@ -33,13 +51,113 @@ catch (FileFormatException $e) {
     print $e->getMessage();
 }
 
+
+
+
 print '<br>';
 
-$transmissionOpinions = new TransmissionData(__DIR__.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.'opinions.csv', 
-__DIR__.DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'opinions.sql', 'opinions', ['dt_add', 'rate', 'description']);
+$outputFilePath = sprintf('%s%sdata%sopinions.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$inputFilePath = sprintf('%s%ssql%sopinions.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileWrite = new FileWrite($inputFilePath);
+$table = 'opinion';
+$columns = ['dt_add', 'rate', 'description'];
+$transmissionOpinions = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionOpinions->transmission();
-    print 'Файл "opinions.sql" записан.';
+    print sprintf('Файл "%s" записан', $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
+
+
+
+
+print '<br>';
+
+$outputFilePath = sprintf('%s%sdata%sprofiles.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$inputFilePath = sprintf('%s%ssql%sprofiles.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileWrite = new FileWrite($inputFilePath);
+$table = 'profile';
+$columns = ['address', 'bd', 'about', 'phone', 'skype'];
+$transmissionProfiles = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+try {
+    $transmissionProfiles->transmission();
+    print sprintf('Файл "%s" записан', $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
+
+
+
+
+print '<br>';
+
+$outputFilePath = sprintf('%s%sdata%sreplies.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$inputFilePath = sprintf('%s%ssql%sreplies.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileWrite = new FileWrite($inputFilePath);
+$table = 'reply';
+$columns = ['dt_add', 'rate', 'description'];
+$transmissionReplies = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+try {
+    $transmissionReplies->transmission();
+    print sprintf('Файл "%s" записан', $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
+
+
+
+
+print '<br>';
+
+$outputFilePath = sprintf('%s%sdata%stasks.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$inputFilePath = sprintf('%s%ssql%stasks.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileWrite = new FileWrite($inputFilePath);
+$table = 'task';
+$columns = ['dt_add', 'category_id', 'description', 'expire', 'name', 'address', 'budget', 'lat', 'long'];
+$transmissionTasks = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+try {
+    $transmissionTasks->transmission();
+    print sprintf('Файл "%s" записан', $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
+
+
+
+
+print '<br>';
+
+$outputFilePath = sprintf('%s%sdata%susers.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$inputFilePath = sprintf('%s%ssql%susers.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileWrite = new FileWrite($inputFilePath);
+$table = 'user';
+$columns = ['email', 'name', 'password', 'dt_add'];
+$transmissionUsers = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+try {
+    $transmissionUsers->transmission();
+    print sprintf('Файл "%s" записан', $inputFilePath);
 }
 catch (SourceFileException $e) {
     print $e->getMessage();
