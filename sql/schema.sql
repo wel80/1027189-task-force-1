@@ -41,11 +41,8 @@ CREATE TABLE task (
     budget INT,
     lat FLOAT NOT NULL,
     long FLOAT NOT NULL,
-    status CHAR(15) NOT NULL,
-    city_id INT,
     author_id INT NOT NULL,
     executor_id INT,
-    FOREIGN KEY (city_id)  REFERENCES city (id),
     FOREIGN KEY (author_id)  REFERENCES user (id),
     FOREIGN KEY (executor_id)  REFERENCES user (id)
 );
@@ -71,48 +68,36 @@ CREATE TABLE specialization (
 
 CREATE TABLE user_specialization (
     user_id INT NOT NULL,
-    spec_id INT NOT NULL -- Первичный ключ специализации
+    spec_id INT NOT NULL, -- Первичный ключ специализации
+    FOREIGN KEY (user_id)  REFERENCES user (id),
+    FOREIGN KEY (spec_id)  REFERENCES specialization (id)
 );
 
 CREATE TABLE file (
     id INT AUTO_INCREMENT PRIMARY KEY,
     path CHAR(100) NOT NULL,
-    task_id INT NOT NULL
+    task_id INT NOT NULL,
+    FOREIGN KEY (task_id)  REFERENCES task (id)
 );
 
-CREATE TABLE reaction (
+CREATE TABLE opinion (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    message TEXT,
-    servise_cost INT,
+    dt_add CHAR(15) NOT NULL,
+    rate INT,
+    description TEXT,
     author_id INT NOT NULL,
-    task_id INT NOT NULL
+    task_id INT NOT NULL,
+    FOREIGN KEY (author_id)  REFERENCES user (id),
+    FOREIGN KEY (task_id)  REFERENCES task (id)
 );
 
-CREATE TABLE message (
+CREATE TABLE reply (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    message TEXT NOT NULL,
+    dt_add CHAR(15) NOT NULL,
+    rate INT,
+    description TEXT,
     author_id INT NOT NULL,
-    recipient_id INT NOT NULL
-);
-
-CREATE TABLE review (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    task_is_done TINYINT NOT NULL, -- Cтатус выполненности задания (да - 1 или нет - 0)
-    message TEXT,
-    evaluation TINYINT,
-    author_id INT NOT NULL,
-    executor_id INT NOT NULL,
-    task_id INT NOT NULL
-);
-
-CREATE TABLE event (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    event CHAR(15) NOT NULL,
-    author_id INT NOT NULL,
-    recipient_id INT NOT NULL,
-    task_id INT NOT NULL
+    task_id INT NOT NULL,
+    FOREIGN KEY (author_id)  REFERENCES user (id),
+    FOREIGN KEY (task_id)  REFERENCES task (id)
 );

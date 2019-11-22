@@ -31,15 +31,22 @@ class TransmissionData
         
         $headerData = $this->fileRead->fgetcsv();
         $headerData = array_map(function($item) { return htmlspecialchars($item); }, $headerData);
-        if ($headerData !== $this->columns) {
-            throw new FileFormatException("Файл для чтения " . $this->tableName . ".csv не содержит необходимых столбцов");
+        foreach ($headerData as $data) {
+            if (!in_array($data, $this->columns)) {
+                throw new FileFormatException("Файл для чтения не содержит необходимых столбцов");
+            }
         }
 
         $template = 'INSERT INTO %s (%s) VALUES (%s);%s';
         while (!$this->fileRead->eof()) {
             $nextData = $this->fileRead->fgetcsv();
             $nextData = array_map(function($item) { return htmlspecialchars($item); }, $nextData);
-            $this->fileWrite->fwrite(sprintf($template, $this->tableName, implode(', ', $headerData), implode(', ', $nextData), PHP_EOL));
+            foreach($this->columns as $columnKey => $columnValue) {
+                if (!in_array($columnKey, $headerData)) {
+                    $nextData[] = random_int(1, $columnValue);
+                }
+            }
+            $this->fileWrite->fwrite(sprintf($template, $this->tableName, implode(', ', array_keys($this->columns)), implode(', ', $nextData), PHP_EOL));
         }
     }
 
@@ -50,8 +57,8 @@ class TransmissionData
             return false;
         }
 
-        foreach ($columns as $column) {
-            if (!is_string($column)) {
+        foreach ($columns as $columnKey => $columnValue) {
+            if (!is_string($columnKey)) {
                 return false;
             }
         }

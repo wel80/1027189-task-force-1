@@ -15,7 +15,7 @@ $fileRead = new FileRead($outputFilePath);
 $inputFilePath = sprintf('%s%ssql%scategories.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'category';
-$columns = ['name', 'icon'];
+$columns = ['name' => 'name', 'icon' => 'icon'];
 $transmissionCategories = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionCategories->transmission();
@@ -38,7 +38,7 @@ $fileRead = new FileRead($outputFilePath);
 $inputFilePath = sprintf('%s%ssql%scities.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'city';
-$columns = ['city', 'lat', 'long'];
+$columns = ['city' => 'city', 'lat' => 'lat', 'long' => 'long'];
 $transmissionCities = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionCities->transmission();
@@ -61,7 +61,12 @@ $fileRead = new FileRead($outputFilePath);
 $inputFilePath = sprintf('%s%ssql%sopinions.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'opinion';
-$columns = ['dt_add', 'rate', 'description'];
+$columns = ['dt_add' => 'dt_add', 
+'rate' => 'rate',
+'description' => 'description', 
+'author_id' => 20, 
+'task_id' => 10
+];
 $transmissionOpinions = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionOpinions->transmission();
@@ -84,7 +89,13 @@ $fileRead = new FileRead($outputFilePath);
 $inputFilePath = sprintf('%s%ssql%sprofiles.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'profile';
-$columns = ['address', 'bd', 'about', 'phone', 'skype'];
+$columns = ['address' => 'address', 
+'bd' => 'bd', 
+'about' => 'about', 
+'phone' => 'phone', 
+'skype' => 'skype',
+'user_id' => 20
+];
 $transmissionProfiles = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionProfiles->transmission();
@@ -107,7 +118,12 @@ $fileRead = new FileRead($outputFilePath);
 $inputFilePath = sprintf('%s%ssql%sreplies.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'reply';
-$columns = ['dt_add', 'rate', 'description'];
+$columns = ['dt_add' => 'dt_add', 
+'rate' => 'rate',
+'description' => 'description', 
+'author_id' => 20, 
+'task_id' => 10
+];
 $transmissionReplies = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionReplies->transmission();
@@ -130,7 +146,17 @@ $fileRead = new FileRead($outputFilePath);
 $inputFilePath = sprintf('%s%ssql%stasks.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'task';
-$columns = ['dt_add', 'category_id', 'description', 'expire', 'name', 'address', 'budget', 'lat', 'long'];
+$columns = ['dt_add' => 'dt_add', 
+'category_id' => 'category_id', 
+'description' => 'description', 
+'expire' => 'expire', 
+'name' => 'name', 
+'address' => 'address', 
+'budget' => 'budget', 
+'lat' => 'lat', 
+'long' => 'long',
+'author_id' => 20
+];
 $transmissionTasks = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionTasks->transmission();
@@ -153,7 +179,12 @@ $fileRead = new FileRead($outputFilePath);
 $inputFilePath = sprintf('%s%ssql%susers.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'user';
-$columns = ['email', 'name', 'password', 'dt_add'];
+$columns = ['email' => 'email', 
+'name' => 'name', 
+'password' => 'password', 
+'dt_add' => 'dt_add',
+'city_id' => 1108
+];
 $transmissionUsers = new TransmissionData($fileRead, $fileWrite, $table, $columns);
 try {
     $transmissionUsers->transmission();
