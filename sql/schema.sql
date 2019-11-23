@@ -8,7 +8,7 @@ CREATE TABLE user (
     email CHAR(100) NOT NULL UNIQUE,
     name CHAR(100) NOT NULL,
     password CHAR(64) NOT NULL,
-    dt_add CHAR(15) NOT NULL,
+    date_registration CHAR(15) NOT NULL,
     city_id INT NOT NULL,
     FOREIGN KEY (city_id)  REFERENCES city (id)
 );
@@ -17,7 +17,7 @@ CREATE TABLE profile (
     user_id INT NOT NULL UNIQUE,
     avatar CHAR(100),
     address CHAR(100),
-    bd CHAR(15),
+    birthday CHAR(15),
     about TEXT,
     phone CHAR(30),
     skype CHAR(100),
@@ -31,7 +31,7 @@ CREATE TABLE profile (
 
 CREATE TABLE task (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    dt_add CHAR(15) NOT NULL,
+    created_at CHAR(15) NOT NULL,
     updated_at CHAR(15),
     category_id INT NOT NULL,
     description TEXT NOT NULL,
@@ -56,21 +56,21 @@ CREATE TABLE city (
 
 CREATE TABLE category (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name CHAR(15) NOT NULL UNIQUE,
-    icon CHAR(15) NOT NULL UNIQUE
+    name CHAR(50) NOT NULL UNIQUE,
+    icon CHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE specialization (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name CHAR(15) NOT NULL UNIQUE,
-    alias CHAR(15) NOT NULL UNIQUE
+    name CHAR(100) NOT NULL UNIQUE,
+    icon CHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE user_specialization (
     user_id INT NOT NULL,
-    spec_id INT NOT NULL, -- Первичный ключ специализации
+    specialization_id INT NOT NULL,
     FOREIGN KEY (user_id)  REFERENCES user (id),
-    FOREIGN KEY (spec_id)  REFERENCES specialization (id)
+    FOREIGN KEY (specialization_id)  REFERENCES specialization (id)
 );
 
 CREATE TABLE file (
@@ -82,7 +82,7 @@ CREATE TABLE file (
 
 CREATE TABLE opinion (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    dt_add CHAR(15) NOT NULL,
+    created_at CHAR(15) NOT NULL,
     rate INT,
     description TEXT,
     author_id INT NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE opinion (
 
 CREATE TABLE reply (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    dt_add CHAR(15) NOT NULL,
+    created_at CHAR(15) NOT NULL,
     rate INT,
     description TEXT,
     author_id INT NOT NULL,
