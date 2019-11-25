@@ -16,9 +16,9 @@ $inputFilePath = sprintf('%s%ssql%scategories.sql', __DIR__, DIRECTORY_SEPARATOR
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'category';
 $columns = ['name' => 'name', 'icon' => 'icon'];
-$transmissionCategories = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+$transmissionCategories = new TransmissionData($fileRead, $fileWrite, $table);
 try {
-    $transmissionCategories->transmission();
+    $transmissionCategories->transmission($columns);
     printf('Файл "%s" записан'.PHP_EOL, $inputFilePath); 
 }
 catch (SourceFileException $e) {
@@ -38,10 +38,10 @@ $fileRead = new FileRead($outputFilePath);
 $inputFilePath = sprintf('%s%ssql%scities.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
 $fileWrite = new FileWrite($inputFilePath);
 $table = 'city';
-$columns = ['city' => 'city', 'lat' => 'lat', 'long' => 'long'];
-$transmissionCities = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+$columns = ['city' => 'city', 'city_lat' => 'lat', 'city_long' => 'long'];
+$transmissionCities = new TransmissionData($fileRead, $fileWrite, $table);
 try {
-    $transmissionCities->transmission();
+    $transmissionCities->transmission($columns);
     printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
 }
 catch (SourceFileException $e) {
@@ -67,9 +67,9 @@ $columns = ['created_at' => 'dt_add',
 'author_id' => 20, 
 'task_id' => 10
 ];
-$transmissionOpinions = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+$transmissionOpinions = new TransmissionData($fileRead, $fileWrite, $table);
 try {
-    $transmissionOpinions->transmission();
+    $transmissionOpinions->transmission($columns);
     printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
 }
 catch (SourceFileException $e) {
@@ -96,9 +96,9 @@ $columns = ['address' => 'address',
 'skype' => 'skype',
 'user_id' => 20
 ];
-$transmissionProfiles = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+$transmissionProfiles = new TransmissionData($fileRead, $fileWrite, $table);
 try {
-    $transmissionProfiles->transmission();
+    $transmissionProfiles->transmission($columns);
     printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
 }
 catch (SourceFileException $e) {
@@ -124,9 +124,9 @@ $columns = ['created_at' => 'dt_add',
 'author_id' => 20, 
 'task_id' => 10
 ];
-$transmissionReplies = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+$transmissionReplies = new TransmissionData($fileRead, $fileWrite, $table);
 try {
-    $transmissionReplies->transmission();
+    $transmissionReplies->transmission($columns);
     printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
 }
 catch (SourceFileException $e) {
@@ -153,13 +153,13 @@ $columns = ['created_at' => 'dt_add',
 'name' => 'name', 
 'address' => 'address', 
 'budget' => 'budget', 
-'lat' => 'lat', 
-'long' => 'long',
+'task_lat' => 'lat', 
+'task_long' => 'long',
 'author_id' => 20
 ];
-$transmissionTasks = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+$transmissionTasks = new TransmissionData($fileRead, $fileWrite, $table);
 try {
-    $transmissionTasks->transmission();
+    $transmissionTasks->transmission($columns);
     printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
 }
 catch (SourceFileException $e) {
@@ -185,9 +185,9 @@ $columns = ['email' => 'email',
 'date_registration' => 'dt_add',
 'city_id' => 1108
 ];
-$transmissionUsers = new TransmissionData($fileRead, $fileWrite, $table, $columns);
+$transmissionUsers = new TransmissionData($fileRead, $fileWrite, $table);
 try {
-    $transmissionUsers->transmission();
+    $transmissionUsers->transmission($columns);
     printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
 }
 catch (SourceFileException $e) {

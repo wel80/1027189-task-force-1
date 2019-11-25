@@ -3,6 +3,25 @@ DEFAULT CHARACTER SET utf8
 DEFAULT COLLATE utf8_general_ci;
 USE task_forse_wel80;
 
+CREATE TABLE city (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    city CHAR(100) NOT NULL,
+    city_lat FLOAT NOT NULL,
+    city_long FLOAT NOT NULL
+);
+
+CREATE TABLE category (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name CHAR(50) NOT NULL UNIQUE,
+    icon CHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE specialization (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name CHAR(100) NOT NULL UNIQUE,
+    icon CHAR(100) NOT NULL UNIQUE
+);
+
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email CHAR(100) NOT NULL UNIQUE,
@@ -11,6 +30,13 @@ CREATE TABLE user (
     date_registration CHAR(15) NOT NULL,
     city_id INT NOT NULL,
     FOREIGN KEY (city_id)  REFERENCES city (id)
+);
+
+CREATE TABLE user_specialization (
+    user_id INT NOT NULL,
+    specialization_id INT NOT NULL,
+    FOREIGN KEY (user_id)  REFERENCES user (id),
+    FOREIGN KEY (specialization_id)  REFERENCES specialization (id)
 );
 
 CREATE TABLE profile (
@@ -39,38 +65,12 @@ CREATE TABLE task (
     name CHAR(100) NOT NULL, -- Краткое описание задания
     address CHAR(100),
     budget INT,
-    lat FLOAT NOT NULL,
-    long FLOAT NOT NULL,
+    task_lat FLOAT NOT NULL,
+    task_long FLOAT NOT NULL,
     author_id INT NOT NULL,
     executor_id INT,
     FOREIGN KEY (author_id)  REFERENCES user (id),
     FOREIGN KEY (executor_id)  REFERENCES user (id)
-);
-
-CREATE TABLE city (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    city CHAR(100) NOT NULL,
-    lat FLOAT NOT NULL,
-    long FLOAT NOT NULL
-);
-
-CREATE TABLE category (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name CHAR(50) NOT NULL UNIQUE,
-    icon CHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE specialization (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name CHAR(100) NOT NULL UNIQUE,
-    icon CHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE user_specialization (
-    user_id INT NOT NULL,
-    specialization_id INT NOT NULL,
-    FOREIGN KEY (user_id)  REFERENCES user (id),
-    FOREIGN KEY (specialization_id)  REFERENCES specialization (id)
 );
 
 CREATE TABLE file (
