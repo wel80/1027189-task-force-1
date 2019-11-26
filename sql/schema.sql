@@ -6,8 +6,8 @@ USE task_forse_wel80;
 CREATE TABLE city (
     id INT AUTO_INCREMENT PRIMARY KEY,
     city CHAR(100) NOT NULL,
-    city_lat FLOAT NOT NULL,
-    city_long FLOAT NOT NULL
+    latitude FLOAT NOT NULL,
+    longitude FLOAT NOT NULL
 );
 
 CREATE TABLE category (
@@ -65,8 +65,8 @@ CREATE TABLE task (
     name CHAR(100) NOT NULL, -- Краткое описание задания
     address CHAR(100),
     budget INT,
-    task_lat FLOAT NOT NULL,
-    task_long FLOAT NOT NULL,
+    latitude FLOAT NOT NULL,
+    longitude FLOAT NOT NULL,
     author_id INT NOT NULL,
     executor_id INT,
     FOREIGN KEY (author_id)  REFERENCES user (id),

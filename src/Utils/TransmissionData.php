@@ -5,35 +5,29 @@ namespace TaskForce\Utils;
 use TaskForce\Utils\Processings\FileRead;
 use TaskForce\Utils\Processings\FileWrite;
 use TaskForce\Tasks\Exceptions\FileFormatException;
-use TaskForce\Tasks\Exceptions\SourceFileException;
 
 class TransmissionData
 {
     private $fileRead;
     private $fileWrite;
-    private $tableName;
+    private $tableModel;
 
-    public function __construct(FileRead $fileRead, FileWrite $fileWrite, string $tableName)
+    public function __construct(FileRead $fileRead, FileWrite $fileWrite, string $tableModel)
     {
         $this->fileRead = $fileRead;
         $this->fileWrite = $fileWrite;
-        $this->tableName = $tableName;
+        $this->tableModel = $tableModel;
     }
 
 
-    public function transmission(array $columns) : void
-    {        
-        if (!$this->validateColumns($columns)) {
-            throw new FileFormatException("Для таблицы " . $this->tableName . " заданы неверные заголовки столбцов");
+    public function transmission() : void
+    {
+        if (!$this->validateColumns($this->tableModel::getColumnsSQL())) {
+            throw new FileFormatException("Для таблицы " . $this->tableModel::getTableName() . " заданы неверные заголовки столбцов");
         }
         
         $headerData = $this->fileRead->fgetcsv();
-        foreach($columns as $column) {
-            if(!in_array($column, $headerData)) {
-                $headerData[] = $column;
-            }
-        }
-        if(array_values($columns) !== $headerData) {
+        if($this->tableModel::getColumnsCSV() !== $headerData) {
             throw new FileFormatException("Файл для чтения не содержит необходимых столбцов");
         }
 
@@ -41,13 +35,9 @@ class TransmissionData
         $template = 'INSERT INTO %s (%s) VALUES (%s);%s';
         while (!$this->fileRead->eof()) {
             $nextData = $this->fileRead->fgetcsv();
+            $nextData = $this->tableModel::getValues($nextData);
             $nextData = array_map([$this, 'escapeCharacter'], $nextData);
-            foreach($columns as $column) {
-                if (is_int($column)) {
-                    $nextData[] = random_int(1, $column);
-                }
-            }
-            $this->fileWrite->fwrite(sprintf($template, $this->tableName, implode(', ', array_keys($columns)), implode(', ', $nextData), PHP_EOL));
+            $this->fileWrite->fwrite(sprintf($template, $this->tableModel::getTableName(), implode(', ', $this->tableModel::getColumnsSQL()), implode(', ', $nextData), PHP_EOL));
         }
     }
 
@@ -58,8 +48,8 @@ class TransmissionData
             return false;
         }
 
-        foreach ($columns as $columnKey => $columnValue) {
-            if (!is_string($columnKey)) {
+        foreach ($columns as $column) {
+            if (!is_string($column)) {
                 return false;
             }
         }
