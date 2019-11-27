@@ -5,38 +5,63 @@ use TaskForce\Utils\TableModels\AbstractModel;
 
 class UserModel extends AbstractModel
 {
-    private static $user = 'user';
-    private static $email = 'email';
-    private static $name = 'name';
-    private static $password = 'password';
-    private static $dt_add = 'dt_add';
-    private static $date_registration = 'date_registration';
-    private static $city_id = 'city_id';
-    private $csvRow;
+    /**
+     * @var string
+     */
+    private $email;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $password;
+
+    /**
+     * @var string
+     */
+    private $date_registration;
+
+    /**
+     * @var int
+     */
+    private $city_id;
     
     public function __construct(array $csvRow)
     {
-        $this->csvRow = $csvRow;
-        $this->csvRow[] = random_int(1, 1108);
+        $this->email = $csvRow[0];
+        $this->name = $csvRow[1];
+        $this->password = $csvRow[2];
+        $this->date_registration = $csvRow[3];
+        $this->city_id = random_int(1, 1108);
     }
     
-    public static function getTableName() : string 
+    public function getTableName() : string 
     {
-        return self::$user;
+        return 'user';
     }
     
     public static function getColumnsCSV() : array
     {
-        return [self::$email, self::$name, self::$password, self::$dt_add];
+        return ['email', 'name', 'password', 'dt_add'];
     }
 
-    public static function getColumnsSQL() : string
+    public function getColumnsSQL() : array
     {
-        return sprintf('%s, %s, %s, %s, %s', self::$email, self::$name, self::$password, self::$date_registration, self::$city_id);
+        return ['email', 'name', 'password', 'date_registration', 'city_id'];
     }
 
-    public function getValues() : string
+    public function getValues() : array
     {
-        return implode(', ', array_map(function($item) {return '"' . htmlspecialchars($item) . '"';}, $this->csvRow));
+        return [
+            'email' => $this->email,
+            'name' => $this->name,
+            'password' => $this->password,
+            'date_registration' => $this->date_registration,
+            'city_id' => $this->city_id
+        ];
     }
 }

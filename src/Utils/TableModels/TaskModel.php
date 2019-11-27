@@ -5,45 +5,98 @@ use TaskForce\Utils\TableModels\AbstractModel;
 
 class TaskModel extends AbstractModel
 {
-    private static $task = 'task';
-    private static $dt_add = 'dt_add';
-    private static $category_id = 'category_id';
-    private static $description = 'description';
-    private static $expire = 'expire';
-    private static $name = 'name';
-    private static $address = 'address';
-    private static $budget = 'budget';
-    private static $lat = 'lat';
-    private static $long = 'long';
-    private static $created_at = 'created_at';
-    private static $latitude = 'latitude';
-    private static $longitude = 'longitude';
-    private static $author_id = 'author_id';
-    private $csvRow;
+    /**
+     * @var string
+     */
+    private $created_at;
+
+    /**
+     * @var int
+     */
+    private $category_id;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var string
+     */
+    private $expire;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $address;
+
+    /**
+     * @var int
+     */
+    private $budget;
+
+    /**
+     * @var float
+     */
+    private $latitude;
+
+    /**
+     * @var float
+     */
+    private $longitude;
+
+    /**
+     * @var int
+     */
+    private $author_id;
     
     public function __construct(array $csvRow)
     {
-        $this->csvRow = $csvRow;
-        $this->csvRow[] = random_int(1, 20);
+        $this->created_at = $csvRow[0];
+        $this->category_id = $csvRow[1];
+        $this->description = $csvRow[2];
+        $this->expire = $csvRow[3];
+        $this->name = $csvRow[4];
+        $this->address = $csvRow[5];
+        $this->budget = $csvRow[6];
+        $this->latitude = $csvRow[7];
+        $this->longitude = $csvRow[8];
+        $this->author_id = random_int(1, 20);
     }
     
-    public static function getTableName() : string
+    public function getTableName() : string
     {
-        return self::$task;
+        return 'task';
     }
     
     public static function getColumnsCSV() : array
     {
-        return [self::$dt_add, self::$category_id, self::$description, self::$expire, self::$name, self::$address, self::$budget, self::$lat, self::$long];
+        return ['dt_add', 'category_id', 'description', 'expire', 'name', 'address', 'budget', 'lat', 'long'];
     }
 
-    public static function getColumnsSQL() : string
+    public function getColumnsSQL() : array
     {
-        return sprintf('%s, %s, %s, %s, %s, %s, %s, %s, %s, %s', self::$created_at, self::$category_id, self::$description, self::$expire, self::$name, self::$address, self::$budget, self::$latitude, self::$longitude, self::$author_id);
+        return ['created_at', 'category_id', 'description', 'expire', 'name', 'address', 'budget', 'latitude', 'longitude', 'author_id'];
     }
 
-    public function getValues() : string
+    public function getValues() : array
     {
-        return implode(', ', array_map(function($item) {return '"' . htmlspecialchars($item) . '"';}, $this->csvRow));
+        return [
+            'created_at' => $this->created_at,
+            'category_id' => $this->category_id,
+            'description' => $this->description,
+            'expire' => $this->expire,
+            'name' => $this->name,
+            'address' => $this->address,
+            'budget' => $this->budget,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'author_id' => $this->author_id
+        ];
     }
 }

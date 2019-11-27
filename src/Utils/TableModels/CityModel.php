@@ -5,35 +5,49 @@ use TaskForce\Utils\TableModels\AbstractModel;
 
 class CityModel extends AbstractModel
 {
-    private static $city = 'city';
-    private static $lat = 'lat';
-    private static $long = 'long';
-    private static $latitude = 'latitude';
-    private static $longitude = 'longitude';
-    private $csvRow;
-    
+    /**
+     * @var string
+     */
+    private $city;
+
+    /**
+     * @var float
+     */
+    private $latitude;
+
+    /**
+     * @var float
+     */
+    private $longitude;
+
     public function __construct(array $csvRow)
     {
-        $this->csvRow = $csvRow;
+        $this->city = $csvRow[0];
+        $this->latitude = $csvRow[1];
+        $this->longitude = $csvRow[2];
     }
 
-    public static function getTableName() : string 
+    public function getTableName() : string
     {
-        return self::$city;
+        return 'city';
     }
-    
+
     public static function getColumnsCSV() : array
     {
-        return [self::$city, self::$lat, self::$long];
+        return ['city', 'lat', 'long'];
     }
 
-    public static function getColumnsSQL() : string
+    public function getColumnsSQL() : array
     {
-        return self::$city . ', ' . self::$latitude . ', ' . self::$longitude;
+        return ['city', 'latitude', 'longitude'];
     }
 
-    public function getValues() : string
+    public function getValues(): array
     {
-        return implode(', ', array_map(function($item) {return '"' . htmlspecialchars($item) . '"';}, $this->csvRow));
+        return [
+            'city' => $this->city,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude
+        ];
     }
 }

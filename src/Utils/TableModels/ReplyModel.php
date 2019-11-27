@@ -5,39 +5,63 @@ use TaskForce\Utils\TableModels\AbstractModel;
 
 class ReplyModel extends AbstractModel
 {
-    private static $reply = 'reply';
-    private static $dt_add = 'dt_add';
-    private static $rate = 'rate';
-    private static $description = 'description';
-    private static $created_at = 'created_at';
-    private static $author_id = 'author_id';
-    private static $task_id = 'task_id';
-    private $csvRow;
+    /**
+     * @var string
+     */
+    private $created_at;
+
+    /**
+     * @var int
+     */
+    private $rate;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var int
+     */
+    private $author_id;
+
+    /**
+     * @var int
+     */
+    private $task_id;
     
     public function __construct(array $csvRow)
     {
-        $this->csvRow = $csvRow;
-        $this->csvRow[] = random_int(1, 20);
-        $this->csvRow[] = random_int(1, 10);
+        $this->created_at = $csvRow[0];
+        $this->rate = $csvRow[1];
+        $this->description = $csvRow[2];
+        $this->author_id = random_int(1, 20);
+        $this->task_id = random_int(1, 10);
     }
 
-    public static function getTableName() : string 
+    public function getTableName() : string 
     {
-        return self::$reply;
+        return 'reply';
     }
     
     public static function getColumnsCSV() : array
     {
-        return [self::$dt_add, self::$rate, self::$description];
+        return ['dt_add', 'rate', 'description'];
     }
 
-    public static function getColumnsSQL() : string
+    public function getColumnsSQL() : array
     {
-        return sprintf('%s, %s, %s, %s, %s', self::$created_at, self::$rate, self::$description, self::$author_id, self::$task_id);
+        return ['created_at', 'rate', 'description', 'author_id', 'task_id'];
     }
 
-    public function getValues() : string
+    public function getValues() : array
     {
-        return implode(', ', array_map(function($item) {return '"' . htmlspecialchars($item) . '"';}, $this->csvRow));
+        return [
+            'created_at' => $this->created_at,
+            'rate' => $this->rate,
+            'description' => $this->description,
+            'author_id' => $this->author_id,
+            'task_id' => $this->task_id
+        ];
     }
 }

@@ -5,39 +5,70 @@ use TaskForce\Utils\TableModels\AbstractModel;
 
 class ProfileModel extends AbstractModel
 {
-    private static $profile = 'profile';
-    private static $address = 'address';
-    private static $bd = 'bd';
-    private static $about = 'about';
-    private static $phone = 'phone';
-    private static $skype = 'skype';
-    private static $birthday = 'birthday';
-    private static $user_id = 'user_id';
-    private $csvRow;
+    /**
+     * @var string
+     */
+    private $address;
+
+    /**
+     * @var string
+     */
+    private $birthday;
+
+    /**
+     * @var string
+     */
+    private $about;
+
+    /**
+     * @var string
+     */
+    private $phone;
+
+    /**
+     * @var string
+     */
+    private $skype;
+
+    /**
+     * @var int
+     */
+    private $user_id;
     
     public function __construct(array $csvRow)
     {
-        $this->csvRow = $csvRow;
-        $this->csvRow[] = random_int(1, 20);
+        $this->address = $csvRow[0];
+        $this->birthday = $csvRow[1];
+        $this->about = $csvRow[2];
+        $this->phone = $csvRow[3];
+        $this->skype = $csvRow[4];
+        $this->user_id = random_int(1, 20);
     }
 
-    public static function getTableName() : string 
+    public function getTableName() : string 
     {
-        return self::$profile;
+        return 'profile';
     }
     
     public static function getColumnsCSV() : array
     {
-        return [self::$address, self::$bd, self::$about, self::$phone, self::$skype];
+        return ['address', 'bd', 'about', 'phone', 'skype'];
     }
 
-    public static function getColumnsSQL() : string
+    public function getColumnsSQL() : array
     {
-        return sprintf('%s, %s, %s, %s, %s, %s', self::$address, self::$birthday, self::$about, self::$phone, self::$skype, self::$user_id);
+        return ['address', 'birthday', 'about', 'phone', 'skype', 'user_id'];
     }
 
-    public function getValues() : string
+    public function getValues() : array
     {
-        return implode(', ', array_map(function($item) {return '"' . htmlspecialchars($item) . '"';}, $this->csvRow));
+        return [
+            'address' => $this->address,
+            'birthday' => $this->birthday,
+            'about' => $this->about,
+            'phone' => $this->phone,
+            'skype' => $this->skype,
+            'user_id' => $this->user_id
+        ];
     }
 }

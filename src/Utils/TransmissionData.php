@@ -27,12 +27,10 @@ class TransmissionData
             throw new FileFormatException("Файл для чтения не содержит необходимых столбцов");
         }
 
-
-        $template = 'INSERT INTO %s (%s) VALUES (%s);%s';
         while (!$this->fileRead->eof()) {
             $nextData = $this->fileRead->fgetcsv();
-            $nextData = new $this->tableModel($nextData);
-            $this->fileWrite->fwrite(sprintf($template, $nextData::getTableName(), $nextData::getColumnsSQL(), $nextData->getValues(), PHP_EOL));
+            $nextRow = new $this->tableModel($nextData);
+            $this->fileWrite->fwrite($nextRow->getSQLRow());
         }
     }
 }
