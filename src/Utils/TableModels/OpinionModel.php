@@ -5,25 +5,39 @@ use TaskForce\Utils\TableModels\AbstractModel;
 
 class OpinionModel extends AbstractModel
 {
+    private static $opinion = 'opinion';
+    private static $dt_add = 'dt_add';
+    private static $rate = 'rate';
+    private static $description = 'description';
+    private static $created_at = 'created_at';
+    private static $author_id = 'author_id';
+    private static $task_id = 'task_id';
+    private $csvRow;
+    
+    public function __construct(array $csvRow)
+    {
+        $this->csvRow = $csvRow;
+        $this->csvRow[] = random_int(1, 20);
+        $this->csvRow[] = random_int(1, 10);
+    }
+
     public static function getTableName() : string 
     {
-        return 'opinion';
+        return self::$opinion;
     }
     
     public static function getColumnsCSV() : array
     {
-        return ['dt_add', 'rate', 'description'];
+        return [self::$dt_add, self::$rate, self::$description];
     }
 
-    public static function getColumnsSQL() : array
+    public static function getColumnsSQL() : string
     {
-        return ['created_at', 'rate', 'description', 'author_id', 'task_id'];
+        return sprintf('%s, %s, %s, %s, %s', self::$created_at, self::$rate, self::$description, self::$author_id, self::$task_id);
     }
 
-    public static function getValues(array $csvRow) : array
+    public function getValues() : string
     {
-        $csvRow[] = random_int(1, 20);
-        $csvRow[] = random_int(1, 10);
-        return $csvRow;
+        return implode(', ', array_map(function($item) {return '"' . htmlspecialchars($item) . '"';}, $this->csvRow));
     }
 }

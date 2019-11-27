@@ -5,23 +5,33 @@ use TaskForce\Utils\TableModels\AbstractModel;
 
 class CategoryModel extends AbstractModel
 {
+    private static $category = 'category';
+    private static $name = 'name';
+    private static $icon = 'icon';
+    private $csvRow;
+    
+    public function __construct(array $csvRow)
+    {
+        $this->csvRow = $csvRow;
+    }
+    
     public static function getTableName() : string 
     {
-        return 'category';
+        return self::$category;
     }
     
     public static function getColumnsCSV() : array
     {
-        return ['name', 'icon'];
+        return [self::$name, self::$icon];
     }
 
-    public static function getColumnsSQL() : array
+    public static function getColumnsSQL() : string
     {
-        return ['name', 'icon'];
+        return self::$name . ', ' . self::$icon;
     }
 
-    public static function getValues(array $csvRow) : array
+    public function getValues() : string
     {
-        return $csvRow;
+        return implode(', ', array_map(function($item) {return '"' . htmlspecialchars($item) . '"';}, $this->csvRow));
     }
 }
