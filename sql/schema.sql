@@ -3,103 +3,101 @@ DEFAULT CHARACTER SET utf8
 DEFAULT COLLATE utf8_general_ci;
 USE task_forse_wel80;
 
-CREATE TABLE users (
+CREATE TABLE city (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    date_registration DATETIME NOT NULL DEFAULT NOW(),
+    city CHAR(100) NOT NULL,
+    latitude FLOAT NOT NULL,
+    longitude FLOAT NOT NULL
+);
+
+CREATE TABLE category (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name CHAR(50) NOT NULL UNIQUE,
+    icon CHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE specialization (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name CHAR(100) NOT NULL UNIQUE,
+    icon CHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     email CHAR(100) NOT NULL UNIQUE,
-    hash CHAR(64) NOT NULL,
     name CHAR(100) NOT NULL,
-    avatar CHAR(100),
-    birthday DATETIME,
-    description TEXT,
+    password CHAR(64) NOT NULL,
+    date_registration CHAR(15) NOT NULL,
     city_id INT NOT NULL,
-    district CHAR(100),
+    FOREIGN KEY (city_id)  REFERENCES city (id)
+);
+
+CREATE TABLE user_specialization (
+    user_id INT NOT NULL,
+    specialization_id INT NOT NULL,
+    FOREIGN KEY (user_id)  REFERENCES user (id),
+    FOREIGN KEY (specialization_id)  REFERENCES specialization (id)
+);
+
+CREATE TABLE profile (
+    user_id INT NOT NULL UNIQUE,
+    avatar CHAR(100),
+    address CHAR(100),
+    birthday CHAR(15),
+    about TEXT,
     phone CHAR(30),
     skype CHAR(100),
     messenger CHAR(100),
     contacts_status TINYINT NOT NULL DEFAULT 0, -- Кому показывать контакты пользователя (Всем - 0, Только заказчику - 1)
     notification_new_message TINYINT NOT NULL DEFAULT 1, -- Уведомлять - 1, Не уведомлять - 0
     notification_new_event_task TINYINT NOT NULL DEFAULT 1, -- Уведомлять - 1, Не уведомлять - 0
-    notification_new_review TINYINT NOT NULL DEFAULT 1 -- Уведомлять - 1, Не уведомлять - 0
+    notification_new_review TINYINT NOT NULL DEFAULT 1, -- Уведомлять - 1, Не уведомлять - 0
+    FOREIGN KEY (user_id)  REFERENCES user (id)
 );
 
-CREATE TABLE tasks (
+CREATE TABLE task (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    updated_at DATETIME,
-    name CHAR(100) NOT NULL, -- Краткое описание задания
-    description TEXT NOT NULL,
+    created_at CHAR(15) NOT NULL,
+    updated_at CHAR(15),
     category_id INT NOT NULL,
-    location CHAR(15), -- Место проведения работ
-    city_id INT,
+    description TEXT NOT NULL,
+    expire CHAR(15),
+    name CHAR(100) NOT NULL, -- Краткое описание задания
+    address CHAR(100),
     budget INT,
-    term_execution DATETIME,
+    latitude FLOAT NOT NULL,
+    longitude FLOAT NOT NULL,
     author_id INT NOT NULL,
-    status CHAR(15) NOT NULL,
-    executor_id INT
+    executor_id INT,
+    FOREIGN KEY (author_id)  REFERENCES user (id),
+    FOREIGN KEY (executor_id)  REFERENCES user (id)
 );
 
-CREATE TABLE cities (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name CHAR(100) NOT NULL UNIQUE
-);
-
-CREATE TABLE categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name CHAR(15) NOT NULL UNIQUE,
-    alias CHAR(15) NOT NULL UNIQUE
-);
-
-CREATE TABLE specializations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name CHAR(15) NOT NULL UNIQUE,
-    alias CHAR(15) NOT NULL UNIQUE
-);
-
-CREATE TABLE users_specializations (
-    user_id INT NOT NULL,
-    spec_id INT NOT NULL -- Первичный ключ специализации
-);
-
-CREATE TABLE file_list (
+CREATE TABLE file (
     id INT AUTO_INCREMENT PRIMARY KEY,
     path CHAR(100) NOT NULL,
-    task_id INT NOT NULL
+    task_id INT NOT NULL,
+    FOREIGN KEY (task_id)  REFERENCES task (id)
 );
 
-CREATE TABLE reactions (
+CREATE TABLE opinion (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    message TEXT,
-    servise_cost INT,
+    created_at CHAR(15) NOT NULL,
+    rate INT,
+    description TEXT,
     author_id INT NOT NULL,
-    task_id INT NOT NULL
+    task_id INT NOT NULL,
+    FOREIGN KEY (author_id)  REFERENCES user (id),
+    FOREIGN KEY (task_id)  REFERENCES task (id)
 );
 
-CREATE TABLE messages (
+CREATE TABLE reply (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    message TEXT NOT NULL,
+    created_at CHAR(15) NOT NULL,
+    rate INT,
+    description TEXT,
     author_id INT NOT NULL,
-    recipient_id INT NOT NULL
-);
-
-CREATE TABLE reviews (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    task_is_done TINYINT NOT NULL, -- Cтатус выполненности задания (да - 1 или нет - 0)
-    message TEXT,
-    evaluation TINYINT,
-    author_id INT NOT NULL,
-    executor_id INT NOT NULL,
-    task_id INT NOT NULL
-);
-
-CREATE TABLE events (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at DATETIME NOT NULL DEFAULT NOW(),
-    event CHAR(15) NOT NULL,
-    author_id INT NOT NULL,
-    recipient_id INT NOT NULL,
-    task_id INT NOT NULL
+    task_id INT NOT NULL,
+    FOREIGN KEY (author_id)  REFERENCES user (id),
+    FOREIGN KEY (task_id)  REFERENCES task (id)
 );

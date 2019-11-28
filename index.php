@@ -1,65 +1,161 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-use TaskForce\Tasks\Status;
+require_once __DIR__.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+use TaskForce\Utils\TransmissionData;
+use TaskForce\Utils\Processings\FileRead;
+use TaskForce\Utils\Processings\FileWrite;
+use TaskForce\Utils\TableModels\CategoryModel;
+use TaskForce\Utils\TableModels\CityModel;
+use TaskForce\Utils\TableModels\OpinionModel;
+use TaskForce\Utils\TableModels\ProfileModel;
+use TaskForce\Utils\TableModels\ReplyModel;
+use TaskForce\Utils\TableModels\TaskModel;
+use TaskForce\Utils\TableModels\UserModel;
+use TaskForce\Tasks\Exceptions\FileFormatException;
+use TaskForce\Tasks\Exceptions\SourceFileException;
 
-$followingStatus = 'При выборе действия "%1s" задание перейдёт в статус "%2s"';
-foreach (Status::getActions() as $action) {
-    assert(in_array(Status::getFollowingStatus($action), Status::getStatuses()));
-    printf($followingStatus, $action::getName(), Status::getFollowingStatus($action));
-    print '<br>';
+
+
+
+$outputFilePath = sprintf('%s%sdata%scategories.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$inputFilePath = sprintf('%s%ssql%scategories.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$fileWrite = new FileWrite($inputFilePath);
+$tableModel = CategoryModel::class;
+$transmission = new TransmissionData($fileRead, $fileWrite, $tableModel);
+try {
+    $transmission->transmission();
+    printf('Файл "%s" записан'.PHP_EOL, $inputFilePath); 
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
 }
 
+
 print '<br>';
-$customerId = 1;
-$executorId = 2;
-$termExecution = '2020-01-31';
 
-$userId = 1;
-$userRole = 'customer';
-$currentStatus = 'new';
-$statusOne = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(in_array(Status::ACTION_CANCEL, $statusOne->getAvailableActions($userId, $userRole)));
-assert(in_array(Status::ACTION_WORK, $statusOne->getAvailableActions($userId, $userRole)));
-print 'Статус задания - Новое, Пользователь - автор задания, Статус пользователя - Заказчик, <br> 
-Доступные действия: ' . implode(', ', $statusOne->getAvailableActions($userId, $userRole));
 
-print '<br><br>';
+$outputFilePath = sprintf('%s%sdata%scities.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$inputFilePath = sprintf('%s%ssql%scities.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$fileWrite = new FileWrite($inputFilePath);
+$tableModel = CityModel::class;
+$transmission = new TransmissionData($fileRead, $fileWrite, $tableModel);
+try {
+    $transmission->transmission();
+    printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
 
-$userId = 3;
-$userRole = 'customer';
-$currentStatus = 'new';
-$statusTwo = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(empty($statusTwo->getAvailableActions($userId, $userRole)));
-print 'Статус задания - Новое, Пользователь - не автор задания, Статус пользователя - Заказчик, <br> 
-Доступные действия: ' . implode(', ', $statusTwo->getAvailableActions($userId, $userRole));
 
-print '<br><br>';
+print '<br>';
 
-$userId = 2;
-$userRole = 'executor';
-$currentStatus = 'new';
-$statusThree = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(in_array(Status::ACTION_OFFER, $statusFour->getAvailableActions($userId, $userRole)));
-print 'Статус задания - Новое, Пользователь - не автор задания, Статус пользователя - Исполнитель, <br> 
-Доступные действия: ' . implode(', ', $statusThree->getAvailableActions($userId, $userRole));
 
-print '<br><br>';
+$outputFilePath = sprintf('%s%sdata%sopinions.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$inputFilePath = sprintf('%s%ssql%sopinions.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$fileWrite = new FileWrite($inputFilePath);
+$tableModel = OpinionModel::class;
+$transmission = new TransmissionData($fileRead, $fileWrite, $tableModel);
+try {
+    $transmission->transmission();
+    printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
 
-$userId = 1;
-$userRole = 'customer';
-$currentStatus = 'work';
-$statusFour = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(in_array(Status::ACTION_ACCEPT, $statusFour->getAvailableActions($userId, $userRole)));
-print 'Статус задания - На исполнении, Пользователь - автор задания, Статус пользователя - Заказчик, <br> 
-Доступные действия: ' . implode(', ', $statusFour->getAvailableActions($userId, $userRole));
 
-print '<br><br>';
+print '<br>';
 
-$userId = 2;
-$userRole = 'executor';
-$currentStatus = 'work';
-$statusFive = new Status($customerId, $executorId, $termExecution, $currentStatus);
-assert(in_array(Status::ACTION_REFUSE, $statusFive->getAvailableActions($userId, $userRole)));
-print 'Статус задания - На исполнении, Пользователь - исполнитель, Статус пользователя - Исполнитель, <br> 
-Доступные действия: ' . implode(', ', $statusFive->getAvailableActions($userId, $userRole));
+
+$outputFilePath = sprintf('%s%sdata%sprofiles.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$inputFilePath = sprintf('%s%ssql%sprofiles.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$fileWrite = new FileWrite($inputFilePath);
+$tableModel = ProfileModel::class;
+$transmission = new TransmissionData($fileRead, $fileWrite, $tableModel);
+try {
+    $transmission->transmission();
+    printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
+
+
+print '<br>';
+
+
+$outputFilePath = sprintf('%s%sdata%sreplies.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$inputFilePath = sprintf('%s%ssql%sreplies.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$fileWrite = new FileWrite($inputFilePath);
+$tableModel = ReplyModel::class;
+$transmission = new TransmissionData($fileRead, $fileWrite, $tableModel);
+try {
+    $transmission->transmission();
+    printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
+
+
+print '<br>';
+
+
+$outputFilePath = sprintf('%s%sdata%stasks.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$inputFilePath = sprintf('%s%ssql%stasks.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$fileWrite = new FileWrite($inputFilePath);
+$tableModel = TaskModel::class;
+$transmission = new TransmissionData($fileRead, $fileWrite, $tableModel);
+try {
+    $transmission->transmission();
+    printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
+
+
+print '<br>';
+
+
+$outputFilePath = sprintf('%s%sdata%susers.csv', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$inputFilePath = sprintf('%s%ssql%susers.sql', __DIR__, DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR);
+$fileRead = new FileRead($outputFilePath);
+$fileWrite = new FileWrite($inputFilePath);
+$tableModel = UserModel::class;
+$transmission = new TransmissionData($fileRead, $fileWrite, $tableModel);
+try {
+    $transmission->transmission();
+    printf('Файл "%s" записан'.PHP_EOL, $inputFilePath);
+}
+catch (SourceFileException $e) {
+    print $e->getMessage();
+}
+catch (FileFormatException $e) {
+    print $e->getMessage();
+}
