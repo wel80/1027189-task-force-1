@@ -1,7 +1,7 @@
-CREATE DATABASE task_forse_wel80
+CREATE DATABASE yii2advanced
 DEFAULT CHARACTER SET utf8
 DEFAULT COLLATE utf8_general_ci;
-USE task_forse_wel80;
+USE yii2advanced;
 
 CREATE TABLE city (
     id INT AUTO_INCREMENT PRIMARY KEY,
