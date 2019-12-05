@@ -1,4 +1,4 @@
-CREATE DATABASE yii2advanced
+CREATE DATABASE yii_taskforce
 DEFAULT CHARACTER SET utf8
 DEFAULT COLLATE utf8_general_ci;
 USE yii2advanced;
