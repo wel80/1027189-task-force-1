@@ -26,6 +26,7 @@ use Yii;
  * @property Reply[] $replies
  * @property User $author
  * @property User $executor
+ * @property Category $category
  */
 class Task extends \yii\db\ActiveRecord
 {
@@ -51,6 +52,7 @@ class Task extends \yii\db\ActiveRecord
             [['name', 'address'], 'string', 'max' => 100],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['executor_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
 
@@ -114,5 +116,13 @@ class Task extends \yii\db\ActiveRecord
     public function getExecutor()
     {
         return $this->hasOne(User::className(), ['id' => 'executor_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 }

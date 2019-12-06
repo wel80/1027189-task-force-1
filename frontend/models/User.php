@@ -90,7 +90,7 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getCreatedTasks()
     {
         return $this->hasMany(Task::className(), ['author_id' => 'id']);
     }
@@ -98,7 +98,7 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks0()
+    public function getRepliedTasks()
     {
         return $this->hasMany(Task::className(), ['executor_id' => 'id']);
     }

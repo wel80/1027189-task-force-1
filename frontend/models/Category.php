@@ -10,6 +10,8 @@ use Yii;
  * @property int $id
  * @property string $name
  * @property string $icon
+ *
+ * @property Task[] $tasks
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -45,5 +47,13 @@ class Category extends \yii\db\ActiveRecord
             'name' => 'Name',
             'icon' => 'Icon',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTasks()
+    {
+        return $this->hasMany(Task::className(), ['category_id' => 'id']);
     }
 }

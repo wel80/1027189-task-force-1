@@ -13,7 +13,7 @@ use Yii;
  * @property User $user
  * @property Specialization $specialization
  */
-class User_specialization extends \yii\db\ActiveRecord
+class UserSpecialization extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}

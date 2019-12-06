@@ -1,7 +1,7 @@
 CREATE DATABASE yii_taskforce
 DEFAULT CHARACTER SET utf8
 DEFAULT COLLATE utf8_general_ci;
-USE yii2advanced;
+USE yii_taskforce;
 
 CREATE TABLE city (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -70,7 +70,8 @@ CREATE TABLE task (
     author_id INT NOT NULL,
     executor_id INT,
     FOREIGN KEY (author_id)  REFERENCES user (id),
-    FOREIGN KEY (executor_id)  REFERENCES user (id)
+    FOREIGN KEY (executor_id)  REFERENCES user (id),
+    FOREIGN KEY (category_id)  REFERENCES category (id)
 );
 
 CREATE TABLE file (
