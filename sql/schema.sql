@@ -27,7 +27,7 @@ CREATE TABLE user (
     email CHAR(100) NOT NULL UNIQUE,
     name CHAR(100) NOT NULL,
     password CHAR(64) NOT NULL,
-    date_registration CHAR(15) NOT NULL,
+    date_registration DATETIME NOT NULL DEFAULT NOW(),
     city_id INT NOT NULL,
     FOREIGN KEY (city_id)  REFERENCES city (id)
 );
@@ -43,7 +43,7 @@ CREATE TABLE profile (
     user_id INT NOT NULL UNIQUE,
     avatar CHAR(100),
     address CHAR(100),
-    birthday CHAR(15),
+    birthday DATETIME,
     about TEXT,
     phone CHAR(30),
     skype CHAR(100),
@@ -57,11 +57,11 @@ CREATE TABLE profile (
 
 CREATE TABLE task (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at CHAR(15) NOT NULL,
-    updated_at CHAR(15),
+    created_at DATETIME NOT NULL DEFAULT NOW(),
+    updated_at DATETIME,
     category_id INT NOT NULL,
     description TEXT NOT NULL,
-    expire CHAR(15),
+    expire DATETIME NOT NULL,
     name CHAR(100) NOT NULL, -- Краткое описание задания
     address CHAR(100),
     budget INT,
@@ -83,7 +83,7 @@ CREATE TABLE file (
 
 CREATE TABLE opinion (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at CHAR(15) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT NOW(),
     rate INT,
     description TEXT,
     author_id INT NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE opinion (
 
 CREATE TABLE reply (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    created_at CHAR(15) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT NOW(),
     rate INT,
     description TEXT,
     author_id INT NOT NULL,
