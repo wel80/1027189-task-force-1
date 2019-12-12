@@ -2,6 +2,7 @@
 
 namespace TaskForce\Utils\TableModels;
 use TaskForce\Utils\TableModels\AbstractModel;
+use TaskForce\Utils\Processings\NextNumber;
 
 class ProfileModel extends AbstractModel
 {
@@ -42,7 +43,7 @@ class ProfileModel extends AbstractModel
         $this->about = $csvRow[2];
         $this->phone = $csvRow[3];
         $this->skype = $csvRow[4];
-        $this->user_id = random_int(1, 20);
+        $this->user_id = NextNumber::getNumber();
     }
 
     public function getTableName() : string 

@@ -1,22 +1,19 @@
 <?php
 use yii\helpers\Html;
+
+/**
+ * @var yii\web\View $this
+ * @var \frontend\models\Task $tasks
+ */
+
+$this->title = 'Новые задания';
 ?>
             <section class="new-task">
                 <div class="new-task__wrapper">
                     <h1>Новые задания</h1>
-                    <?php foreach($tasks as $task) { ?>
-                    <div class="new-task__card">
-                        <div class="new-task__title">
-                            <a href="#" class="link-regular"><h2><?=Html::encode($task['name']); ?></h2></a>
-                            <a  class="new-task__type link-regular" href="#"><p><?=$task['category']; ?></p></a>
-                        </div>
-                        <div class="new-task__icon new-task__icon--<?=$task['icon']; ?>"></div>
-                        <p class="new-task_description"><?=Html::encode($task['description']); ?></p>
-                        <b class="new-task__price new-task__price--<?=$task['icon']; ?>"><?=Html::encode($task['budget']); ?><b> ₽</b></b>
-                        <p class="new-task__place">Санкт-Петербург, Центральный район</p>
-                        <span class="new-task__time"><?=$task['created_at']; ?></span>
-                    </div>
-                    <?php } ?>
+                    <?php foreach($tasks as $task) {
+                        print $this->render('singleTask', ['task' => $task]);
+                    } ?>
                 </div>
                 <div class="new-task__pagination">
                     <ul class="new-task__pagination-list">
