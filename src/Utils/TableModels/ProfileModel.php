@@ -38,12 +38,12 @@ class ProfileModel extends AbstractModel
     
     public function __construct(array $csvRow)
     {
+        $this->user_id = NextNumber::getNumber();
         $this->address = $csvRow[0];
         $this->birthday = $csvRow[1];
         $this->about = $csvRow[2];
         $this->phone = $csvRow[3];
         $this->skype = $csvRow[4];
-        $this->user_id = NextNumber::getNumber();
     }
 
     public function getTableName() : string 
@@ -58,18 +58,18 @@ class ProfileModel extends AbstractModel
 
     public function getColumnsSQL() : array
     {
-        return ['address', 'birthday', 'about', 'phone', 'skype', 'user_id'];
+        return ['user_id', 'address', 'birthday', 'about', 'phone', 'skype'];
     }
 
     public function getValues() : array
     {
         return [
+            'user_id' => $this->user_id,
             'address' => $this->address,
             'birthday' => $this->birthday,
             'about' => $this->about,
             'phone' => $this->phone,
-            'skype' => $this->skype,
-            'user_id' => $this->user_id
+            'skype' => $this->skype
         ];
     }
 }

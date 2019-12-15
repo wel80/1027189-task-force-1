@@ -40,9 +40,9 @@ class Profile extends \yii\db\ActiveRecord
         return [
             [['user_id'], 'required'],
             [['user_id', 'contacts_status', 'notification_new_message', 'notification_new_event_task', 'notification_new_review'], 'integer'],
+            [['birthday'], 'safe'],
             [['about'], 'string'],
             [['avatar', 'address', 'skype', 'messenger'], 'string', 'max' => 100],
-            [['birthday'], 'string', 'max' => 15],
             [['phone'], 'string', 'max' => 30],
             [['user_id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],

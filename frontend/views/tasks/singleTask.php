@@ -3,13 +3,13 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var \frontend\views\tasks\index $task
+ * @var \frontend\models\Task $task
  */
 ?>
                     <div class="new-task__card">
                         <div class="new-task__title">
                             <a href="#" class="link-regular"><h2><?=Html::encode($task->name); ?></h2></a>
-                            <a  class="new-task__type link-regular" href="#"><p><?=$task->category->name; ?></p></a>
+                            <a  class="new-task__type link-regular" href="#"><p><?=Html::encode($task->category->name); ?></p></a>
                         </div>
                         <div class="new-task__icon new-task__icon--<?=$task->category->icon; ?>"></div>
                         <p class="new-task_description"><?=Html::encode($task->description); ?></p>

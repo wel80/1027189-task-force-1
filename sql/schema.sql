@@ -60,6 +60,7 @@ CREATE TABLE task (
     created_at DATETIME NOT NULL DEFAULT NOW(),
     updated_at DATETIME,
     category_id INT NOT NULL,
+    status CHAR(10) NOT NULL,
     description TEXT NOT NULL,
     expire DATETIME NOT NULL,
     name CHAR(100) NOT NULL, -- Краткое описание задания

@@ -3,7 +3,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var \frontend\models\Task $tasks
+ * @var \frontend\models\Task[] $tasks
  */
 
 $this->title = 'Новые задания';

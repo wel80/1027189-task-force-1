@@ -18,6 +18,11 @@ class TaskModel extends AbstractModel
     /**
      * @var string
      */
+    private $status;
+
+    /**
+     * @var string
+     */
     private $description;
 
     /**
@@ -59,6 +64,7 @@ class TaskModel extends AbstractModel
     {
         $this->created_at = $csvRow[0];
         $this->category_id = $csvRow[1];
+        $this->status = 'new';
         $this->description = $csvRow[2];
         $this->expire = $csvRow[3];
         $this->name = $csvRow[4];
@@ -81,7 +87,7 @@ class TaskModel extends AbstractModel
 
     public function getColumnsSQL() : array
     {
-        return ['created_at', 'category_id', 'description', 'expire', 'name', 'address', 'budget', 'latitude', 'longitude', 'author_id'];
+        return ['created_at', 'category_id', 'status', 'description', 'expire', 'name', 'address', 'budget', 'latitude', 'longitude', 'author_id'];
     }
 
     public function getValues() : array
@@ -89,6 +95,7 @@ class TaskModel extends AbstractModel
         return [
             'created_at' => $this->created_at,
             'category_id' => $this->category_id,
+            'status' => $this->status,
             'description' => $this->description,
             'expire' => $this->expire,
             'name' => $this->name,

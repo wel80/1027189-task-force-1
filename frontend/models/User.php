@@ -38,11 +38,11 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['email', 'name', 'password', 'date_registration', 'city_id'], 'required'],
+            [['email', 'name', 'password', 'city_id'], 'required'],
+            [['date_registration'], 'safe'],
             [['city_id'], 'integer'],
             [['email', 'name'], 'string', 'max' => 100],
             [['password'], 'string', 'max' => 64],
-            [['date_registration'], 'string', 'max' => 15],
             [['email'], 'unique'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => City::className(), 'targetAttribute' => ['city_id' => 'id']],
         ];
