@@ -42,6 +42,9 @@ return [
             'showScriptName' => false,
             //'rules' => [],
         ],
+        'formatter' => [
+            'language' => 'ru-RU',
+        ],
     ],
     'params' => $params,
 ];

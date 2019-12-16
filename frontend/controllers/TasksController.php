@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use yii\web\Controller;
 use frontend\models\Task;
+use TaskForce\Tasks\Status;
 
 class TasksController extends Controller
 {
@@ -10,7 +11,7 @@ class TasksController extends Controller
     {
         $tasks = Task::find()
         ->with('category')
-        ->where(['status' => 'new'])
+        ->where(['status' => Status::STATUS_NEW])
         ->orderBy(['created_at' => SORT_DESC])
         ->all();
 
