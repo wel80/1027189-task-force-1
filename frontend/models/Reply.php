@@ -33,10 +33,10 @@ class Reply extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_at', 'author_id', 'task_id'], 'required'],
+            [['created_at'], 'safe'],
             [['rate', 'author_id', 'task_id'], 'integer'],
             [['description'], 'string'],
-            [['created_at'], 'string', 'max' => 15],
+            [['author_id', 'task_id'], 'required'],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
             [['task_id'], 'exist', 'skipOnError' => true, 'targetClass' => Task::className(), 'targetAttribute' => ['task_id' => 'id']],
         ];
