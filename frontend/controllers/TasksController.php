@@ -1,8 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use Yii;
 use yii\web\Controller;
 use frontend\models\Task;
+use frontend\models\Category;
+use frontend\models\TasksFilterForm;
 use TaskForce\Tasks\Status;
 
 class TasksController extends Controller
@@ -15,6 +18,18 @@ class TasksController extends Controller
         ->orderBy(['created_at' => SORT_DESC])
         ->all();
 
-        return $this->render('index', ['tasks' => $tasks]);
+        $model = new TasksFilterForm();
+
+        $categoryAll = Category::find()->all();
+        $categories = [];
+        foreach($categoryAll as $category) {
+            $categories[] = $category->name;
+        }
+
+        return $this->render('index', [
+        'tasks' => $tasks, 
+        'model' => $model, 
+        'categories' => $categories
+        ]);
     }
 }

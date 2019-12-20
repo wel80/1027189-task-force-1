@@ -1,5 +1,8 @@
 <?php
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\widgets\ActiveField;
+use frontend\models\TasksFilterForm;
 
 /**
  * @var yii\web\View $this
@@ -28,7 +31,33 @@ $this->title = 'Новые задания';
             </section>
             <section  class="search-task">
                 <div class="search-task__wrapper">
-                    <form class="search-task__form" name="test" method="post" action="#">
+                    <?php ActiveForm::begin(['id' => 'tasks-filter-form', 'options' => ['class' => 'search-task__form']]); ?>
+                        <fieldset class="search-task__categories">
+                            <?php $field = new ActiveField(['model' => $model, 'attribute' => 'category']);
+                            print $field->checkboxList($categories); ?>
+                        </fieldset>
+                        <fieldset class="search-task__categories">
+                            <?php $field = new ActiveField(['model' => $model, 'attribute' => 'additionally']);
+                            print $field->checkboxList(['Без исполнителя', 'Удалённая работа']); ?>
+                        </fieldset>
+                        <?php 
+                        $field = new ActiveField(['model' => $model, 
+                        'attribute' => 'period',
+                        'labelOptions' => ['class' => 'search-task__name'],
+                        'inputOptions' => ['class' => 'multiple-select input']
+                        ]);
+                        print $field->dropdownList(['day' => 'За день', 'week' => 'За неделю', 'month' => 'За месяц']);
+                        $field = new ActiveField(['model' => $model, 
+                        'attribute' => 'search',
+                        'labelOptions' => ['class' => "search-task__name"],
+                        'inputOptions' => ['class' => 'input-middle input']
+                        ]);
+                        print $field->textInput();
+                        print Html::submitButton('Искать', ['class' => 'button']);
+                        ?>
+
+
+                        <!--
                         <fieldset class="search-task__categories">
                             <legend>Категории</legend>
                             <input class="visually-hidden checkbox__input" id="1" type="checkbox" name="" value="" checked>
@@ -46,18 +75,19 @@ $this->title = 'Новые задания';
                             <legend>Дополнительно</legend>
                             <input class="visually-hidden checkbox__input" id="6" type="checkbox" name="" value="">
                             <label for="6">Без исполнителя </label>
-                           <input class="visually-hidden checkbox__input" id="7" type="checkbox" name="" value="" checked>
+                            <input class="visually-hidden checkbox__input" id="7" type="checkbox" name="" value="" checked>
                             <label for="7">Удаленная работа </label>
                         </fieldset>
-                       <label class="search-task__name" for="8">Период</label>
-                           <select class="multiple-select input" id="8"size="1" name="time[]">
+                        <label class="search-task__name" for="8">Период</label>
+                            <select class="multiple-select input" id="8"size="1" name="time[]">
                             <option value="day">За день</option>
                             <option selected value="week">За неделю</option>
                             <option value="month">За месяц</option>
-                        </select>
+                            </select>
                         <label class="search-task__name" for="9">Поиск по названию</label>
                             <input class="input-middle input" id="9" type="search" name="q" placeholder="">
                         <button class="button" type="submit">Искать</button>
-                    </form>
+                        -->
+                    <?php ActiveForm::end() ?>
                 </div>
             </section>
