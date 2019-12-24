@@ -3,14 +3,15 @@
 namespace frontend\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 use frontend\models\Category;
 
-class TasksFilterForm extends \yii\db\ActiveRecord
+class TasksFilterForm extends \yii\base\Model
 {
     /**
      * @var array
      */
-    public $category;
+    public $categories;
 
     /**
      * @var array
@@ -30,23 +31,24 @@ class TasksFilterForm extends \yii\db\ActiveRecord
     public function attributeLabels() : array
     {
         return [
-            'category' => 'Категории',
+            'categories' => 'Категории',
             'additionally' => 'Дополнительно',
             'period' => 'Период поиска',
             'search' => 'Поиск по названию',
         ];
     }
 
+    public function rules() : array
+    {
+        return [
+            
+        ];
+    }
+
     public function getCategoryList() : array
     {
         $categoriesAll = Category::find()->all();
-        $categoriesIcon = [];
-        $categoriesName = [];
-        foreach($categoriesAll as $category) {
-            $categoriesIcon[] = $category->icon;
-            $categoriesName[] = $category->name;
-        }
-        return array_combine($categoriesIcon, $categoriesName);
+        return ArrayHelper::map($categoriesAll, 'icon', 'name');
     }
 
     public function getAdditionallyList() : array

@@ -34,10 +34,10 @@ $this->title = 'Новые задания';
                         <fieldset class="search-task__categories">
                             <?php $field = new ActiveField([
                                 'model' => $model, 
-                                'attribute' => 'category',
+                                'attribute' => 'categories',
                                 'labelOptions' => ['class' => 'search-task__name']
                             ]);
-                            print $field->checkboxList($model->getCategoryList()); ?>
+                            print $field->CheckboxList($model->getCategoryList()); ?>
                         </fieldset>
                         <fieldset class="search-task__categories">
                             <?php $field = new ActiveField([
