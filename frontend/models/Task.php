@@ -129,53 +129,8 @@ class Task extends \yii\db\ActiveRecord
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function filterByCategories(array $filters)
+    public static function find()
     {
-        if (isset($filters['categories'])) {
-            return $this->andWhere(['category.icon' => $filters['categories']]);
-        }
-        return $this;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function filterByRemoteWork(array $filters)
-    {
-        if (isset($filters['additionally']) && in_array('remoteWork', $filters['additionally'])) {
-            return $this->andWhere([
-                'task.latitude' => NULL,
-                'task.longitude' => NULL
-            ]);
-        }
-        return $this;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function filterByPeriod(array $filters)
-    {
-        if (isset($filters['period'])) {
-            $now = new \DateTime('now');
-            $interval = new \DateInterval($filters['period']);
-            $startDate = $now->sub($interval)->format('Y-m-d H:i:s');
-            return $this->andWhere(['>', 'task.created_at', $startDate]);
-        }
-        return $this;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function filterBySearch(array $filters)
-    {
-        if (isset($filters['search'])) {
-            return $this->andWhere(['like', 'task.name', $filters['search']]);
-        }
-        return $this;
+        return new TasksFilters(get_called_class());
     }
 }

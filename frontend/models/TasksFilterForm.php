@@ -8,6 +8,13 @@ use frontend\models\Category;
 
 class TasksFilterForm extends \yii\base\Model
 {
+    const TYPE_MY_CITY = 'my city';
+    const TYPE_REMOTE_WORK = 'remote work';
+    const PERIOD_ALL_TIME = 'P10Y';
+    const PERIOD_LAST_DAY = 'PT24H';
+    const PERIOD_LAST_WEEK = 'P7D';
+    const PERIOD_LAST_MONTH = 'P30D';
+    
     /**
      * @var array
      */
@@ -33,7 +40,7 @@ class TasksFilterForm extends \yii\base\Model
         return [
             'categories' => 'Категории',
             'additionally' => 'Дополнительно',
-            'period' => 'Период поиска',
+            'period' => 'Период',
             'search' => 'Поиск по названию',
         ];
     }
@@ -41,7 +48,8 @@ class TasksFilterForm extends \yii\base\Model
     public function rules() : array
     {
         return [
-            
+            [['period', 'search'], 'string'],
+            ['period', 'in', 'range' => ['allTime', 'day', 'week', 'month']]
         ];
     }
 
@@ -54,18 +62,18 @@ class TasksFilterForm extends \yii\base\Model
     public function getAdditionallyList() : array
     {
         return [
-            'myCity' => 'Мой город', 
-            'remoteWork' => 'Удалённая работа'
+            self::TYPE_MY_CITY => 'Мой город', 
+            self::TYPE_REMOTE_WORK => 'Удалённая работа'
         ];
     }
 
     public function getPeriodList() : array
     {
         return [
-            'P10Y' => 'За всё время',
-            'PT24H' => 'За день', 
-            'P7D' => 'За неделю', 
-            'P30D' => 'За месяц'
+            'allTime' => 'За всё время',
+            'day' => 'За день', 
+            'week' => 'За неделю', 
+            'month' => 'За месяц'
         ];
     }
 }

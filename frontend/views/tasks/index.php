@@ -30,42 +30,71 @@ $this->title = 'Новые задания';
             </section>
             <section  class="search-task">
                 <div class="search-task__wrapper">
-                    <?php ActiveForm::begin(['id' => 'tasks-filter-form', 'options' => ['class' => 'search-task__form']]); ?>
+                    <?php $form = ActiveForm::begin(['id' => 'tasks-filter-form', 'options' => ['class' => 'search-task__form']]); ?>
                         <fieldset class="search-task__categories">
+                            <legend>Категории</legend>
                             <?php $field = new ActiveField([
+                                'form' => $form,
                                 'model' => $model, 
-                                'attribute' => 'categories',
-                                'labelOptions' => ['class' => 'search-task__name']
+                                'attribute' => 'categories[]',
+                                'template' => "{input}",
+                                'options' => ['tag' => false]
                             ]);
-                            print $field->CheckboxList($model->getCategoryList()); ?>
+                            print $field->checkboxList($model->getCategoryList(),
+                            ['item' => function($index, $label, $name, $checked, $value) {
+                                return 
+                                '<input class = "visually-hidden checkbox__input" id = "C'.$index.'" 
+                                type = "checkbox" name = "'.$name.'" value = "'.$value.'" '.$checked.'>
+                                <label for = "C'.$index.'">'. $label .'</label>';
+                            }]);?>
                         </fieldset>
                         <fieldset class="search-task__categories">
+                            <legend>Дополнительно</legend>
                             <?php $field = new ActiveField([
+                                'form' => $form,
                                 'model' => $model, 
-                                'attribute' => 'additionally',
-                                'labelOptions' => ['class' => 'search-task__name']
+                                'attribute' => 'additionally[]',
+                                'template' => "{input}",
+                                'options' => ['tag' => false]
                             ]);
-                            print $field->checkboxList($model->getAdditionallyList()); ?>
+                            print $field->checkboxList($model->getAdditionallyList(),
+                            ['item' => function($index, $label, $name, $checked, $value) {
+                                return
+                                '<input class = "visually-hidden checkbox__input" id = "D'.$index.'" 
+                                type = "checkbox" name = "'.$name.'" value = "'.$value.'" '.$checked.'>
+                                <label for = "D'.$index.'">'. $label .'</label>';
+                            }]);?>
                         </fieldset>
-                        <fieldset class="search-task__categories">
                         <?php 
                             $field = new ActiveField([
+                                'form' => $form,
                                 'model' => $model, 
                                 'attribute' => 'period',
-                                'labelOptions' => ['class' => 'search-task__name']
+                                'template' => "{label}\n{input}",
+                                'options' => ['tag' => false],
+                                'labelOptions' => ['class' => 'search-task__name'],
+                                'inputOptions' => ['class' => 'multiple-select input']
                             ]);
-                            print $field->dropdownList($model->getPeriodList());
+                            print $field->dropDownList(
+                                $model->getPeriodList(),
+                                ['options' => 
+                                    [$filters['period'] => ['selected' => true]]
+                                ]
+                            );
 
                             $field = new ActiveField([
+                                'form' => $form,
                                 'model' => $model, 
                                 'attribute' => 'search',
-                                'labelOptions' => ['class' => 'search-task__name']
+                                'template' => "{label}\n{input}",
+                                'options' => ['tag' => false],
+                                'labelOptions' => ['class' => 'search-task__name'],
+                                'inputOptions' => ['class' => 'input-middle input']
                             ]);
-                            print $field->textInput();
+                            print $field->textInput(['value' => Html::encode($filters['search'])]);
                             
                             print Html::submitButton('Искать', ['class' => 'button']);
                         ?>
-                        </fieldset>
                     <?php ActiveForm::end() ?>
                 </div>
             </section>
