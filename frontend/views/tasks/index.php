@@ -36,34 +36,38 @@ $this->title = 'Новые задания';
                             <?php $field = new ActiveField([
                                 'form' => $form,
                                 'model' => $model, 
-                                'attribute' => 'categories[]',
+                                'attribute' => 'categories',
                                 'template' => "{input}",
                                 'options' => ['tag' => false]
                             ]);
-                            print $field->checkboxList($model->getCategoryList(),
-                            ['item' => function($index, $label, $name, $checked, $value) {
-                                return 
-                                '<input class = "visually-hidden checkbox__input" id = "C'.$index.'" 
-                                type = "checkbox" name = "'.$name.'" value = "'.$value.'" '.$checked.'>
-                                <label for = "C'.$index.'">'. $label .'</label>';
-                            }]);?>
+                            print $field->checkboxList($model->getCategoryList(), [
+                                'item' => function($index, $label, $name, $checked, $value) {
+                                    return
+                                    '<input class = "visually-hidden checkbox__input" id = "C'.$index.'" 
+                                    type = "checkbox" name = "'.$name.'" value = "'.$value.'">
+                                    <label for = "C'.$index.'">'. $label .'</label>';
+                                },
+                                'tag' => false
+                            ]);?>
                         </fieldset>
                         <fieldset class="search-task__categories">
                             <legend>Дополнительно</legend>
                             <?php $field = new ActiveField([
                                 'form' => $form,
                                 'model' => $model, 
-                                'attribute' => 'additionally[]',
+                                'attribute' => 'additionally',
                                 'template' => "{input}",
                                 'options' => ['tag' => false]
                             ]);
-                            print $field->checkboxList($model->getAdditionallyList(),
-                            ['item' => function($index, $label, $name, $checked, $value) {
-                                return
-                                '<input class = "visually-hidden checkbox__input" id = "D'.$index.'" 
-                                type = "checkbox" name = "'.$name.'" value = "'.$value.'" '.$checked.'>
-                                <label for = "D'.$index.'">'. $label .'</label>';
-                            }]);?>
+                            print $field->checkboxList($model->getAdditionallyList(),[
+                                'item' => function($index, $label, $name, $checked, $value) {
+                                    return
+                                    '<input class = "visually-hidden checkbox__input" id = "D'.$index.'" 
+                                    type = "checkbox" name = "'.$name.'" value = "'.$value.'">
+                                    <label for = "D'.$index.'">'. $label .'</label>';
+                                },
+                                'tag' => false
+                            ]);?>
                         </fieldset>
                         <?php 
                             $field = new ActiveField([
@@ -75,12 +79,7 @@ $this->title = 'Новые задания';
                                 'labelOptions' => ['class' => 'search-task__name'],
                                 'inputOptions' => ['class' => 'multiple-select input']
                             ]);
-                            print $field->dropDownList(
-                                $model->getPeriodList(),
-                                ['options' => 
-                                    [$filters['period'] => ['selected' => true]]
-                                ]
-                            );
+                            print $field->dropDownList($model->getPeriodList());
 
                             $field = new ActiveField([
                                 'form' => $form,
@@ -91,7 +90,7 @@ $this->title = 'Новые задания';
                                 'labelOptions' => ['class' => 'search-task__name'],
                                 'inputOptions' => ['class' => 'input-middle input']
                             ]);
-                            print $field->textInput(['value' => Html::encode($filters['search'])]);
+                            print $field->textInput();
                             
                             print Html::submitButton('Искать', ['class' => 'button']);
                         ?>

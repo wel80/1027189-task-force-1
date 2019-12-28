@@ -10,22 +10,23 @@ use TaskForce\Tasks\Status;
 class TasksController extends Controller
 {
     public function actionIndex()
-    {   
-        $request = Yii::$app->request;
-        $filters = $request->post('TasksFilterForm');
+    {
         $model = new TasksFilterForm();
+        if (Yii::$app->request->getIsPost()) {
+            $model->load(Yii::$app->request->post());
+            $model->validate();
+        }
 
         $tasks = Task::find()
         ->joinWith('category')
         ->where(['task.status' => Status::STATUS_NEW])
-        ->getTasksFilters($filters)
+        ->getTasksFilters()
         ->orderBy(['created_at' => SORT_DESC])
         ->all();
 
         return $this->render('index', [
-            'filters' => $filters,
             'model' => $model,
-            'tasks' => $tasks,
+            'tasks' => $tasks
         ]);
     }
 }

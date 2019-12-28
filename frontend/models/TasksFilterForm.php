@@ -48,6 +48,10 @@ class TasksFilterForm extends \yii\base\Model
     public function rules() : array
     {
         return [
+            [['categories', 'additionally', 'period', 'search'], 'safe'],
+            /*[['categories', 'additionally', 'period', 'search'], 'required', 'isEmpty' => function ($value) {
+                return empty($value);
+            }],*/
             [['period', 'search'], 'string'],
             ['period', 'in', 'range' => ['allTime', 'day', 'week', 'month']]
         ];

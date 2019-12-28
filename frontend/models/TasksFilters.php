@@ -10,8 +10,9 @@ class TasksFilters extends \yii\db\ActiveQuery
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTasksFilters($filters)
+    public function getTasksFilters()
     {
+        $filters = Yii::$app->request->post('TasksFilterForm');
         if ($filters) {
             return $this
             ->filterByCategories($filters)
