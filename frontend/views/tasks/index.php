@@ -42,12 +42,14 @@ $this->title = 'Новые задания';
                             ]);
                             print $field->checkboxList($model->getCategoryList(), [
                                 'item' => function($index, $label, $name, $checked, $value) {
-                                    return
-                                    '<input class = "visually-hidden checkbox__input" id = "C'.$index.'" 
-                                    type = "checkbox" name = "'.$name.'" value = "'.$value.'">
-                                    <label for = "C'.$index.'">'. $label .'</label>';
-                                },
-                                'tag' => false
+                                    $checkbox = Html::checkbox($name, $checked, [
+                                        'class' => "visually-hidden checkbox__input", 
+                                        'id' => 'C'.$index,
+                                        'value' => $value
+                                    ]);
+                                    $checkboxLabel = Html::label($label, 'C'.$index);
+                                    return $checkbox.$checkboxLabel;
+                                }
                             ]);?>
                         </fieldset>
                         <fieldset class="search-task__categories">
@@ -61,12 +63,14 @@ $this->title = 'Новые задания';
                             ]);
                             print $field->checkboxList($model->getAdditionallyList(),[
                                 'item' => function($index, $label, $name, $checked, $value) {
-                                    return
-                                    '<input class = "visually-hidden checkbox__input" id = "D'.$index.'" 
-                                    type = "checkbox" name = "'.$name.'" value = "'.$value.'">
-                                    <label for = "D'.$index.'">'. $label .'</label>';
-                                },
-                                'tag' => false
+                                    $checkbox = Html::checkbox($name, $checked, [
+                                        'class' => "visually-hidden checkbox__input", 
+                                        'id' => 'A'.$index,
+                                        'value' => $value
+                                    ]);
+                                    $checkboxLabel = Html::label($label, 'A'.$index);
+                                    return $checkbox.$checkboxLabel;
+                                }
                             ]);?>
                         </fieldset>
                         <?php 
