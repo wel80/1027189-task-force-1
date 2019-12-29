@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\base\Model;
 use frontend\models\TasksFilterForm;
 
 class TasksFilters extends \yii\db\ActiveQuery
@@ -10,26 +11,22 @@ class TasksFilters extends \yii\db\ActiveQuery
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTasksFilters()
+    public function getTasksFilters(Model $model)
     {
-        $filters = Yii::$app->request->post('TasksFilterForm');
-        if ($filters) {
-            return $this
-            ->filterByCategories($filters)
-            ->filterByRemoteWork($filters)
-            ->filterByPeriod($filters)
-            ->filterBySearch($filters);
-        }
-        return $this;
+        return $this
+        ->filterByCategories($model->categories)
+        ->filterByRemoteWork($model->additionally)
+        ->filterByPeriod($model->period)
+        ->filterBySearch($model->search);
     }
     
     /**
      * @return \yii\db\ActiveQuery
      */
-    private function filterByCategories(array $filters)
+    private function filterByCategories($categories)
     {
-        if ($filters['categories']) {
-            return $this->andWhere(['category.icon' => $filters['categories']]);
+        if ($categories) {
+            return $this->andWhere(['category.icon' => $categories]);
         }
         return $this;
     }
@@ -37,9 +34,9 @@ class TasksFilters extends \yii\db\ActiveQuery
     /**
      * @return \yii\db\ActiveQuery
      */
-    private function filterByRemoteWork(array $filters)
+    private function filterByRemoteWork($additionally)
     {
-        if ($filters['additionally'] && in_array(TasksFilterForm::TYPE_REMOTE_WORK, $filters['additionally'])) {
+        if ($additionally && in_array(TasksFilterForm::TYPE_REMOTE_WORK, $additionally)) {
             return $this->andWhere([
                 'task.latitude' => NULL,
                 'task.longitude' => NULL
@@ -51,21 +48,21 @@ class TasksFilters extends \yii\db\ActiveQuery
     /**
      * @return \yii\db\ActiveQuery
      */
-    private function filterByPeriod(array $filters)
+    private function filterByPeriod($period)
     {
-        if ($filters['period']) {
-            switch ($filters['period']) {
-                case 'allTime':
-                    $interval = TasksFilterForm::PERIOD_ALL_TIME;
+        if ($period) {
+            switch ($period) {
+                case TasksFilterForm::PERIOD_ALL_TIME :
+                    $interval = 'P10Y';
                 break;
-                case 'day':
-                    $interval = TasksFilterForm::PERIOD_LAST_DAY;
+                case TasksFilterForm::PERIOD_LAST_DAY :
+                    $interval = 'PT24H';
                 break;
-                case 'week':
-                    $interval = TasksFilterForm::PERIOD_LAST_WEEK;
+                case TasksFilterForm::PERIOD_LAST_WEEK :
+                    $interval = 'P7D';
                 break;
-                case 'month':
-                    $interval = TasksFilterForm::PERIOD_LAST_MONTH;
+                case TasksFilterForm::PERIOD_LAST_MONTH :
+                    $interval = 'P30D';
                 break;
 
             }
@@ -80,10 +77,10 @@ class TasksFilters extends \yii\db\ActiveQuery
     /**
      * @return \yii\db\ActiveQuery
      */
-    private function filterBySearch(array $filters)
+    private function filterBySearch($search)
     {
-        if ($filters['search']) {
-            return $this->andWhere(['like', 'task.name', $filters['search']]);
+        if ($search) {
+            return $this->andWhere(['like', 'task.name', $search]);
         }
         return $this;
     }

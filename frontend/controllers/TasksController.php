@@ -20,7 +20,7 @@ class TasksController extends Controller
         $tasks = Task::find()
         ->joinWith('category')
         ->where(['task.status' => Status::STATUS_NEW])
-        ->getTasksFilters()
+        ->getTasksFilters($model)
         ->orderBy(['created_at' => SORT_DESC])
         ->all();
 
