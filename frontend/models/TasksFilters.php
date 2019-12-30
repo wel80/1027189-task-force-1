@@ -13,14 +13,11 @@ class TasksFilters extends \yii\db\ActiveQuery
      */
     public function getTasksFilters(TasksFilterForm $model)
     {
-        if ($model->validate()) {
-            return $this
-            ->filterByCategories($model)
-            ->filterByRemoteWork($model)
-            ->filterByPeriod($model)
-            ->filterBySearch($model);
-        }
-        return $this;
+        return $this
+        ->filterByCategories($model)
+        ->filterByRemoteWork($model)
+        ->filterByPeriod($model)
+        ->filterBySearch($model);
     }
     
     /**
@@ -29,7 +26,7 @@ class TasksFilters extends \yii\db\ActiveQuery
     private function filterByCategories(TasksFilterForm $model)
     {
         if ($model->categories) {
-            return $this->andWhere(['category.icon' => $model->categories]);
+            return $this->andWhere(['category.id' => $model->categories]);
         }
         return $this;
     }

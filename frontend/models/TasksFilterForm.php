@@ -49,7 +49,7 @@ class TasksFilterForm extends \yii\base\Model
     {
         return [
             [['categories', 'additionally', 'period', 'search'], 'safe'],
-            ['categories', 'exist', 'targetClass' => Category::className(), 'targetAttribute' => 'icon', 'allowArray' => true],
+            ['categories', 'exist', 'targetClass' => Category::className(), 'targetAttribute' => 'id', 'allowArray' => true],
             ['additionally', 'in', 'range' => [self::TYPE_MY_CITY, self::TYPE_REMOTE_WORK], 'allowArray' => true],
             [['period', 'search'], 'string'],
             ['period', 'in', 'range' => [self::PERIOD_ALL_TIME, self::PERIOD_LAST_DAY, self::PERIOD_LAST_WEEK, self::PERIOD_LAST_MONTH]]
@@ -59,7 +59,7 @@ class TasksFilterForm extends \yii\base\Model
     public function getCategoryList() : array
     {
         $categoriesAll = Category::find()->all();
-        return ArrayHelper::map($categoriesAll, 'icon', 'name');
+        return ArrayHelper::map($categoriesAll, 'id', 'name');
     }
 
     public function getAdditionallyList() : array

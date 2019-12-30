@@ -18,10 +18,11 @@ class TasksController extends Controller
 
         $tasks = Task::find()
         ->joinWith('category')
-        ->where(['task.status' => Status::STATUS_NEW])
-        ->getTasksFilters($model)
-        ->orderBy(['created_at' => SORT_DESC])
-        ->all();
+        ->where(['task.status' => Status::STATUS_NEW]);
+        if ($model->validate()) {
+            $tasks = $tasks->getTasksFilters($model);
+        }
+        $tasks = $tasks->orderBy(['created_at' => SORT_DESC])->all();
 
         return $this->render('index', [
             'model' => $model,
