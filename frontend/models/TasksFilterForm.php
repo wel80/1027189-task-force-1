@@ -49,6 +49,8 @@ class TasksFilterForm extends \yii\base\Model
     {
         return [
             [['categories', 'additionally', 'period', 'search'], 'safe'],
+            ['categories', 'exist', 'targetClass' => Category::className(), 'targetAttribute' => 'icon', 'allowArray' => true],
+            ['additionally', 'in', 'range' => [self::TYPE_MY_CITY, self::TYPE_REMOTE_WORK], 'allowArray' => true],
             [['period', 'search'], 'string'],
             ['period', 'in', 'range' => [self::PERIOD_ALL_TIME, self::PERIOD_LAST_DAY, self::PERIOD_LAST_WEEK, self::PERIOD_LAST_MONTH]]
         ];

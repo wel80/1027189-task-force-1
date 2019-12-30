@@ -14,7 +14,6 @@ class TasksController extends Controller
         $model = new TasksFilterForm();
         if (Yii::$app->request->getIsPost()) {
             $model->load(Yii::$app->request->post());
-            $model->validate();
         }
 
         $tasks = Task::find()
