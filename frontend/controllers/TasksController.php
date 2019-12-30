@@ -1,20 +1,32 @@
 <?php
 namespace frontend\controllers;
 
+use Yii;
 use yii\web\Controller;
 use frontend\models\Task;
+use frontend\models\TasksFilterForm;
 use TaskForce\Tasks\Status;
 
 class TasksController extends Controller
 {
     public function actionIndex()
     {
-        $tasks = Task::find()
-        ->with('category')
-        ->where(['status' => Status::STATUS_NEW])
-        ->orderBy(['created_at' => SORT_DESC])
-        ->all();
+        $model = new TasksFilterForm();
+        if (Yii::$app->request->getIsPost()) {
+            $model->load(Yii::$app->request->post());
+        }
 
-        return $this->render('index', ['tasks' => $tasks]);
+        $tasks = Task::find()
+        ->joinWith('category')
+        ->where(['task.status' => Status::STATUS_NEW]);
+        if ($model->validate()) {
+            $tasks = $tasks->getTasksFilters($model);
+        }
+        $tasks = $tasks->orderBy(['created_at' => SORT_DESC])->all();
+
+        return $this->render('index', [
+            'model' => $model,
+            'tasks' => $tasks
+        ]);
     }
 }

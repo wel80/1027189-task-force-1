@@ -128,4 +128,9 @@ class Task extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id']);
     }
+
+    public static function find()
+    {
+        return new TasksFilters(get_called_class());
+    }
 }
