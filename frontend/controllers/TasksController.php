@@ -29,4 +29,21 @@ class TasksController extends Controller
             'tasks' => $tasks
         ]);
     }
+
+
+    public function actionShow($id)
+    {
+        $task = Task::find()
+        ->joinWith('category')
+        ->where(['task.id' => $id])
+        ->one();
+
+        if (!$task) {
+            throw new NotFoundHttpException("Задание не найдено");
+        }
+
+        return $this->render('show', [
+            'task' => $task
+        ]);
+    }
 }
