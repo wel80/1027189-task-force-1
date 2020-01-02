@@ -42,7 +42,7 @@ return [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                'tasks/<id:\d+>' => 'tasks/show',
+                'task/view/<id:\d+>' => 'tasks/show',
             ],
         ],
         'formatter' => [
