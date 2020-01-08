@@ -4,7 +4,6 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\web\Controller;
-use yii\helpers\ArrayHelper;
 use frontend\models\Task;
 use frontend\models\Reply;
 use frontend\models\TasksFilterForm;
@@ -45,11 +44,6 @@ class TasksController extends Controller
             throw new NotFoundHttpException("Задание $id не найдено");
         }
 
-        $replySortList = ArrayHelper::multisort($task->replies, 'created_at', SORT_DESC, SORT_NATURAL);
-
-        return $this->render('show', [
-            'task' => $task,
-            'replySortList' => $replySortList
-        ]);
+        return $this->render('show', ['task' => $task]);
     }
 }

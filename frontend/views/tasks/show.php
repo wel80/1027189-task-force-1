@@ -62,7 +62,7 @@ $this->title = 'Задание '.Html::encode($task->id);
                 <div class="content-view__feedback">
                     <h2>Отклики <span>(<?=count($task->replies)?>)</span></h2>
                     <div class="content-view__feedback-wrapper">
-                    <?php foreach($task->replies as $reply) {
+                    <?php foreach($task->getReplies()->orderBy(['created_at' => SORT_DESC])->all() as $reply) {
                         print $this->render('singleReply', ['reply' => $reply]);
                     } ?>
                     </div>
