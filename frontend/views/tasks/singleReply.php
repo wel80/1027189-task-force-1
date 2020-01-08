@@ -11,7 +11,7 @@ $formatter = \Yii::$app->formatter;
 ?>
                     <div class="content-view__feedback-card">
                             <div class="feedback-card__top">
-                                <a href="#"><img src="/../img/man-glasses.jpg" width="55" height="55"></a>
+                                <a href="#"><img src="<?=Url::to($reply->author->profile->avatar, true)?>" width="55" height="55"></a>
                                 <div class="feedback-card__top--name">
                                     <p><a href="#" class="link-regular"><?=Html::encode($reply->author->name)?></a></p>
                                     <span></span><span></span><span></span><span></span><span class="star-disabled"></span>

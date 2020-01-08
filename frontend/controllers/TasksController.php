@@ -2,7 +2,9 @@
 namespace frontend\controllers;
 
 use Yii;
+use yii\web\NotFoundHttpException;
 use yii\web\Controller;
+use yii\helpers\ArrayHelper;
 use frontend\models\Task;
 use frontend\models\Reply;
 use frontend\models\TasksFilterForm;
@@ -32,7 +34,7 @@ class TasksController extends Controller
     }
 
 
-    public function actionShow($id)
+    public function actionShow(int $id)
     {
         $task = Task::find()
         ->joinWith('category', 'author')
@@ -40,29 +42,14 @@ class TasksController extends Controller
         ->one();
 
         if (!$task) {
-            throw new NotFoundHttpException("Задание не найдено");
+            throw new NotFoundHttpException("Задание $id не найдено");
         }
 
-        $countTasks = Task::find()
-        ->where(['task.author_id' => $task->author->id])
-        ->count();
-
-        $queryReplies = Reply::find()
-        ->joinWith('author')
-        ->where(['reply.task_id' => $id])
-        ->orderBy(['reply.created_at' => SORT_DESC]);
-
-        $countReplies = $queryReplies->count();
-        $replies = [];
-        if ($countReplies) {
-            $replies = $queryReplies->all();
-        }
+        $replySortList = ArrayHelper::multisort($task->replies, 'created_at', SORT_DESC, SORT_NATURAL);
 
         return $this->render('show', [
             'task' => $task,
-            'countTasks' => $countTasks,
-            'countReplies' => $countReplies,
-            'replies' => $replies
+            'replySortList' => $replySortList
         ]);
     }
 }
