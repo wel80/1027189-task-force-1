@@ -1,14 +1,14 @@
 <?php
 
-namespace frontend\assistants;
+namespace frontend\helpers;
 use Yii;
 
 class Time 
 {
     /**
-     * @return yii\i18n\Formatter
+     * @return string
      */
-    public static function durationToNow(string $referenceDate)
+    public static function durationToNow(string $referenceDate) : string
     {
         $referencePoint = new \DateTime($referenceDate);
         $now = new \DateTime('now');
@@ -17,8 +17,7 @@ class Time
             return Yii::$app->formatter->asDuration($elapsedTime->format('P%yY'));
         } elseif ($elapsedTime->m > 0) {
             return Yii::$app->formatter->asDuration($elapsedTime->format('P%mM'));
-        } else {
-            return Yii::$app->formatter->asDuration($elapsedTime->format('P%dD'));
         }
+        return Yii::$app->formatter->asDuration($elapsedTime->format('P%dD'));
     }
 }

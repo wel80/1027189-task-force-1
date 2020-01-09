@@ -43,7 +43,7 @@ return [
             'enableStrictParsing' => false,
             'rules' => [
                 'tasks' => 'tasks/index',
-                'task/view/<id:\d+>' => 'tasks/show',
+                'task/view/<id:\d+>' => 'tasks/view',
             ],
         ],
         'formatter' => [

@@ -33,7 +33,7 @@ class TasksController extends Controller
     }
 
 
-    public function actionShow(int $id)
+    public function actionView(int $id)
     {
         $task = Task::find()
         ->joinWith('category', 'author')
