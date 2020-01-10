@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\Url;
+use frontend\helpers\Path;
 use frontend\helpers\Time;
 use frontend\helpers\NameNumber;
 
@@ -74,7 +74,7 @@ $this->title = 'Задание '.Html::encode($task->id);
                     <div class="profile-mini__wrapper">
                         <h3>Заказчик</h3>
                         <div class="profile-mini__top">
-                            <img src="<?=Url::to($task->author->profile->avatar ? $task->author->profile->avatar : "/img/man-brune.jpg", true)?>" width="62" height="62" alt="Аватар заказчика">
+                            <img src="<?=Path::toAvatar($task->author->profile->avatar)?>" width="62" height="62" alt="Аватар заказчика">
                             <div class="profile-mini__name five-stars__rate">
                                 <p><?=Html::encode($task->author->name)?></p>
                             </div>
