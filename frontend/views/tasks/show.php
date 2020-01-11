@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use frontend\helpers\Path;
 use frontend\helpers\Time;
 use frontend\helpers\NameNumber;
@@ -38,7 +39,7 @@ $this->title = 'Задание '.Html::encode($task->id);
                             <h3 class="content-view__h3">Расположение</h3>
                             <div class="content-view__location-wrapper">
                                 <div class="content-view__map">
-                                    <a href="#"><img src="/../img/map.jpg" width="361" height="292"
+                                    <a href="#"><img src="<?=Url::to("/img/map.jpg")?>" width="361" height="292"
                                     alt="<?=Html::encode($task->address)?>"></a>
                                 </div>
                                 <div class="content-view__address">
@@ -79,7 +80,7 @@ $this->title = 'Задание '.Html::encode($task->id);
                                 <p><?=Html::encode($task->author->name)?></p>
                             </div>
                         </div>
-                        <p class="info-customer"><span><?=NameNumber::forCountTasks(count($task->author->createdTasks))?></span>
+                        <p class="info-customer"><span><?=NameNumber::forCountTasks($task->author->getCreatedTasks()->count())?></span>
                         <span class="last-"><?=Time::durationToNow($task->author->date_registration)?> на сайте</span></p>
                         <a href="#" class="link-regular">Смотреть профиль</a>
                     </div>

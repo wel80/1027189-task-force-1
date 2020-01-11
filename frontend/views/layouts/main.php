@@ -101,7 +101,7 @@ AppAsset::register($this);
             </div>
             <div class="header__account">
                 <a class="header__account-photo">
-                    <img src="<?=Url::to("/img/user-photo.png", true)?>"
+                    <img src="<?=Url::to("/img/user-photo.png")?>"
                          width="43" height="44"
                          alt="Аватар пользователя">
                 </a>
@@ -166,7 +166,7 @@ AppAsset::register($this);
             <div class="page-footer__copyright">
                 <a>
                     <img class="copyright-logo"
-                         src="<?=Url::to("/img/academy-logo.png", true)?>"
+                         src="<?=Url::to("/img/academy-logo.png")?>"
                          width="185" height="63"
                          alt="Логотип HTML Academy">
                 </a>
