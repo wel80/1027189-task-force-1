@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -22,8 +23,6 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -62,7 +61,7 @@ AppAsset::register($this);
             <div class="header__nav">
                 <ul class="header-nav__list site-list">
                     <li class="site-list__item">
-                        <a href="#">Задания</a>
+                        <a href="<?=Url::to(['tasks/index'])?>">Задания</a>
                     </li>
                     <li class="site-list__item">
                         <a href="#">Исполнители</a>
@@ -102,7 +101,7 @@ AppAsset::register($this);
             </div>
             <div class="header__account">
                 <a class="header__account-photo">
-                    <img src="./img/user-photo.png"
+                    <img src="<?=Url::to("/img/user-photo.png")?>"
                          width="43" height="44"
                          alt="Аватар пользователя">
                 </a>
@@ -167,7 +166,7 @@ AppAsset::register($this);
             <div class="page-footer__copyright">
                 <a>
                     <img class="copyright-logo"
-                         src="./img/academy-logo.png"
+                         src="<?=Url::to("/img/academy-logo.png")?>"
                          width="185" height="63"
                          alt="Логотип HTML Academy">
                 </a>

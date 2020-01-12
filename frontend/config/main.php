@@ -40,7 +40,11 @@ return [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            //'rules' => [],
+            'enableStrictParsing' => false,
+            'rules' => [
+                'tasks' => 'tasks/index',
+                'task/view/<id:\d+>' => 'tasks/view',
+            ],
         ],
         'formatter' => [
             'language' => 'ru-RU',
