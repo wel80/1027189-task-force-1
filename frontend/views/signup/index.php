@@ -5,17 +5,17 @@ use yii\widgets\ActiveField;
 
 /**
  * @var yii\web\View $this
- * @var \frontend\models\RegistrationForm[] $userForm
+ * @var \frontend\models\RegistrationForm $userForm
  */
 
 $this->title = 'Регистрация';
 ?>
             <section class="registration__user">
                 <h1>Регистрация аккаунта</h1>
-                <?=$data?>
                 <div class="registration-wrapper">
                     <?php $form = ActiveForm::begin([
-                        'id' => 'registration-form', 
+                        'id' => 'registration-form',
+                        'action' => '/signup',
                         'options' => ['class' => 'registration__user-form form-create']
                     ]);
                         $field = new ActiveField([
@@ -56,7 +56,7 @@ $this->title = 'Регистрация';
                             'options' => ['tag' => false],
                             'inputOptions' => ['class' => 'input textarea']
                         ]);
-                        print $field->textInput();
+                        print $field->passwordInput();
 
                         print Html::submitButton('Cоздать аккаунт', ['class' => 'button button__registration']);
 

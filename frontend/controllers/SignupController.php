@@ -11,21 +11,17 @@ class SignupController extends Controller
 {
     public function actionIndex()
     {
-        $data = 'Нет данных';
         $userForm = new RegistrationForm();
         if (Yii::$app->request->getIsPost()) {
-            $data = 'Есть данные';
-            /*
             $userForm->load(Yii::$app->request->post());
-            if ($model->validate()) {
+            if ($userForm->validate()) {
                 $user = new User();
                 $user->attributes = $userForm->attributes;
                 $user->save();
                 return $this->redirect(Url::to(['tasks/index']));
             }
-            */
         }
 
-        return $this->render('index', ['userForm' => $userForm, 'data' => $data]);
+        return $this->render('index', ['userForm' => $userForm]);
     }
 }

@@ -42,14 +42,13 @@ class RegistrationForm extends \yii\base\Model
     public function rules() : array
     {
         return [
-            [['email', 'name', 'city_id', 'password'], 'safe'],
             [['email', 'name'], 'trim'],
-            [['email', 'name', 'password'], 'required', 'message' => 'Это поле надо заполнить!'],
+            [['email', 'name', 'password'], 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 100],
             ['email', 'unique', 'targetClass' => User::className()],
             ['name', 'string', 'min' => 3, 'max' => 100],
-            ['city_id', 'exist', 'targetClass' => City::className(), 'targetAttribute' => 'id', 'allowArray' => true],
+            ['city_id', 'exist', 'targetClass' => City::className(), 'targetAttribute' => 'id'],
             ['password', 'string', 'min' => 6],
         ];
     }
