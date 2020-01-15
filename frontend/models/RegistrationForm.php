@@ -43,13 +43,13 @@ class RegistrationForm extends \yii\base\Model
     {
         return [
             [['email', 'name'], 'trim'],
-            [['email', 'name', 'password'], 'required'],
-            ['email', 'email'],
-            ['email', 'string', 'max' => 100],
-            ['email', 'unique', 'targetClass' => User::className()],
-            ['name', 'string', 'min' => 3, 'max' => 100],
+            [['email', 'name', 'password'], 'required', 'message' => 'Это поле надо заполнить!'],
+            ['email', 'email', 'message' => 'Укажите корректный электронный адрес!'],
+            ['email', 'string', 'max' => 100, 'message' => 'Количество знаков в этом поле должно быть не более 100.'],
+            ['email', 'unique', 'targetClass' => User::className(), 'message' => 'Такой электронный адрес уже существует.'],
+            ['name', 'string', 'min' => 3, 'max' => 100, 'message' => 'Количество знаков в этом поле должно быть не менее 3-х и не более 100.'],
             ['city_id', 'exist', 'targetClass' => City::className(), 'targetAttribute' => 'id'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'min' => 6, 'message' => 'Количество знаков в этом поле должно быть не менее 6-ти.'],
         ];
     }
 

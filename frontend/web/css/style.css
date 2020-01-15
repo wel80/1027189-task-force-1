@@ -693,7 +693,7 @@ footer {
   margin-bottom: 10px; }
 
 .registration-town {
-  background-position: 325px 20px; }
+  background-position: 385px 20px; }
 
 .checkbox__input + label::before {
   content: "";
@@ -847,8 +847,9 @@ footer {
   top: 6px;
   left: 7px; }
 
-.textarea {
+.textarea {   
   padding: 14px 15px;
+  width: 420px;
   resize: none;
   margin-bottom: 10px; }
 
@@ -2520,3 +2521,8 @@ footer {
   display: none !important;
 }
 /*# sourceMappingURL=style.css.map */
+
+
+.town-select-form {
+  width: 420px;
+}
