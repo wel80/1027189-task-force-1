@@ -16,15 +16,12 @@ $this->title = 'Регистрация';
                     <?php $form = ActiveForm::begin([
                         'id' => 'registration-form',
                         'action' => '/signup',
-                        //'enableClientValidation' => false,
                         'options' => ['class' => 'registration__user-form form-create']
                     ]);
                         $field = new ActiveField([
                             'form' => $form,
                             'model' => $userForm, 
                             'attribute' => 'email',
-                            //'template' => "{label}\n{input}\n{error}",
-                            //'options' => ['tag' => false],
                             'inputOptions' => ['class' => 'input textarea', 'rows' => '1']
                         ]);
                         print $field->textarea();
@@ -33,8 +30,6 @@ $this->title = 'Регистрация';
                             'form' => $form,
                             'model' => $userForm, 
                             'attribute' => 'name',
-                            //'template' => "{label}\n{input}\n{error}",
-                            //'options' => ['tag' => false],
                             'inputOptions' => ['class' => 'input textarea', 'rows' => '1']
                         ]);
                         print $field->textarea();
@@ -43,8 +38,6 @@ $this->title = 'Регистрация';
                             'form' => $form,
                             'model' => $userForm, 
                             'attribute' => 'city_id',
-                            //'template' => "{label}\n{input}",
-                            //'options' => ['tag' => false],
                             'inputOptions' => ['class' => 'multiple-select input town-select registration-town town-select-form', 'size' => '1']
                         ]);
                         print $field->dropDownList($userForm->getCityList());
@@ -53,8 +46,6 @@ $this->title = 'Регистрация';
                             'form' => $form,
                             'model' => $userForm, 
                             'attribute' => 'password',
-                            //'template' => "{label}\n{input}\n{error}",
-                            //'options' => ['tag' => false],
                             'inputOptions' => ['class' => 'input textarea']
                         ]);
                         print $field->passwordInput();

@@ -17,8 +17,7 @@ class AppAsset extends AssetBundle
         'css/style.css',
     ];
     public $js = [
-        'js/dropzone.js',
-        //'js/main.js',
+        'js/dropzone.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
