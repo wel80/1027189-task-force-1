@@ -20,7 +20,7 @@ class RegistrationForm extends \yii\base\Model
     public $name;
 
     /**
-     * @var string
+     * @var int
      */
     public $city_id;
 
@@ -28,6 +28,16 @@ class RegistrationForm extends \yii\base\Model
      * @var string
      */
     public $password;
+
+    /**
+     * @var User 
+     */
+    public $user;
+
+    public function __construct()
+    {
+        $this->user = new User();
+    }
     
     public function attributeLabels() : array
     {

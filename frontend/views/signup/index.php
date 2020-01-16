@@ -15,14 +15,17 @@ $this->title = 'Регистрация';
                 <div class="registration-wrapper">
                     <?php $form = ActiveForm::begin([
                         'id' => 'registration-form',
-                        'action' => '/signup',
                         'options' => ['class' => 'registration__user-form form-create']
                     ]);
                         $field = new ActiveField([
                             'form' => $form,
                             'model' => $userForm, 
                             'attribute' => 'email',
-                            'inputOptions' => ['class' => 'input textarea', 'rows' => '1']
+                            'inputOptions' => [
+                                'class' => 'input textarea', 
+                                'rows' => '1', 
+                                'placeholder' => 'address@mail.com'
+                            ]
                         ]);
                         print $field->textarea();
 
@@ -30,7 +33,11 @@ $this->title = 'Регистрация';
                             'form' => $form,
                             'model' => $userForm, 
                             'attribute' => 'name',
-                            'inputOptions' => ['class' => 'input textarea', 'rows' => '1']
+                            'inputOptions' => [
+                                'class' => 'input textarea', 
+                                'rows' => '1',
+                                'placeholder' => 'Иванов Сергей Петрович'
+                            ]
                         ]);
                         print $field->textarea();
 
