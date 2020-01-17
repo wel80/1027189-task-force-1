@@ -28,16 +28,6 @@ class RegistrationForm extends \yii\base\Model
      * @var string
      */
     public $password;
-
-    /**
-     * @var User 
-     */
-    public $user;
-
-    public function __construct()
-    {
-        $this->user = new User();
-    }
     
     public function attributeLabels() : array
     {
@@ -69,5 +59,15 @@ class RegistrationForm extends \yii\base\Model
     {
         $citiesAll = City::find()->all();
         return ArrayHelper::map($citiesAll, 'id', 'city');
+    }
+
+    public function createUser() : bool
+    {
+        $newUser = new User();
+        $newUser->attributes = $this->attributes;
+        if ($newUser->save()) {
+            return true;                    
+        }
+        return false;
     }
 }

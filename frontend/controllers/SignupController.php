@@ -6,20 +6,15 @@ use yii\web\Controller;
 use frontend\models\User;
 use frontend\models\RegistrationForm;
 use yii\db\Exception;
-use yii\web\ServerErrorHttpException;
 
 class SignupController extends Controller
 {
     public function actionIndex()
     {
         $userForm = new RegistrationForm();
-        if (Yii::$app->request->getIsPost()) {
-            if (!$userForm->load(Yii::$app->request->post())) {
-                throw new ServerErrorHttpException("Форма записи аккаунта не существует");
-            }
+        if (Yii::$app->request->getIsPost() && $userForm->load(Yii::$app->request->post())) {
             if ($userForm->validate()) {
-                $userForm->user->attributes = $userForm->attributes;
-                if ($userForm->user->save()) {
+                if ($userForm->createUser()) {
                     return $this->goHome();                    
                 }
                 throw new Exception("Не удалось записать аккаунт в базу данных");
