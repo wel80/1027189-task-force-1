@@ -2526,3 +2526,12 @@ footer {
 .town-select-form {
   width: 420px;
 }
+
+.login-width {
+  width: 265px;
+}
+
+.field-loginform-email,
+.field-loginform-password {
+  margin-bottom: 20px;
+}
