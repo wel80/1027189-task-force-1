@@ -120,7 +120,7 @@ AppAsset::register($this);
                         <a href="#">Настройки</a>
                     </li>
                     <li>
-                        <a href="<?=Url::to(['user/logout'])?>">Выход</a>
+                        <a href="<?=Url::toRoute('site/logout')?>">Выход</a>
                     </li>
                 </ul>
             </div>
@@ -146,7 +146,7 @@ AppAsset::register($this);
             <div class="page-footer__links">
                 <ul class="links__list">
                     <li class="links__item">
-                        <a href="">Задания</a>
+                        <a href="<?=Url::to(['tasks/index'])?>">Задания</a>
                     </li>
                     <li class="links__item">
                         <a href="">Мой профиль</a>
@@ -155,7 +155,7 @@ AppAsset::register($this);
                         <a href="">Исполнители</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Регистрация</a>
+                        <a href="<?=Url::to('/signup')?>">Регистрация</a>
                     </li>
                     <li class="links__item">
                         <a href="">Создать задание</a>
@@ -166,7 +166,7 @@ AppAsset::register($this);
                 </ul>
             </div>
             <div class="page-footer__copyright">
-                <a>
+                <a href="https://htmlacademy.ru">
                     <img class="copyright-logo"
                          src="<?=Url::to("/img/academy-logo.png")?>"
                          width="185" height="63"

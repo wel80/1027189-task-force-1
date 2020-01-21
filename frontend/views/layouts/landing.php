@@ -20,9 +20,13 @@ AppAsset::register($this);
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+    <?php $this->head() ?>
+    <!--<link rel="stylesheet" href="css/normalize.css">-->
+    <!--<link rel="stylesheet" href="css/style.css">-->
 </head>
 <body class="landing">
 <?php $this->beginBody() ?>
@@ -84,7 +88,7 @@ AppAsset::register($this);
             <div class="page-footer__links">
                 <ul class="links__list">
                     <li class="links__item">
-                        <a href="">Задания</a>
+                        <a href="<?=Url::to(['tasks/index'])?>">Задания</a>
                     </li>
                     <li class="links__item">
                         <a href="">Мой профиль</a>
@@ -93,7 +97,7 @@ AppAsset::register($this);
                         <a href="">Исполнители</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Регистрация</a>
+                        <a href="<?=Url::to('/signup')?>">Регистрация</a>
                     </li>
                     <li class="links__item">
                         <a href="">Создать задание</a>
@@ -106,7 +110,7 @@ AppAsset::register($this);
             <div class="page-footer__copyright">
                 <a href="https://htmlacademy.ru">
                     <img class="copyright-logo"
-                         src="./img/academy-logo.png"
+                         src="<?=Url::to("/img/academy-logo.png")?>"
                          width="185" height="63"
                          alt="Логотип HTML Academy">
                 </a>
@@ -115,7 +119,7 @@ AppAsset::register($this);
     </footer>
 </div>
 <div class="overlay"></div>
-<script src="js/main.js"></script>
+<!--<script src="js/main.js"></script>-->
 <?php $this->endBody() ?>
 </body>
 </html>

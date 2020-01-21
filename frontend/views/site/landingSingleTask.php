@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\BaseStringHelper;
+use frontend\helpers\NameNumber;
 
 /**
  * @var yii\web\View $this
@@ -15,7 +16,7 @@ $formatter = \Yii::$app->formatter;
     <div class="landing-task-top task-<?=Html::encode($task->category->icon)?>"></div>
     <div class="landing-task-description">
         <h3><a href="<?=Url::to(['tasks/view', 'id' => $task->id])?>" class="link-regular"><?=Html::encode($task->name)?></a></h3>
-        <p><?=Html::encode(BaseStringHelper::truncate($task->description, 70))?></p>
+        <p><?=Html::encode(BaseStringHelper::truncate($task->description, NameNumber::SHORT_SENTENCE))?></p>
     </div>
     <div class="landing-task-info">
         <div class="task-info-left">

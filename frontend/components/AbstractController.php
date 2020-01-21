@@ -1,10 +1,10 @@
 <?php
-namespace frontend\controllers;
+namespace frontend\components;
 
 use yii\filters\AccessControl;
 use yii\web\Controller; 
 
-abstract class SecuredController extends Controller
+abstract class AbstractController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -23,6 +23,4 @@ abstract class SecuredController extends Controller
             ]
         ];
     }
-
-    
 }
