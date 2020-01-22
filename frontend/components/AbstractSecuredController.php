@@ -4,7 +4,7 @@ namespace frontend\components;
 use yii\filters\AccessControl;
 use yii\web\Controller; 
 
-abstract class AbstractController extends Controller
+abstract class AbstractSecuredController extends Controller
 {
     /**
      * {@inheritdoc}

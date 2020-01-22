@@ -5,10 +5,10 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use frontend\models\Task;
 use frontend\models\TasksFilterForm;
-use frontend\components\AbstractController;
+use frontend\components\AbstractSecuredController;
 use TaskForce\Tasks\Status;
 
-class TasksController extends AbstractController
+class TasksController extends AbstractSecuredController
 {
     public function actionIndex()
     {

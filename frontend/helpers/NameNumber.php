@@ -4,8 +4,6 @@ namespace frontend\helpers;
 
 class NameNumber
 {
-    const SHORT_SENTENCE = 70;
-    
     /**
      * @return string
      */
