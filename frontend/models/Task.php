@@ -31,6 +31,8 @@ use Yii;
  */
 class Task extends \yii\db\ActiveRecord
 {
+    const SHORT_DESCRIPTION_LENGTH = 70;
+    
     /**
      * {@inheritdoc}
      */

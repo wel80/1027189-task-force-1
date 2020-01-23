@@ -65,6 +65,7 @@ class RegistrationForm extends \yii\base\Model
     {
         $newUser = new User();
         $newUser->attributes = $this->attributes;
+        $newUser->password = Yii::$app->security->generatePasswordHash($this->password);
         if ($newUser->save()) {
             return true;                    
         }
