@@ -32,7 +32,7 @@ $this->title = 'Задание '.Html::encode($task->id);
                         <div class="content-view__attach">
                             <h3 class="content-view__h3">Вложения</h3>
                             <?php foreach($task->files as $file) {
-                                print Html::a($file->path);
+                                print Html::mailto($file->path);
                             }?>
                         </div>
                         <div class="content-view__location">
@@ -75,7 +75,7 @@ $this->title = 'Задание '.Html::encode($task->id);
                     <div class="profile-mini__wrapper">
                         <h3>Заказчик</h3>
                         <div class="profile-mini__top">
-                            <img src="<?=Path::toAvatar($task->author->profile->avatar)?>" width="62" height="62" alt="Аватар заказчика">
+                            <img src="<?=Path::toAvatar($task->author)?>" width="62" height="62" alt="Аватар заказчика">
                             <div class="profile-mini__name five-stars__rate">
                                 <p><?=Html::encode($task->author->name)?></p>
                             </div>

@@ -11,3 +11,4 @@ html
 *.html
 sql
 !sql/schema.sql
+uploads

@@ -45,6 +45,7 @@ return [
             'rules' => [
                 'tasks' => 'tasks/index',
                 'task/view/<id:\d+>' => 'tasks/view',
+                'task/create' => 'tasks/create'
             ],
         ],
         'formatter' => [

@@ -2535,3 +2535,14 @@ footer {
 .field-loginform-password {
   margin-bottom: 20px;
 }
+
+.field-taskform-name,
+.field-taskform-description,
+.field-taskform-category_id {
+  width: 520px;
+}
+
+.field-taskform-created_at,
+.field-taskform-budget {
+  width: 230px;
+}

@@ -69,7 +69,7 @@ AppAsset::register($this);
                         <a href="#">Исполнители</a>
                     </li>
                     <li class="site-list__item">
-                        <a href="#">Создать задание</a>
+                        <a href="<?=Url::to(['tasks/create'])?>">Создать задание</a>
                     </li>
                     <li class="site-list__item">
                         <a>Мой профиль</a>
@@ -158,7 +158,7 @@ AppAsset::register($this);
                         <a href="<?=Url::to('/signup')?>">Регистрация</a>
                     </li>
                     <li class="links__item">
-                        <a href="">Создать задание</a>
+                        <a href="<?=Url::to(['tasks/create'])?>">Создать задание</a>
                     </li>
                     <li class="links__item">
                         <a href="">Справка</a>
