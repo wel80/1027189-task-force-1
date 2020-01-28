@@ -57,19 +57,15 @@ $this->title = 'Новое задание';
                         ]);
                         print $field->dropDownList($taskForm->getCategoryList())->hint('Выберите категорию') ?>
 
-                        <label>Файлы</label>
-                        <span>Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу</span>
-                        <div class="create__file">
-                            <span>Добавить новый файл</span>
-                            <?php $field = new ActiveField([
-                                'form' => $form,
-                                'model' => $taskForm, 
-                                'attribute' => 'file',
-                                'options' => ['class' => 'input-file-display'],
-                                'inputOptions' => ['class' => 'dropzone'],
-                            ]);
-                            print $field->fileInput() ?>
-                        </div>
+                        <?php $field = new ActiveField([
+                            'form' => $form,
+                            'model' => $taskForm, 
+                            'attribute' => 'file',
+                            'template' => "{label}\n{hint}\n{input}\n{error}",
+                            'inputOptions' => ['class' => 'create__file'],
+                            'hintOptions' => ['tag' => 'span', 'class' => 'input-file-span']
+                        ]);
+                        print $field->fileInput()->hint('Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу') ?>
 
                         <label for="13">Локация</label>
                         <input class="input-navigation input-middle input" id="13" type="search" name="q" placeholder="Санкт-Петербург, Калининский район">
