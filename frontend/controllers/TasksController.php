@@ -55,23 +55,17 @@ class TasksController extends AbstractSecuredController
     public function actionCreate()
     {
         $taskForm = new TaskForm();
-        $fileForm = new FileForm();
 
-        if (Yii::$app->request->getIsPost()) {
-            $fileForm->file = UploadedFile::getInstance($fileForm, 'file');
-            if ($taskForm->load(Yii::$app->request->post())
-            && $taskForm->validate()
-            && $fileForm->validate()) {
-                $id_task = $taskForm->getNewTaskId();
-                if ($fileForm->createFile($id_task)) {
-                    return $this->redirect(Url::to(['tasks/view', 'id' => $id_task]));
+        if (Yii::$app->request->getIsPost() && $taskForm->load(Yii::$app->request->post())) {
+            $taskForm->file = UploadedFile::getInstance($taskForm, 'file');
+            if ($taskForm->validate()) {
+                if ($taskForm->createTask()) {
+                    return $this->redirect(Url::to(['tasks/view', 'id' => $taskForm->taskId]));
                 }
+                throw new Exception("Не удалось записать новое задание в базу данных");
             }
         }
 
-        return $this->render('create', [
-            'taskForm' => $taskForm,
-            'fileForm' => $fileForm,
-        ]);
+        return $this->render('create', ['taskForm' => $taskForm]);
     }
 }

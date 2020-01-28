@@ -63,9 +63,9 @@ $this->title = 'Новое задание';
                             <span>Добавить новый файл</span>
                             <?php $field = new ActiveField([
                                 'form' => $form,
-                                'model' => $fileForm, 
+                                'model' => $taskForm, 
                                 'attribute' => 'file',
-                                'template' => "{input}",
+                                'options' => ['class' => 'input-file-display'],
                                 'inputOptions' => ['class' => 'dropzone'],
                             ]);
                             print $field->fileInput() ?>
@@ -119,11 +119,9 @@ $this->title = 'Новое задание';
                         </div>
                         <div class="warning-item warning-item--error">
                             <h2>Ошибки заполнения формы</h2>
-                            <?php foreach ($taskForm->attributes as $name => $value) {
-                                if (isset($taskForm->firstErrors[$name])) {
-                                    print Html::tag('h3', $value);
-                                    print Html::tag('p', $taskForm->firstErrors[$name]);
-                                }
+                            <?php foreach ($taskForm->getErrorSummary(true) as $name => $error) {
+                                print Html::tag('h3', $name);
+                                print Html::tag('p', $error);
                             } ?>
                         </div>
                     </div>

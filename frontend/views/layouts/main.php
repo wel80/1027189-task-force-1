@@ -176,7 +176,6 @@ AppAsset::register($this);
         </div>
     </footer>
 </div>
-
 <?php $this->endBody() ?>
 </body>
 </html>

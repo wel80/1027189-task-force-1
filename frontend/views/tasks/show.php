@@ -32,7 +32,7 @@ $this->title = 'Задание '.Html::encode($task->id);
                         <div class="content-view__attach">
                             <h3 class="content-view__h3">Вложения</h3>
                             <?php foreach($task->files as $file) {
-                                print Html::mailto($file->path);
+                                print Html::a($file->path, Url::to([$file->path]));
                             }?>
                         </div>
                         <div class="content-view__location">

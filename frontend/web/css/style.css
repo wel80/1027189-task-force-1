@@ -2546,3 +2546,7 @@ footer {
 .field-taskform-budget {
   width: 230px;
 }
+
+.input-file-display {
+  display: none;
+}

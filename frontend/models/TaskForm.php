@@ -8,6 +8,8 @@ use yii\helpers\ArrayHelper;
 use frontend\models\Category;
 use frontend\models\Task;
 use TaskForce\Tasks\Status;
+use yii\web\UploadedFile;
+use frontend\models\File;
 
 class TaskForm extends Model
 {    
@@ -35,6 +37,16 @@ class TaskForm extends Model
      * @var string
      */
     public $expire;
+
+    /**
+     * @var UploadedFile
+     */
+    public $file;
+
+    /**
+     * @var int
+     */
+    public $taskId;
     
     public function attributeLabels() : array
     {
@@ -43,7 +55,8 @@ class TaskForm extends Model
             'description' => 'Подробности задания',
             'category_id' => 'Категория',
             'budget' => 'Бюджет',
-            'expire' => 'Срок исполнения'
+            'expire' => 'Срок исполнения',
+            'file' => 'Файлы',
         ];
     }
 
@@ -61,6 +74,7 @@ class TaskForm extends Model
                 'message' => 'Укажите в этом поле целое число.',
                 'tooSmall' => 'Укажите в этом поле целое число больше нуля.'],
             ['expire', 'string'],
+            [['file'], 'file'],
         ];
     }
 
@@ -70,17 +84,38 @@ class TaskForm extends Model
         return ArrayHelper::map($categoriesAll, 'id', 'name');
     }
 
-    public function getNewTaskId() : int
+    public function createTask() : bool
     {
         $newTask = new Task();
-        $newTask->attributes = $this->attributes;
+        $newTask->category_id = $this->category_id;
         $newTask->status = Status::STATUS_NEW;
-        $newTask->author_id = Yii::$app->user->getId();
-        $newTask->latitude = 50;
-        $newTask->longitude = 50;
-        if ($newTask->save()) {
-            return $newTask->primaryKey;
+        $newTask->description = $this->description;
+        $newTask->expire = $this->expire;
+        $newTask->name = $this->name;
+        $newTask->address = 'Адрес выполнения работ и оказания услуг';
+        $newTask->budget = $this->budget;
+        $newTask->latitude = 0;
+        $newTask->longitude = 0;
+        $newTask->author_id = Yii::$app->user->getId(); 
+
+        if (!$newTask->save()) {
+            return false;
         }
-        throw new Exception("Не удалось записать новое задание в базу данных");
+
+        $this->taskId = $newTask->primaryKey;
+
+        if (!is_object($this->file)) {
+            return true;
+        }
+
+        $newFile = new File();
+        $path = 'uploads/' . $this->file->baseName . '.' . $this->file->extension;
+        $newFile->path = $path;
+        $newFile->task_id = $this->taskId;
+
+        if ($this->file->saveAs($path) && $newFile->save()) {
+            return true;
+        }
+        return false;
     }
 }
