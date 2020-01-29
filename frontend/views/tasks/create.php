@@ -26,8 +26,9 @@ $this->title = 'Новое задание';
                             'form' => $form,
                             'model' => $taskForm, 
                             'attribute' => 'name',
+                            'options' => ['class' => 'create-tag'],
                             'inputOptions' => [
-                                'class' => 'input textarea field-taskform-name', 
+                                'class' => 'input textarea field-taskform-name create-input', 
                                 'rows' => '1', 
                                 'placeholder' => 'Повесить полку'
                             ],
@@ -39,8 +40,9 @@ $this->title = 'Новое задание';
                             'form' => $form,
                             'model' => $taskForm, 
                             'attribute' => 'description',
+                            'options' => ['class' => 'create-tag'],
                             'inputOptions' => [
-                                'class' => 'input textarea field-taskform-description', 
+                                'class' => 'input textarea field-taskform-description create-input', 
                                 'rows' => '7', 
                                 'placeholder' => 'Полку надо повесить на высоте не менее двух метров'
                             ],
@@ -52,7 +54,10 @@ $this->title = 'Новое задание';
                             'form' => $form,
                             'model' => $taskForm, 
                             'attribute' => 'category_id',
-                            'inputOptions' => ['class' => 'multiple-select input multiple-select-big field-taskform-category_id', 'size' => '1'],
+                            'options' => ['class' => 'create-tag'],
+                            'inputOptions' => [
+                                'class' => 'multiple-select input multiple-select-big field-taskform-category_id create-input-category', 
+                                'size' => '1'],
                             'hintOptions' => ['tag' => 'span']
                         ]);
                         print $field->dropDownList($taskForm->getCategoryList())->hint('Выберите категорию') ?>
@@ -61,9 +66,10 @@ $this->title = 'Новое задание';
                             'form' => $form,
                             'model' => $taskForm, 
                             'attribute' => 'file',
+                            'options' => ['class' => 'create-tag'],
                             'template' => "{label}\n{hint}\n{input}\n{error}",
                             'inputOptions' => ['class' => 'create__file'],
-                            'hintOptions' => ['tag' => 'span', 'class' => 'input-file-span']
+                            'hintOptions' => ['tag' => 'span', 'class' => 'create-input-file-span']
                         ]);
                         print $field->fileInput()->hint('Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу') ?>
 
@@ -91,10 +97,7 @@ $this->title = 'Новое задание';
                                 'model' => $taskForm, 
                                 'attribute' => 'expire',
                                 'options' => ['class' => 'create__price-time--wrapper'],
-                                'inputOptions' => [
-                                    'class' => 'input-middle input input-date field-taskform-created_at',
-                                    'placeholder' => 'ДД.ММ.ГГГГ'
-                                ],
+                                'inputOptions' => ['class' => 'input-middle input input-date field-taskform-created_at'],
                                 'hintOptions' => ['tag' => 'span']
                             ]);
                             print $field->input('date')->hint('Укажите крайний срок исполнения') ?>
