@@ -65,10 +65,10 @@ $this->title = 'Новое задание';
                         <?php $field = new ActiveField([
                             'form' => $form,
                             'model' => $taskForm, 
-                            'attribute' => 'file',
+                            'attribute' => 'files[]',
                             'options' => ['class' => 'create-tag'],
                             'template' => "{label}\n{hint}\n{input}\n{error}",
-                            'inputOptions' => ['class' => 'create__file'],
+                            'inputOptions' => ['class' => 'create__file', 'multiple' => true],
                             'hintOptions' => ['tag' => 'span', 'class' => 'create-input-file-span']
                         ]);
                         print $field->fileInput()->hint('Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу') ?>

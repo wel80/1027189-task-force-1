@@ -41,7 +41,7 @@ class TaskForm extends Model
     /**
      * @var UploadedFile
      */
-    public $file;
+    public $files;
 
     /**
      * @var int
@@ -56,7 +56,7 @@ class TaskForm extends Model
             'category_id' => 'Категория',
             'budget' => 'Бюджет',
             'expire' => 'Срок исполнения',
-            'file' => 'Файлы',
+            'files' => 'Файлы',
         ];
     }
 
@@ -74,7 +74,7 @@ class TaskForm extends Model
                 'message' => 'Укажите в этом поле целое число.',
                 'tooSmall' => 'Укажите в этом поле целое число больше нуля.'],
             ['expire', 'string'],
-            [['file'], 'file'],
+            [['files'], 'file', 'maxFiles' => 0],
         ];
     }
 
@@ -84,7 +84,7 @@ class TaskForm extends Model
         return ArrayHelper::map($categoriesAll, 'id', 'name');
     }
 
-    public function createTask() : bool
+    public function createTask(int $userId) : bool
     {
         $newTask = new Task();
         $newTask->category_id = $this->category_id;
@@ -96,7 +96,7 @@ class TaskForm extends Model
         $newTask->budget = $this->budget;
         $newTask->latitude = 0;
         $newTask->longitude = 0;
-        $newTask->author_id = Yii::$app->user->getId(); 
+        $newTask->author_id = $userId; 
 
         if (!$newTask->save()) {
             return false;
@@ -104,18 +104,20 @@ class TaskForm extends Model
 
         $this->taskId = $newTask->primaryKey;
 
-        if (!is_object($this->file)) {
+        if (!isset($this->files)) {
             return true;
         }
+        
+        foreach ($this->files as $file) {
+            $newFile = new File();
+            $path = 'uploads/' . $file->baseName . '.' . $file->extension;
+            $newFile->path = $path;
+            $newFile->task_id = $this->taskId;
 
-        $newFile = new File();
-        $path = 'uploads/' . $this->file->baseName . '.' . $this->file->extension;
-        $newFile->path = $path;
-        $newFile->task_id = $this->taskId;
-
-        if ($this->file->saveAs($path) && $newFile->save()) {
-            return true;
+            if (!$file->saveAs($path) || !$newFile->save()) {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 }
