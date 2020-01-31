@@ -1,7 +1,9 @@
 <?php
 
 namespace frontend\helpers;
+
 use yii\helpers\Url;
+use frontend\models\User;
 
 class Path
 {
@@ -10,10 +12,10 @@ class Path
     /**
      * @return string
      */
-    public static function toAvatar(?string $path)
+    public static function toAvatar(User $author)
     {
-        if ($path) {
-            return Url::to($path);
+        if ($author->profile && $author->profile->avatar) {
+            return Url::to($author->profile->avatar);
         }
 
         return Url::to(self::DEFAULT_AVATAR);

@@ -7,7 +7,7 @@ body {
   background-color: #ffffff;
   color: #333438; }
   body.landing {
-    background-image: url("../img/polygon.png");
+    background-image: url("../img/new-polygon.png");
     background-repeat: no-repeat;
     background-position-x: center;
     background-position-y: -413px; }
@@ -693,7 +693,7 @@ footer {
   margin-bottom: 10px; }
 
 .registration-town {
-  background-position: 385px 20px; }
+  background-position: 325px 20px; }
 
 .checkbox__input + label::before {
   content: "";
@@ -849,7 +849,6 @@ footer {
 
 .textarea {   
   padding: 14px 15px;
-  width: 420px;
   resize: none;
   margin-bottom: 10px; }
 
@@ -1086,7 +1085,7 @@ footer {
 
 .feedback-card__top--name span {
   display: inline-block;
-  background-image: url("../img/star.png");
+  background-image: url("../img/new-star.png");
   background-repeat: no-repeat;
   background-position: center;
   width: 16px;
@@ -1651,7 +1650,7 @@ footer {
 .five-rate {
   color: #ff7f50; }
   .five-rate span {
-    background-image: url("../img/star-rate.png"); }
+    background-image: url("../img/new-star-rate.png"); }
 
 .three-rate {
   color: #c71d1d; }
@@ -1693,7 +1692,7 @@ footer {
   left: 411px; }
 
 .clipart-message {
-  background-image: url("../img/oval.png");
+  background-image: url("../img/new-oval.png");
   background-repeat: no-repeat;
   background-position: center;
   width: 456px;
@@ -2513,7 +2512,7 @@ footer {
     cursor: pointer; }
 
 .completion-form-star .star-disabled:hover {
-  background-image: url("../img/star.png"); }
+  background-image: url("../img/new-star.png"); }
 
 .dz-image,
 .dz-success-mark,
@@ -2523,15 +2522,53 @@ footer {
 /*# sourceMappingURL=style.css.map */
 
 
-.town-select-form {
-  width: 420px;
-}
-
-.login-width {
+.landing-login-input {
   width: 265px;
+  margin-bottom: 0px;
 }
 
-.field-loginform-email,
-.field-loginform-password {
-  margin-bottom: 20px;
+.landing-login-label {
+  display: block;
+  margin-bottom: 7px;
+}
+
+.landing-login-tag {
+  margin-bottom: 35px;
+}
+
+.signup-input {
+  width: 330px;
+  margin-top: 12px;
+  margin-bottom: 5px;
+}
+
+.signup-input-city {
+  width: 360px;
+  margin-top: 12px;
+  margin-bottom: 10px;
+}
+
+.signup-tag {
+  margin-top: 28px;
+}
+
+.create-tag {
+  margin-top: 29px;
+}
+
+.create-input {
+  width: 490px;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+.create-input-category {
+  width: 520px;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+.create-input-file-span {
+  display: block;
+  margin-top: 12px;
 }

@@ -117,26 +117,30 @@ $this->title = 'Главная';
 
 <section class="modal enter-form form-modal" id="enter-form">
     <h2>Вход на сайт</h2>
-    <?php $form = ActiveForm::begin(['id' => 'login-form']);
-        $field = new ActiveField([
+    <?php $form = ActiveForm::begin(['id' => 'login-form']);?>
+        <p>
+        <?php $field = new ActiveField([
             'form' => $form,
-            'model' => $loginForm, 
+            'model' => $loginForm,
             'attribute' => 'email',
-            'labelOptions' => ['class' => 'form-modal-description'],
-            'inputOptions' => ['class' => 'enter-form-email input input-middle login-width']
+            'options' => ['class' => 'landing-login-tag'],
+            'labelOptions' => ['class' => 'form-modal-description landing-login-label'],
+            'inputOptions' => ['class' => 'enter-form-email input input-middle landing-login-input']
         ]);
-        print $field->textInput();
-
-        $field = new ActiveField([
+        print $field->textInput();?>
+        </p>
+        <p>
+        <?php $field = new ActiveField([
             'form' => $form,
             'model' => $loginForm, 
             'attribute' => 'password',
-            'labelOptions' => ['class' => 'form-modal-description'],
-            'inputOptions' => ['class' => 'enter-form-email input input-middle login-width']
+            'options' => ['class' => 'landing-login-tag'],
+            'labelOptions' => ['class' => 'form-modal-description landing-login-label'],
+            'inputOptions' => ['class' => 'enter-form-email input input-middle landing-login-input']
         ]);
-        print $field->passwordInput();
-
-        print Html::submitButton('Войти', ['class' => 'button']);
+        print $field->passwordInput();?>
+        </p>
+        <?php print Html::submitButton('Войти', ['class' => 'button']);
 
     ActiveForm::end(); ?>
     <button class="form-modal-close" type="button">Закрыть</button>

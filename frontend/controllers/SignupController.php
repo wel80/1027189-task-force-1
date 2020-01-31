@@ -10,6 +10,8 @@ use yii\db\Exception;
 
 class SignupController extends Controller
 {
+    public $layout = 'registration';
+    
     public function behaviors()
     {
         return [

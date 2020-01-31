@@ -4,9 +4,14 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\NotFoundHttpException;
 use frontend\models\Task;
+use frontend\models\TaskForm;
+use frontend\models\FileForm;
 use frontend\models\TasksFilterForm;
 use frontend\components\AbstractSecuredController;
 use TaskForce\Tasks\Status;
+use yii\web\UploadedFile;
+use yii\db\Exception;
+use yii\helpers\Url;
 
 class TasksController extends AbstractSecuredController
 {
@@ -44,5 +49,23 @@ class TasksController extends AbstractSecuredController
         }
 
         return $this->render('show', ['task' => $task]);
+    }
+
+    
+    public function actionCreate()
+    {
+        $taskForm = new TaskForm();
+
+        if (Yii::$app->request->getIsPost() && $taskForm->load(Yii::$app->request->post())) {
+            $taskForm->files = UploadedFile::getInstances($taskForm, 'files');
+            if ($taskForm->validate()) {
+                if ($taskForm->createTask(Yii::$app->user->getId())) {
+                    return $this->redirect(Url::to(['tasks/view', 'id' => $taskForm->taskId]));
+                }
+                throw new Exception("Не удалось записать новое задание в базу данных");
+            }
+        }
+
+        return $this->render('create', ['taskForm' => $taskForm]);
     }
 }
