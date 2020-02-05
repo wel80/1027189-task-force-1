@@ -12,6 +12,7 @@ use common\widgets\Alert;
 use yii\helpers\Url;
 use frontend\helpers\Path;
 use frontend\helpers\Authenticated;
+use frontend\models\User;
 
 AppAsset::register($this);
 ?>
@@ -108,8 +109,8 @@ AppAsset::register($this);
                          alt="Аватар пользователя">
                 </a>
                 <span class="header__account-name">
-                 Василий
-             </span>
+                    <?= User::findOne(\Yii::$app->user->getId())->name ?>
+                </span>
             </div>
             <div class="account__pop-up">
                 <ul class="account__pop-up-list">
@@ -176,6 +177,7 @@ AppAsset::register($this);
         </div>
     </footer>
 </div>
+<div class="overlay"></div>
 <?php $this->endBody() ?>
 </body>
 </html>

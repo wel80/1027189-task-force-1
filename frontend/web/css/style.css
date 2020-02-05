@@ -2572,3 +2572,7 @@ footer {
   display: block;
   margin-top: 12px;
 }
+
+.show-reply-label {
+  display: block;
+}
