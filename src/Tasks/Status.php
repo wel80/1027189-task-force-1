@@ -39,7 +39,7 @@ class Status
         RefuseAction::class => self::STATUS_REFUSE
     ];
 
-    public function __construct(int $customerId, int $executorId, string $termExecution, string $currentStatus)
+    public function __construct(int $customerId, ? int $executorId, string $termExecution, string $currentStatus)
     {
         $this->customerId = $customerId;
         $this->executorId = $executorId;
@@ -72,7 +72,7 @@ class Status
         return $this->customerId;
     }
 
-    public function getExecutorId() : int
+    public function getExecutorId() : ? int
     {
         return $this->executorId;
     }
