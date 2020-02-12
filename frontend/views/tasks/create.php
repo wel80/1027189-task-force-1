@@ -73,8 +73,8 @@ $this->title = 'Новое задание';
                         ]);
                         print $field->fileInput()->hint('Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу') ?>
 
-                        <label for="13">Локация</label>
-                        <input class="input-navigation input-middle input" id="13" type="search" name="q" placeholder="Санкт-Петербург, Калининский район">
+                        <label for="autoComplete">Локация</label>
+                        <input class="input-navigation input-middle input" id="autoComplete" tabindex="1">
                         <span>Укажите адрес исполнения, если задание требует присутствия</span>
 
                         <div class="create__price-time">

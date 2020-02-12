@@ -14,10 +14,13 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/normalize.css',
         'css/style.css',
+        'https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css'
     ];
     public $js = [
         'js/dropzone.js',
-        'js/main.js'
+        'js/main.js',
+        //'js/index.js',
+        'https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js'
     ];
     public $depends = [
     ];
