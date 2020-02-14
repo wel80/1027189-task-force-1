@@ -12,15 +12,15 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        //'https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css',
         'css/normalize.css',
-        'css/style.css',
-        'https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css'
+        'css/style.css',        
     ];
-    public $js = [
+    public $js = [        
+        'https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js',
+        'js/index.js',
         'js/dropzone.js',
         'js/main.js',
-        //'js/index.js',
-        'https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js'
     ];
     public $depends = [
     ];
