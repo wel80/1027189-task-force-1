@@ -4,9 +4,11 @@ new autoComplete({
 			// User search query
 			const query = document.querySelector("#autoComplete").value;
 			// Fetch External Data Source
-			const data = await fetch(
+			const source = await fetch(
 				`../index.php?r=geocode/index&address=${query}`
 			);
+			// Format data into JSON
+			const data = await source.json();
 			// Returns Fetched data
 			return data;
 		},
