@@ -2,17 +2,15 @@ new autoComplete({
 	data: {
 		src: async () => {
 			// User search query
-			const query = document.querySelector("#autoComplete").value;
+			const query = document.querySelector("#taskform-address").value;
 			// Fetch External Data Source
-			const source = await fetch(
-				`../index.php?r=geocode/index&address=${query}`
-			);
+			const source = await fetch(`http://yii-taskforce/geocode/${query}`);
 			// Format data into JSON
 			const data = await source.json();
 			// Returns Fetched data
 			return data;
 		},
-		key: ["text"],
+		key:['name'],
 		cache: false
 	},
 	sort: (a, b) => {
@@ -20,8 +18,8 @@ new autoComplete({
 		if (a.match > b.match) return 1;
 		return 0;
 	},
-	placeHolder: "Город, улица, дом",
-	selector: "#autoComplete",
+	placeHolder: "Город улица дом",
+	selector: "#taskform-address",
 	threshold: 0,
 	debounce: 0,
 	searchEngine: "strict",
@@ -32,7 +30,7 @@ new autoComplete({
 		container: source => {
       source.setAttribute("id", "autoComplete_list");
 		},
-		destination: document.querySelector("#autoComplete"),
+		destination: document.querySelector("#taskform-address"),
 		position: "afterend",
 		element: "ul"
 	},
@@ -46,10 +44,12 @@ new autoComplete({
 		const result = document.createElement("li");
 		result.setAttribute("class", "no_result");
 		result.setAttribute("tabindex", "1");
-		result.innerHTML = "No Results";
+		result.innerHTML = "Ничего не найдено...";
 		document.querySelector("#autoComplete_list").appendChild(result);
 	},
 	onSelection: feedback => {
-		document.querySelector("#coordinates").value = feedback.selection.value.Point.pos;
+		document.querySelector("#taskform-address").value = feedback.selection.value.name;
+		document.querySelector("#taskform-longitude").value = feedback.selection.value.longitude;
+		document.querySelector("#taskform-latitude").value = feedback.selection.value.latitude;
 	}
 });

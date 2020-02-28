@@ -73,10 +73,19 @@ $this->title = 'Новое задание';
                         ]);
                         print $field->fileInput()->hint('Загрузите файлы, которые помогут исполнителю лучше выполнить или оценить работу') ?>
 
-                        <label for="autoComplete">Локация</label>
-                        <input class="input-navigation input-middle input" id="autoComplete" tabindex="1">
-                        <span>Укажите адрес исполнения, если задание требует присутствия</span>
-
+                        <!--<label for="autoComplete">Локация</label>
+                        <input class="input-navigation input-middle input" type="text" name="location" id="autoComplete" tabindex="1">
+                        <span>Укажите адрес исполнения, если задание требует присутствия</span>-->
+                        <?php $field = new ActiveField([
+                            'form' => $form,
+                            'model' => $taskForm, 
+                            'attribute' => 'address',
+                            'options' => ['tag' => false],
+                            'inputOptions' => ['class' => 'input-navigation input-middle input'],
+                            'hintOptions' => ['tag' => 'span']
+                            ]);
+                        print $field->textInput(['tabindex' => '1'])->hint('Укажите адрес исполнения, если задание требует присутствия') ?>
+                        
                         <div class="create__price-time">
                             <?php $field = new ActiveField([
                                 'form' => $form,
@@ -101,6 +110,22 @@ $this->title = 'Новое задание';
                                 'hintOptions' => ['tag' => 'span']
                             ]);
                             print $field->input('date')->hint('Укажите крайний срок исполнения') ?>
+
+                            <?php $field = new ActiveField([
+                            'form' => $form,
+                            'model' => $taskForm, 
+                            'attribute' => 'longitude',
+                            'template' => "{input}",
+                            ]);
+                            print $field->hiddenInput(['tabindex' => '1']) ?>
+
+                            <?php $field = new ActiveField([
+                            'form' => $form,
+                            'model' => $taskForm, 
+                            'attribute' => 'latitude',
+                            'template' => "{input}",
+                            ]);
+                            print $field->hiddenInput(['tabindex' => '1']) ?>
                         </div>
                     <?php ActiveForm::end() ?>
                     <div class="create__warnings">

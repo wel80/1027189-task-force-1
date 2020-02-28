@@ -17,8 +17,8 @@ use Yii;
  * @property string $name
  * @property string|null $address
  * @property int|null $budget
- * @property float $latitude
- * @property float $longitude
+ * @property string $latitude
+ * @property string $longitude
  * @property int $author_id
  * @property int|null $executor_id
  *
