@@ -47,6 +47,21 @@ class TaskForm extends Model
      * @var int
      */
     public $taskId;
+
+    /**
+     * @var string
+     */
+    public $address;
+
+    /**
+     * @var string
+     */
+    public $longitude;
+
+    /**
+     * @var string
+     */
+    public $latitude;
     
     public function attributeLabels() : array
     {
@@ -54,6 +69,7 @@ class TaskForm extends Model
             'name' => 'Мне нужно',
             'description' => 'Подробности задания',
             'category_id' => 'Категория',
+            'address' => 'Локация',
             'budget' => 'Бюджет',
             'expire' => 'Срок исполнения',
             'files' => 'Файлы',
@@ -73,7 +89,7 @@ class TaskForm extends Model
             ['budget', 'integer', 'min' => 1,
                 'message' => 'Укажите в этом поле целое число.',
                 'tooSmall' => 'Укажите в этом поле целое число больше нуля.'],
-            ['expire', 'string'],
+            [['expire', 'address', 'longitude', 'latitude'], 'string'],
             [['files'], 'file', 'maxFiles' => 0],
         ];
     }
@@ -92,12 +108,12 @@ class TaskForm extends Model
         $newTask->description = $this->description;
         $newTask->expire = $this->expire;
         $newTask->name = $this->name;
-        $newTask->address = 'Адрес выполнения работ и оказания услуг';
+        $newTask->address = $this->address;
         $newTask->budget = $this->budget;
-        $newTask->latitude = 0;
-        $newTask->longitude = 0;
-        $newTask->author_id = $userId; 
-
+        $newTask->author_id = $userId;
+        $newTask->longitude = (float) $this->longitude;
+        $newTask->latitude = (float) $this->latitude;
+        
         if (!$newTask->save()) {
             return false;
         }

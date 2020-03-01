@@ -45,6 +45,7 @@ return [
             'rules' => [
                 'tasks' => 'tasks/index',
                 'task/view/<id:\d+>' => 'tasks/view',
+                'geocode/<address:\w+>' => 'geocode/index',
             ],
         ],
         'formatter' => [

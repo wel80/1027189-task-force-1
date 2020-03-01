@@ -18,6 +18,16 @@ use frontend\models\Reply;
 $this->title = 'Задание '.Html::encode($task->id);
 $formatter = \Yii::$app->formatter;
 ?>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        function init(){
+            var myMap = new ymaps.Map("map", {
+                center: [<?= $task->latitude ?>, <?= $task->longitude ?>],
+                zoom: 10
+            });
+        }
+    </script>
+
     <section class="content-view">
         <div class="content-view__card">
             <div class="content-view__card-wrapper">
@@ -44,13 +54,9 @@ $formatter = \Yii::$app->formatter;
                 <div class="content-view__location">
                     <h3 class="content-view__h3">Расположение</h3>
                     <div class="content-view__location-wrapper">
-                        <div class="content-view__map">
-                            <a href="#"><img src="<?=Url::to("/img/map.jpg")?>" width="361" height="292"
-                            alt="<?=Html::encode($task->address)?>"></a>
-                        </div>
+                        <div id="map" class="content-view__map" style="width: 361px; height: 292px"></div>
                         <div class="content-view__address">
-                            <span class="address__town">Москва</span><br>
-                            <span><?=Html::encode($task->address)?></span>
+                            <span class="address__town"><?=Html::encode($task->address)?></span>
                             <p>Вход под арку, код домофона 1122</p>
                         </div>
                     </div>
@@ -208,10 +214,6 @@ $formatter = \Yii::$app->formatter;
                 return $radioInput.$radioLabel;
             }
         ]); ?>
-        <!-- <input class="visually-hidden completion-input completion-input--yes" type="radio" id="completion-radio--yes" name="completion" value="yes">
-        <label class="completion-label completion-label--yes" for="completion-radio--yes">Да</label>
-        <input class="visually-hidden completion-input completion-input--difficult" type="radio" id="completion-radio--yet" name="completion" value="difficulties">
-        <label  class="completion-label completion-label--difficult" for="completion-radio--yet">Возникли проблемы</label> -->
         <p>
             <?php $field = new ActiveField([
                 'form' => $form,
